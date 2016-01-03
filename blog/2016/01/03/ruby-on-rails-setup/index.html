@@ -9,7 +9,7 @@
   <meta name="author" content="CaDiL">
 
   
-  <meta name="description" content="Убунтуг ашиглаж байгаа шалтгаан нь бичсэн кодны чинь дийлэнх ху вь нь Linux Сервер дээр ажилладаг. Убунту нь Linux-ын бусад OS дундаас ашиглахад &hellip;">
+  <meta name="description" content="Ubuntu орчинд суулгах Убунтуг ашиглаж байгаа шалтгаан нь бичсэн кодны чинь дийлэнх ху вь нь Linux Сервер дээр ажилладаг. Убунту нь Linux-ын бусад OS &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -84,7 +84,12 @@
   </header>
 
 
-<div class="entry-content"><p>Убунтуг ашиглаж байгаа шалтгаан нь бичсэн кодны чинь дийлэнх ху   вь нь Linux Сервер дээр ажилладаг. Убунту нь Linux-ын бусад OS дундаас ашиглахад хамгийн хялбар бѳгѳѳд олон талын нэмэлт боломжуудтай.</p>
+<div class="entry-content"><h3>Ubuntu орчинд суулгах</h3>
+
+<p>Убунтуг ашиглаж байгаа шалтгаан нь бичсэн кодны чинь дийлэнх ху   вь нь Linux Сервер дээр ажилладаг. Убунту нь Linux-ын бусад OS дундаас ашиглахад хамгийн хялбар бѳгѳѳд олон талын нэмэлт боломжуудтай.</p>
+
+<!-- more -->
+
 
 <h4>Руби суулгах [2.2.3]</h4>
 
@@ -95,11 +100,16 @@
 
 
 <p>Эхллэд зарим шаардлагатай зүйлсийг суулгана.
-Ruby-г суулгах үндсэндээ 3 арга байдаг. Тус бүр ѳѳр ѳѳрийн гэсэн давуу талуудтай.
-- rbenv
-- rvm
-- from source
-Хамгийн recommended арга нь rbenv, rvm хоёр юм. Энэ удаа rbenv аргаар ruby-г суулгана.</p>
+Ruby-г суулгах үндсэндээ 3 арга байдаг. Тус бүр ѳѳр ѳѳрийн гэсэн давуу талуудтай.</p>
+
+<ul>
+<li>rbenv</li>
+<li>rvm</li>
+<li>from source</li>
+</ul>
+
+
+<p>Хамгийн recommended арга нь rbenv, rvm хоёр юм. Энэ удаа rbenv аргаар ruby-г суулгана:</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -127,17 +137,17 @@ Ruby-г суулгах үндсэндээ 3 арга байдаг. Тус бүр
 
 <p>Rbenv арга нь энгийн хоёр алхамтай. Эхлээд rbenv-гээ суулгаад дараа нь ruby-build - ээ суулгана:</p>
 
+<p>Rubygems - ыг илүү дутуу documentation-гүйгээр суулгана:</p>
+
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>echo "gem: --no-ri --no-rdoc" &gt; `~/.gemrc </span></code></pre></td></tr></table></div></figure>
 
 
-<p>Rubygems - ыг илүү дутуу documentation-гүйгээр суулгана.</p>
+<p>Дараагаар нь Bundler суулгана:</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>gem install bundler </span></code></pre></td></tr></table></div></figure>
 
-
-<p>Дараагаар нь Bundler суулгана.</p>
 </div>
 
 
