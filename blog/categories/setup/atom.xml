@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Setup | CaDiL's blog]]></title>
   <link href="http://cadil.github.io/blog/categories/setup/atom.xml" rel="self"/>
   <link href="http://cadil.github.io/"/>
-  <updated>2016-01-03T21:23:43+08:00</updated>
+  <updated>2016-01-03T21:28:32+08:00</updated>
   <id>http://cadil.github.io/</id>
   <author>
     <name><![CDATA[CaDiL]]></name>
@@ -18,8 +18,56 @@
     <link href="http://cadil.github.io/blog/2016/01/03/ruby-on-rails-setup/"/>
     <updated>2016-01-03T21:22:17+08:00</updated>
     <id>http://cadil.github.io/blog/2016/01/03/ruby-on-rails-setup</id>
-    <content type="html"><![CDATA[<pre><code>$ git clone git@github.com:imathis/octopress.git # fork octopress
+    <content type="html"><![CDATA[<p>Убунтуг ашиглаж байгаа шалтгаан нь бичсэн кодны чинь дийлэнх ху   вь нь Linux Сервер дээр ажилладаг. Убунту нь Linux-ын бусад OS дундаас ашиглахад хамгийн хялбар бѳгѳѳд олон талын нэмэлт боломжуудтай.
+Руби суулгах [2.2.3]
+<code>
+sudo apt-get update
+sudo apt-get install git-core curl zlib1g-dev build-essential libssl-dev libreadline-dev libyaml-dev libsqlite3-dev sqlite3
+</code>
+Эхллэд зарим шаардлагатай зүйлсийг суулгана.
+Ruby-г суулгах үндсэндээ 3 арга байдаг. Тус бүр ѳѳр ѳѳрийн гэсэн давуу талуудтай.
+- rbenv
+- rvm
+- from source
+Хамгийн recommended арга нь rbenv, rvm хоёр юм. Энэ удаа rbenv аргаар ruby-г суулгана.
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cd
+</span><span class='line'>git clone git://github.com/sstephenson/rbenv.git .rbenv
+</span><span class='line'>echo &lsquo;export PATH=&ldquo;$HOME/.rbenv/bin:$PATH&rdquo;&rsquo; &gt;&gt; ~/.bashrc
+</span><span class='line'>echo &lsquo;eval &ldquo;$(rbenv init -)&rdquo;&rsquo; &gt;&gt; ~/.bashrc
+</span><span class='line'>exec $SHELL
+</span><span class='line'>git clone git://github.com/sstephenson/ruby-build.git ~/.rbenv/
+</span><span class='line'>plugins/ruby-build
+</span><span class='line'>echo &lsquo;export PATH=&ldquo;$HOME/.rbenv/plugins/ruby-build/bin:$PATH&rdquo;&rsquo;&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;blockquote&gt;&lt;blockquote&gt;&lt;p&gt;~/.bashrc
+</span><span class='line'>exec $SHELL
+</span><span class='line'>git clone &lt;a href="https://github.com/sstephenson/rbenv-gem-rehash.git"&gt;https://github.com/sstephenson/rbenv-gem-rehash.git&lt;/a&gt;
+</span><span class='line'>&lt;code&gt;
+</span><span class='line'>Rbenv арга нь энгийн хоёр алхамтай. Эхлээд rbenv-гээ суулгаад дараа нь ruby-build - ээ суулгана:
+</span><span class='line'>&lt;/code&gt;
+</span><span class='line'>echo &ldquo;gem: &ndash;no-ri &ndash;no-rdoc&rdquo; &gt; `~/.gemrc</span></code></pre></td></tr></table></div></figure>
+Rubygems - ыг илүү дутуу documentation-гүйгээр суулгана.</p></blockquote></blockquote>
+
+<pre><code>gem install bundler 
 </code></pre>
+
+<p>Дараагаар нь Bundler суулгана.</p>
 ]]></content>
   </entry>
   
