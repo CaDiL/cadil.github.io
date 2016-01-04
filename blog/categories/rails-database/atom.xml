@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Rails, Database | CaDiL's blog]]></title>
   <link href="http://cadil.github.io/blog/categories/rails-database/atom.xml" rel="self"/>
   <link href="http://cadil.github.io/"/>
-  <updated>2016-01-04T20:08:59+08:00</updated>
+  <updated>2016-01-04T20:19:12+08:00</updated>
   <id>http://cadil.github.io/</id>
   <author>
     <name><![CDATA[CaDiL]]></name>
@@ -20,11 +20,14 @@
     <id>http://cadil.github.io/blog/2016/01/04/rails-bolon-fghfghdliin-san</id>
     <content type="html"><![CDATA[<p>Райлс апплкейшнг ѳѳр database - тэй холбох гэж байгаа бол DB2, MySQL, Oracle, Postgres, Firefird болон SQL Server гэх мэтээр сонголтууд бий. SQLite 3 - ыг Райлс апплкейшнтэй холбож ашиглахын ѳмнѳ database driver суулгаж Library нь Райлсын database engine-тэй холбож ѳгѳх хэрэгтэй.</p>
 
+<!-- more -->
+
+
 <blockquote><p>Ѳѳрийн хувийн Rails API Documentation үүсгэх</p>
 
 <p>Local орчинд ѳѳрийн Rails API Documentation үүсгэх боломжтой юм.  Маш энгийн, доорх командыг ѳѳрийн терминал дээр бичихэд л хангалттай.
 <code>
-rails_apps&gt; rails new dummy_app
+ails_apps&gt; rails new dummy_app
 rails_apps&gt; cd dumny_app
 dumny_app&gt; rake doc:rails
 </code></p>
@@ -33,16 +36,20 @@ dumny_app&gt; rake doc:rails
 
 <p>Rails API Documentation - хандах бол browser дээрээс doc/apo/index.html хаягаар орох боломжтой. </p></blockquote>
 
-<p>Доорх лкнкүүдыг бид бүхэн ашиглах боломжтой ба дэлгэрэнгүй мэдээллийг тухайн цахим хаягаар орон шалгана уу:
-DB 2: [<a href="http://raa.ruby-lang.org/project/ruby-db2">http://raa.ruby-lang.org/project/ruby-db2</a>] эсвэл [<a href="http://rubyforge.org/projects/rubyibm">http://rubyforge.org/projects/rubyibm</a> ]
-Firebird: [<a href="http://rubyforge.org/projects/fireruby/">http://rubyforge.org/projects/fireruby/</a> ]
-MySQL: [<a href="http://www.tmtm.org/en/mysql/ruby/">http://www.tmtm.org/en/mysql/ruby/</a> ]
-Oracle: [<a href="http://rubyforge.org/projects/ruby-oci8">http://rubyforge.org/projects/ruby-oci8</a> ]
-Postgres: [<a href="https://bitbucket.org/ged/ruby-pg/wiki/Home">https://bitbucket.org/ged/ruby-pg/wiki/Home</a> ]
-SQL Server: [<a href="https://github.com/rails-sqlserver">https://github.com/rails-sqlserver</a> ]
-SQLLite: [<a href="https://github.com/luislavena/sqlite3-ruby">https://github.com/luislavena/sqlite3-ruby</a> ]</p>
+<p>Доорх лкнкүүдыг бид бүхэн ашиглах боломжтой ба дэлгэрэнгүй мэдээллийг тухайн цахим хаягаар орон шалгана уу:</p>
 
-<p>Гурван ѳѳр тѳрлийн OS дээр рубю, райлс суулгах зааварчилгаа авлаа. Тэгвэл хэрхэн ѳгѳдлийн сан сонгож, тохиргоо хийх вэ?</p>
+<ul>
+<li>DB 2: <a href="http://raa.ruby-lang.org/project/ruby-db2">http://raa.ruby-lang.org/project/ruby-db2</a> эсвэл <a href="http://rubyforge.org/projects/rubyibm">http://rubyforge.org/projects/rubyibm</a></li>
+<li>Firebird: <a href="http://rubyforge.org/projects/fireruby/">http://rubyforge.org/projects/fireruby/</a></li>
+<li>MySQL: <a href="http://www.tmtm.org/en/mysql/ruby/">http://www.tmtm.org/en/mysql/ruby/</a></li>
+<li>Oracle: <a href="http://rubyforge.org/projects/ruby-oci8">http://rubyforge.org/projects/ruby-oci8</a></li>
+<li>Postgres: <a href="https://bitbucket.org/ged/ruby-pg/wiki/Home">https://bitbucket.org/ged/ruby-pg/wiki/Home</a></li>
+<li>SQL Server: <a href="https://github.com/rails-sqlserver">https://github.com/rails-sqlserver</a></li>
+<li>SQLLite: <a href="https://github.com/luislavena/sqlite3-ruby">https://github.com/luislavena/sqlite3-ruby</a></li>
+</ul>
+
+
+<p>Xэрхэн ѳгѳдлийн сан сонгож, тохиргоо хийх вэ?</p>
 
 <p>Райлсын default database нь sqllite3. Sqllite3 нь ашиглахад тохиромжгүй гэж үзэж байгаа бол арай саруул database болох MySQL, PostgreSQL - нарыг ашиглах нь оновчтой шийдэл болно.</p>
 

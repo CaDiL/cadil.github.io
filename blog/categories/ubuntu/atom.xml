@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ubuntu | CaDiL's blog]]></title>
   <link href="http://cadil.github.io/blog/categories/ubuntu/atom.xml" rel="self"/>
   <link href="http://cadil.github.io/"/>
-  <updated>2016-01-04T20:08:59+08:00</updated>
+  <updated>2016-01-04T20:19:12+08:00</updated>
   <id>http://cadil.github.io/</id>
   <author>
     <name><![CDATA[CaDiL]]></name>
@@ -25,7 +25,7 @@
 <!-- more -->
 
 
-<p>YOUR NAME, <a href="&#x6d;&#x61;&#105;&#108;&#x74;&#111;&#x3a;&#x59;&#x4f;&#x55;&#82;&#64;&#x45;&#77;&#65;&#73;&#76;&#46;&#67;&#x4f;&#77;">&#89;&#x4f;&#x55;&#82;&#x40;&#69;&#x4d;&#65;&#x49;&#x4c;&#x2e;&#x43;&#x4f;&#x4d;</a> оронд ѳѳрийн нэр, майл хаягаа бичнэ.
+<p>YOUR NAME, <a href="&#109;&#x61;&#x69;&#108;&#x74;&#111;&#x3a;&#x59;&#x4f;&#85;&#82;&#64;&#69;&#77;&#65;&#x49;&#76;&#x2e;&#67;&#79;&#x4d;">&#89;&#x4f;&#x55;&#82;&#64;&#x45;&#77;&#65;&#x49;&#76;&#46;&#x43;&#x4f;&#77;</a> оронд ѳѳрийн нэр, майл хаягаа бичнэ.
 <code>
 git config --global color.ui true
 git config --global user.name "YOUR NAME"
