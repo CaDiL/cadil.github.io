@@ -4,7 +4,7 @@
   <title><![CDATA[Category: setup | CaDiL's blog]]></title>
   <link href="http://cadil.github.io/blog/categories/setup/atom.xml" rel="self"/>
   <link href="http://cadil.github.io/"/>
-  <updated>2016-01-05T00:09:33+08:00</updated>
+  <updated>2016-01-05T00:38:00+08:00</updated>
   <id>http://cadil.github.io/</id>
   <author>
     <name><![CDATA[CaDiL]]></name>
@@ -42,30 +42,20 @@ Ruby-г суулгах үндсэндээ 3 арга байдаг. Тус бүр
 
 
 <p>Хамгийн recommended арга нь rbenv, rvm хоёр юм. Энэ удаа rbenv аргаар ruby-г суулгана:
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>cd
-</span><span class='line'>git clone git://github.com/sstephenson/rbenv.git .rbenv
-</span><span class='line'>echo &lsquo;export PATH=&ldquo;$HOME/.rbenv/bin:$PATH&rdquo;&rsquo; &gt;&gt; ~/.bashrc
-</span><span class='line'>echo &lsquo;eval &ldquo;$(rbenv init -)&rdquo;&rsquo; &gt;&gt; ~/.bashrc
-</span><span class='line'>exec $SHELL
-</span><span class='line'>git clone git://github.com/sstephenson/ruby-build.git ~/.rbenv/
-</span><span class='line'>plugins/ruby-build
-</span><span class='line'>echo &lsquo;export PATH=&ldquo;$HOME/.rbenv/plugins/ruby-build/bin:$PATH&rdquo;&rsquo;&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;blockquote&gt;&lt;blockquote&gt;&lt;p&gt;~/.bashrc
-</span><span class='line'>exec $SHELL
-</span><span class='line'>git clone &lt;a href="https://github.com/sstephenson/rbenv-gem-rehash.git"&gt;https://github.com/sstephenson/rbenv-gem-rehash.git&lt;/a&gt;</span></code></pre></td></tr></table></div></figure>
+```
+cd
+git clone git://github.com/sstephenson/rbenv.git .rbenv
+echo &lsquo;export PATH=&ldquo;$HOME/.rbenv/bin:$PATH&rdquo;&rsquo; >> ~/.bashrc
+echo &lsquo;eval &ldquo;$(rbenv init -)&rdquo;&rsquo; >> ~/.bashrc
+exec $SHELL
+git clone git://github.com/sstephenson/ruby-build.git ~/.rbenv/
+plugins/ruby-build
+echo &lsquo;export PATH=&ldquo;$HOME/.rbenv/plugins/ruby-build/bin:$PATH&rdquo;&rsquo;</p>
+
+<blockquote><blockquote><p>~/.bashrc
+exec $SHELL
+git clone <a href="https://github.com/sstephenson/rbenv-gem-rehash.git">https://github.com/sstephenson/rbenv-gem-rehash.git</a>
+```
 Rbenv арга нь энгийн хоёр алхамтай. Эхлээд rbenv-гээ суулгаад дараа нь ruby-build - ээ суулгана:</p></blockquote></blockquote>
 
 <p>Rubygems - ыг илүү дутуу documentation-гүйгээр суулгана:

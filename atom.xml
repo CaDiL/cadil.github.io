@@ -4,7 +4,7 @@
   <title><![CDATA[CaDiL's blog]]></title>
   <link href="http://cadil.github.io/atom.xml" rel="self"/>
   <link href="http://cadil.github.io/"/>
-  <updated>2016-01-05T00:09:33+08:00</updated>
+  <updated>2016-01-05T00:35:43+08:00</updated>
   <id>http://cadil.github.io/</id>
   <author>
     <name><![CDATA[CaDiL]]></name>
@@ -70,20 +70,21 @@
 
 <p>За terminal доошоогоо бас л баахан шинэ файл, directories үүсчихлээ дээ. Удахгүй эдгээр файлууд нь ямар учиртай болохыг зах зухаас нь онгичож үзэцгээнэ. Ямартай ч эхлээд чухлаас нь:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>demo/app/controller/say_controller.rb</span><a href='https://github.com/CaDiL/demo/blob/master/app/controllers/say_controller.rb'>link</a></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>class SayController &lt; ApplicationController
-</span><span class='line'>  def hello
-</span><span class='line'> end
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">SayController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">hello</span>
+</span><span class='line'>  <span class="k">end</span>
 </span><span class='line'>
-</span><span class='line'>def goodbye
-</span><span class='line'> end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">goodbye</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>Хоосон, ил хул, код байхгүй юм шиг санагдаж байна уу?
@@ -98,10 +99,9 @@
 
 <p>Дээр байгаа зургийг харахад бол ер нь ойлгомжтой байна. URL - тай controller холбогдсон болохыг дээрх зурагнаас харагдаж байна. Дараагийн алхам маань дэлгэцэнд юу харуулах вэ гэх асуулт. Энэ хэсгээс л View орж ирж байгаа юм даа. Controller - шинээр үүсгэж байхдаа бид бүхэн ямар script ашиглаж байсныг санаж байна уу? Санахгүй байгаа бол эргүүлэн нэг хараарай. Тэр командаар терминал доошоо олон файл, directory үүссэн байхаа. Тэр дунд template файл буюу controller-ын views - үүссэн байгаа.. Үүннээс үзэхэд бид Say нэртэй controller үүсгэсэн. Тэгэхээр views маань app/view/say - directory-д байгаа юм.</p>
 
-<p>::/demo1/app/views/say/hello.html.erb::</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;h1&gt;Hello from Rails!&lt;/h1&gt;</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span>demo/app/views/say/hello.html.erb</span><a href='https://github.com/CaDiL/demo/blob/master/app/views/say/hello.html.erb'>link</a></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;h1&gt;</span>Hello from Rails!<span class="nt">&lt;/h1&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>hello.html.erb - файлаа хадаглаад, browser - оо refresh хийгээд үзээрэй. Одоо ойлгосон байх, тийм үү.</p>
@@ -117,18 +117,6 @@
 
 <p>Райлс дотор Dynamic загвар оруулах олон арга бий. Хамгийн ѳргѳн ашигладдаг нь за одоо заагаад ѳгье. Ruby кодыг Template - тэйгээ embed (зарим энэ мэт үгийг орчуулахгүйгээр шууд хэрэглээд явна, угаасаа ч орчуулдахааргүй үг) хийх юм. Тиймээс л бид template файлаа show.html.erb гэж хадагалсан юм. Html.erb гэсэн формат залгаж бичсэн шалтгаан нь ERB гэсэн системыг Rails ѳрѳгжүүлэн дэмжээд явна.
 ERB нь Ruby - ын нэгэн хэсэг болж суудаг ба суулгах энэ тэрээ зүйл дээр санаа зовоод байх хэрэггүй. Erb нь output - үүдыг хувирган юу ч хамаагүй болгож болдог. Энгийнээр бол &lt;%= and %> - гэх код нь Рубю кодоор танигдах хэдий ч үр дүнд нь string болон хѳрвүүлэгдэж байгаад л онцлог юм. Тэхээр &lt;% … %> уг кодын дотор л утга аа оруулаад ѳгѳхѳд л үр дүн нь хэвлэгдэх юм. Жишээ нь:</p>
-
-<p>::demo/app/views/say/hello.html.erb::</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;h1&gt;Hello from Rails!&lt;/h1&gt;
-</span><span class='line'>&lt;p&gt;
-</span><span class='line'>  Одоо цаг &lt;%= Time.now %&gt; болж байна.
-</span><span class='line'>&lt;/p&gt;</span></code></pre></td></tr></table></div></figure>
-
 
 <p>Одоо browser - оо refresh хийгээд үз. Харагдаж байгаа цаг бол Ruby - ын standard format - аар харагдаж байгаа гэдгийг л ойлгох нь чухал юм шүү.</p>
 ]]></content>
@@ -453,7 +441,7 @@ ERB нь Ruby - ын нэгэн хэсэг болж суудаг ба суулг
 <!-- more -->
 
 
-<p>YOUR NAME, <a href="&#x6d;&#97;&#105;&#x6c;&#116;&#x6f;&#x3a;&#89;&#x4f;&#85;&#82;&#64;&#x45;&#x4d;&#65;&#x49;&#76;&#x2e;&#x43;&#79;&#x4d;">&#89;&#x4f;&#x55;&#82;&#x40;&#x45;&#77;&#65;&#73;&#x4c;&#x2e;&#67;&#79;&#77;</a> оронд ѳѳрийн нэр, майл хаягаа бичнэ.</p>
+<p>YOUR NAME, <a href="&#x6d;&#x61;&#x69;&#x6c;&#116;&#111;&#x3a;&#89;&#x4f;&#x55;&#x52;&#64;&#x45;&#77;&#65;&#73;&#x4c;&#46;&#x43;&#79;&#x4d;">&#x59;&#x4f;&#x55;&#82;&#x40;&#x45;&#x4d;&#65;&#x49;&#76;&#x2e;&#x43;&#x4f;&#x4d;</a> оронд ѳѳрийн нэр, майл хаягаа бичнэ.</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
