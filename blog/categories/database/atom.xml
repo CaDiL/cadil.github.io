@@ -4,7 +4,7 @@
   <title><![CDATA[Category: database | CaDiL's blog]]></title>
   <link href="http://cadil.github.io/blog/categories/database/atom.xml" rel="self"/>
   <link href="http://cadil.github.io/"/>
-  <updated>2016-01-05T00:38:00+08:00</updated>
+  <updated>2016-01-05T00:42:36+08:00</updated>
   <id>http://cadil.github.io/</id>
   <author>
     <name><![CDATA[CaDiL]]></name>
@@ -31,14 +31,18 @@ sudo apt-get install postgresql-9.3 libpq-dev
 
 
 <p>Postgre-г суулгах явцад <code>user</code> тохиргоог хийж ѳгѳхгүй. Тийм болохоор дээр зааврын дагуу хийж тохиргоогоо хийгээрэй. <code>chris</code> - оронд ѳѳрийн нэрийг бичин гэж бодох хэрэгтэй.
-```
-sudo -u postgres createuser chris -s</p>
-
-<h1>User-т нууц үгтэй хиймээр байна уу? Доорк коммандыг дагаад хийнэ үү.</h1>
-
-<p>sudo -u postgres psql
-postgres=# \password chris
-```</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo -u postgres createuser chris -s&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;User-т нууц үгтэй хиймээр байна уу? Доорк коммандыг дагаад хийнэ үү.&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;sudo -u postgres psql
+</span><span class='line'>postgres=# \password chris</span></code></pre></td></tr></table></div></figure></p>
 ]]></content>
   </entry>
   

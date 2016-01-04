@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ubuntu | CaDiL's blog]]></title>
   <link href="http://cadil.github.io/blog/categories/ubuntu/atom.xml" rel="self"/>
   <link href="http://cadil.github.io/"/>
-  <updated>2016-01-05T00:38:00+08:00</updated>
+  <updated>2016-01-05T00:42:36+08:00</updated>
   <id>http://cadil.github.io/</id>
   <author>
     <name><![CDATA[CaDiL]]></name>
@@ -31,14 +31,18 @@ sudo apt-get install postgresql-9.3 libpq-dev
 
 
 <p>Postgre-г суулгах явцад <code>user</code> тохиргоог хийж ѳгѳхгүй. Тийм болохоор дээр зааврын дагуу хийж тохиргоогоо хийгээрэй. <code>chris</code> - оронд ѳѳрийн нэрийг бичин гэж бодох хэрэгтэй.
-```
-sudo -u postgres createuser chris -s</p>
-
-<h1>User-т нууц үгтэй хиймээр байна уу? Доорк коммандыг дагаад хийнэ үү.</h1>
-
-<p>sudo -u postgres psql
-postgres=# \password chris
-```</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo -u postgres createuser chris -s&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;User-т нууц үгтэй хиймээр байна уу? Доорк коммандыг дагаад хийнэ үү.&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;sudo -u postgres psql
+</span><span class='line'>postgres=# \password chris</span></code></pre></td></tr></table></div></figure></p>
 ]]></content>
   </entry>
   
@@ -69,7 +73,7 @@ sudo apt-get install mysql-server mysql-client libmysqlclient-dev
 <!-- more -->
 
 
-<p>YOUR NAME, <a href="&#109;&#x61;&#x69;&#x6c;&#116;&#111;&#x3a;&#89;&#79;&#85;&#x52;&#64;&#69;&#x4d;&#65;&#x49;&#76;&#46;&#67;&#79;&#x4d;">&#89;&#79;&#85;&#82;&#64;&#x45;&#77;&#65;&#73;&#76;&#46;&#67;&#x4f;&#x4d;</a> оронд ѳѳрийн нэр, майл хаягаа бичнэ.
+<p>YOUR NAME, <a href="&#109;&#x61;&#105;&#x6c;&#x74;&#x6f;&#x3a;&#x59;&#x4f;&#x55;&#x52;&#x40;&#x45;&#x4d;&#x41;&#73;&#76;&#46;&#67;&#x4f;&#77;">&#89;&#79;&#x55;&#x52;&#64;&#x45;&#77;&#65;&#73;&#76;&#46;&#x43;&#79;&#77;</a> оронд ѳѳрийн нэр, майл хаягаа бичнэ.
 <code>
 git config --global color.ui true
 git config --global user.name "YOUR NAME"
@@ -119,20 +123,30 @@ Ruby-г суулгах үндсэндээ 3 арга байдаг. Тус бүр
 
 
 <p>Хамгийн recommended арга нь rbenv, rvm хоёр юм. Энэ удаа rbenv аргаар ruby-г суулгана:
-```
-cd
-git clone git://github.com/sstephenson/rbenv.git .rbenv
-echo &lsquo;export PATH=&ldquo;$HOME/.rbenv/bin:$PATH&rdquo;&rsquo; >> ~/.bashrc
-echo &lsquo;eval &ldquo;$(rbenv init -)&rdquo;&rsquo; >> ~/.bashrc
-exec $SHELL
-git clone git://github.com/sstephenson/ruby-build.git ~/.rbenv/
-plugins/ruby-build
-echo &lsquo;export PATH=&ldquo;$HOME/.rbenv/plugins/ruby-build/bin:$PATH&rdquo;&rsquo;</p>
-
-<blockquote><blockquote><p>~/.bashrc
-exec $SHELL
-git clone <a href="https://github.com/sstephenson/rbenv-gem-rehash.git">https://github.com/sstephenson/rbenv-gem-rehash.git</a>
-```
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cd
+</span><span class='line'>git clone git://github.com/sstephenson/rbenv.git .rbenv
+</span><span class='line'>echo &lsquo;export PATH=&ldquo;$HOME/.rbenv/bin:$PATH&rdquo;&rsquo; &gt;&gt; ~/.bashrc
+</span><span class='line'>echo &lsquo;eval &ldquo;$(rbenv init -)&rdquo;&rsquo; &gt;&gt; ~/.bashrc
+</span><span class='line'>exec $SHELL
+</span><span class='line'>git clone git://github.com/sstephenson/ruby-build.git ~/.rbenv/
+</span><span class='line'>plugins/ruby-build
+</span><span class='line'>echo &lsquo;export PATH=&ldquo;$HOME/.rbenv/plugins/ruby-build/bin:$PATH&rdquo;&rsquo;&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;blockquote&gt;&lt;blockquote&gt;&lt;p&gt;~/.bashrc
+</span><span class='line'>exec $SHELL
+</span><span class='line'>git clone &lt;a href="https://github.com/sstephenson/rbenv-gem-rehash.git"&gt;https://github.com/sstephenson/rbenv-gem-rehash.git&lt;/a&gt;</span></code></pre></td></tr></table></div></figure>
 Rbenv арга нь энгийн хоёр алхамтай. Эхлээд rbenv-гээ суулгаад дараа нь ruby-build - ээ суулгана:</p></blockquote></blockquote>
 
 <p>Rubygems - ыг илүү дутуу documentation-гүйгээр суулгана:

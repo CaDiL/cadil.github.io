@@ -150,6 +150,17 @@
 <p>Райлс дотор Dynamic загвар оруулах олон арга бий. Хамгийн ѳргѳн ашигладдаг нь за одоо заагаад ѳгье. Ruby кодыг Template - тэйгээ embed (зарим энэ мэт үгийг орчуулахгүйгээр шууд хэрэглээд явна, угаасаа ч орчуулдахааргүй үг) хийх юм. Тиймээс л бид template файлаа show.html.erb гэж хадагалсан юм. Html.erb гэсэн формат залгаж бичсэн шалтгаан нь ERB гэсэн системыг Rails ѳрѳгжүүлэн дэмжээд явна.
 ERB нь Ruby - ын нэгэн хэсэг болж суудаг ба суулгах энэ тэрээ зүйл дээр санаа зовоод байх хэрэггүй. Erb нь output - үүдыг хувирган юу ч хамаагүй болгож болдог. Энгийнээр бол &lt;%= and %> - гэх код нь Рубю кодоор танигдах хэдий ч үр дүнд нь string болон хѳрвүүлэгдэж байгаад л онцлог юм. Тэхээр &lt;% … %> уг кодын дотор л утга аа оруулаад ѳгѳхѳд л үр дүн нь хэвлэгдэх юм. Жишээ нь:</p>
 
+<figure class='code'><figcaption><span>demo/app/views/say/hello.html.erb</span><a href='https://github.com/CaDiL/demo/blob/master/app/views/say/hello.html.erb'>link</a></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ERB'><span class='line'><span class="x">&lt;h1&gt;Hello from Rails!&lt;/h1&gt;</span>
+</span><span class='line'><span class="x">&lt;p&gt;</span>
+</span><span class='line'><span class="x">  Одоо цаг </span><span class="cp">&lt;%=</span> <span class="no">Time</span><span class="o">.</span><span class="n">now</span> <span class="cp">%&gt;</span><span class="x"> болж байна.</span>
+</span><span class='line'><span class="x">&lt;/p&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
 <p>Одоо browser - оо refresh хийгээд үз. Харагдаж байгаа цаг бол Ruby - ын standard format - аар харагдаж байгаа гэдгийг л ойлгох нь чухал юм шүү.</p>
 </div>
 
