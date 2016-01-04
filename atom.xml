@@ -4,7 +4,7 @@
   <title><![CDATA[CaDiL's blog]]></title>
   <link href="http://cadil.github.io/atom.xml" rel="self"/>
   <link href="http://cadil.github.io/"/>
-  <updated>2016-01-04T23:42:20+08:00</updated>
+  <updated>2016-01-05T00:09:33+08:00</updated>
   <id>http://cadil.github.io/</id>
   <author>
     <name><![CDATA[CaDiL]]></name>
@@ -69,8 +69,6 @@
 
 
 <p>За terminal доошоогоо бас л баахан шинэ файл, directories үүсчихлээ дээ. Удахгүй эдгээр файлууд нь ямар учиртай болохыг зах зухаас нь онгичож үзэцгээнэ. Ямартай ч эхлээд чухлаас нь:</p>
-
-<p>::demo1/app/controllers/say_controller.rb::</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -455,7 +453,7 @@ ERB нь Ruby - ын нэгэн хэсэг болж суудаг ба суулг
 <!-- more -->
 
 
-<p>YOUR NAME, <a href="&#x6d;&#x61;&#x69;&#x6c;&#x74;&#x6f;&#58;&#x59;&#79;&#x55;&#82;&#64;&#69;&#x4d;&#x41;&#x49;&#x4c;&#46;&#67;&#79;&#77;">&#89;&#x4f;&#x55;&#82;&#x40;&#69;&#77;&#x41;&#73;&#x4c;&#46;&#x43;&#79;&#x4d;</a> оронд ѳѳрийн нэр, майл хаягаа бичнэ.</p>
+<p>YOUR NAME, <a href="&#x6d;&#97;&#105;&#x6c;&#116;&#x6f;&#x3a;&#89;&#x4f;&#85;&#82;&#64;&#x45;&#x4d;&#65;&#x49;&#76;&#x2e;&#x43;&#79;&#x4d;">&#89;&#x4f;&#x55;&#82;&#x40;&#x45;&#77;&#65;&#73;&#x4c;&#x2e;&#67;&#79;&#77;</a> оронд ѳѳрийн нэр, майл хаягаа бичнэ.</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
