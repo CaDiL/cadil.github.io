@@ -4,7 +4,7 @@
   <title><![CDATA[CaDiL's blog]]></title>
   <link href="http://cadil.github.io/atom.xml" rel="self"/>
   <link href="http://cadil.github.io/"/>
-  <updated>2016-01-03T22:19:33+08:00</updated>
+  <updated>2016-01-04T19:54:48+08:00</updated>
   <id>http://cadil.github.io/</id>
   <author>
     <name><![CDATA[CaDiL]]></name>
@@ -25,7 +25,7 @@
 <!-- more -->
 
 
-<p>YOUR NAME, <a href="&#109;&#97;&#x69;&#x6c;&#116;&#x6f;&#x3a;&#89;&#x4f;&#85;&#x52;&#x40;&#69;&#x4d;&#x41;&#x49;&#76;&#46;&#x43;&#79;&#x4d;">&#x59;&#79;&#x55;&#x52;&#64;&#x45;&#77;&#65;&#x49;&#76;&#46;&#x43;&#x4f;&#77;</a> оронд ѳѳрийн нэр, майл хаягаа бичнэ.</p>
+<p>YOUR NAME, <a href="&#x6d;&#x61;&#x69;&#x6c;&#x74;&#x6f;&#x3a;&#x59;&#x4f;&#x55;&#x52;&#64;&#x45;&#77;&#x41;&#x49;&#76;&#46;&#x43;&#79;&#77;">&#x59;&#x4f;&#x55;&#x52;&#x40;&#69;&#77;&#x41;&#x49;&#76;&#46;&#x43;&#x4f;&#x4d;</a> оронд ѳѳрийн нэр, майл хаягаа бичнэ.</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -123,6 +123,34 @@ Ruby-г суулгах үндсэндээ 3 арга байдаг. Тус бүр
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>gem install bundler </span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Rails суулгах [4.2.4]</h4>
+
+<p>Райлсыг суулгахын ѳмнѳ нь NodeJS суулгана:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>`sudo add-apt-repository ppa:chris-lea/node.js `
+</span><span class='line'>`sudo apt-get update `</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Райлсаа суулгая:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gem install rails -v 4.2.4 `</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Райлс суусан эсэхийг шалгах:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rbenv rehash</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Rails -v коммандыг ашиглан яг бүрэн суусан эсэхийг шалгая:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rails -v</span></code></pre></td></tr></table></div></figure>
 
 ]]></content>
   </entry>
