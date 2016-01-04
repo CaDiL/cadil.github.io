@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Git | CaDiL's blog]]></title>
-  <link href="http://cadil.github.io/blog/categories/git/atom.xml" rel="self"/>
+  <title><![CDATA[Category: Version_control | CaDiL's blog]]></title>
+  <link href="http://cadil.github.io/blog/categories/version-control/atom.xml" rel="self"/>
   <link href="http://cadil.github.io/"/>
   <updated>2016-01-04T21:10:46+08:00</updated>
   <id>http://cadil.github.io/</id>
@@ -24,39 +24,6 @@
 
 
 <p>Багаараа хамтран райлс тѳсѳл дээр ажиллаж байгаа тохиолдолд CI буюу Continuous Integration - ыг сайн шийдсэн байх хэрэгтэй болдог. Ажиллах процесс нь багын гишүүд бүр ѳѳрийн ѳѳрчлѳлтыг repository-д нэмэхээс ѳмнѳ райлс апплейкшнд шинээр хийсэн ѳѳрчлѳлт бүрд тест хийн шалгаад явах юм. Энгийнээр бол багаар ажиллаж байгаа үед алдаатай commit хийсэн тохиолдолд багын ажлыг тэр чигт нь холион бантанд нь хутгадаг, тэр асуудлыг шийдээд ѳгѳх, тѳслийн удирдагч ѳѳрѳѳ хувийн тохиргоо хийж ѳгсѳнѳѳр тѳслийг баллах гэсэн аюулаас нэг алхам холдож чадаж байгаа юм. </p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Git тохиргоо]]></title>
-    <link href="http://cadil.github.io/blog/2016/01/03/git/"/>
-    <updated>2016-01-03T22:05:13+08:00</updated>
-    <id>http://cadil.github.io/blog/2016/01/03/git</id>
-    <content type="html"><![CDATA[<h3>Git for Ubuntu</h3>
-
-<p>Git-ыг сая суулгасан Руби 2.2.3-ын удирдах систем хэлбэрээр ашиглана . Тиймээс ѳѳрийн github аккоунттайгаа холбох хэрэгтэй. Аккоунт байхгүй бол <a href="https://github.com">https://github.com</a> - орж бүртгүүлээрэй.</p>
-
-<!-- more -->
-
-
-<p>YOUR NAME, <a href="&#x6d;&#x61;&#105;&#x6c;&#x74;&#x6f;&#x3a;&#x59;&#79;&#x55;&#x52;&#64;&#69;&#x4d;&#65;&#73;&#76;&#46;&#67;&#x4f;&#x4d;">&#89;&#79;&#x55;&#x52;&#64;&#69;&#x4d;&#x41;&#x49;&#76;&#46;&#67;&#79;&#77;</a> оронд ѳѳрийн нэр, майл хаягаа бичнэ.
-<code>
-git config --global color.ui true
-git config --global user.name "YOUR NAME"
-git config --global user.email "YOUR@EMAIL.com"
-</code>
-Шинээр үүссэн SSH key - ыг ѳѳрийн github - д хуулж ѳгнѳ. Copy хийсэн бол SSH Key-ээ энд -> <a href="https://github.com/settings/ssh">https://github.com/settings/ssh</a> хуулна.
-<code>
-cat `~/.ssh/id_rsa.pub
-</code>
-Хуулсан бол ажиллаж байгаа эсэхийг нь check хийж үзье:
-<code>
-ssh -T git@github.com
-</code>
-Ийм message гарч ирэх ёстой.
-<code>
-Hi excid3! You've successfully authenticated, but GitHub
-</code></p>
 ]]></content>
   </entry>
   

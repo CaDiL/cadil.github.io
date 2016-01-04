@@ -1,0 +1,238 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Command Line - CaDiL's blog</title>
+  <meta name="author" content="CaDiL">
+
+  
+  <meta name="description" content="Руби дээр ажиллаж байх үед терминалтай бол байнга ажиллана шүү. Тийм ч болохоор GUI зѳвхѳн Rails application бичиж байгаа бид бүхэнд зориулж &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cadil.github.io/blog/2016/01/04/command-line/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="CaDiL's blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">CaDiL's blog</a></h1>
+  
+    <h2>For RoR Developers</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cadil.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Command Line</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-01-04T20:37:57+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>8:37 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Руби дээр ажиллаж байх үед терминалтай бол байнга ажиллана шүү. Тийм ч болохоор GUI зѳвхѳн Rails application бичиж байгаа бид бүхэнд зориулж хангалттай олон нэмэлтүүдыг гаргасаар байгаа. Хэрвээ терминал дээр ажиллаж мэдэхгүй бол анхан шатны хэдэн коммандуудын үүргийг тайлбарлан бичсэн байгаа. Тогтоогоод авахыг бодоороой, энэ коммандуудыг ер нь ѳдѳр болгон ашиглах болохоор.</p>
+
+<!-- more -->
+
+
+<h4>SUDO Kомманд</h4>
+
+<p>Дийлэнх комманд нь sudo - оор эхэлдэг. <strong>SUDO</strong> буюу superuserdo нь тухайн роот хэрэглэгчийн бүрэн эрхийг идэвхжүүлэх, тухайн роот хэрэглэгчийн фолдер, файлыг бүрэн эрхтэйгээр удирдах эрх олгож байгаа юм. Sudo коммандыг ашиглах үѳд гараас хэрэглэгчийн нууц үгийг оруулж ѳгѳх ёстой.</p>
+
+<h4>Файл болон Зам (Directory)</h4>
+
+<ol>
+<li><p>Долгионтой тэмдэгт (~) ээр home directory-г илэрхийлнэ. Xэрэглэгч буюу user, долгионтой тэмдэгт (~) харагдаж байвал /home/user directory-д байна гэсэн үг.</p></li>
+<li><p><strong>pwd</strong>: Энэ коммандын тусламжтайгаар аль directory-д байгаагаа мэдэж болно. Нэг үгээр бол замыг хэвлэн дэлгэцэнд харуулна. Жишээлбэл: Desktop directory дотор pwd комманд бичсэн гэж үзэхэд “~/Desktop” гэснийг терминал дээр хэвлэн харуулах юм. </p></li>
+<li><p><strong>ls</strong>: Directory дотор байгаа файлуудын list буюу нэрс, агуулгыг харуулна. ls -ын араас ѳѳр коммандууд ашиглан, тухайн directory дотор байгаа файлуудын хэмжээ, тѳрѳл, үүссэн огноо гэх мэт дэлгэрэнгүй мэдээллийг харах боломж бий.</p></li>
+<li><p><strong>cd</strong>: Тухайн directory - чиглэлыг ѳѳрчлѳх, нэг directory-гоос нѳгѳѳ directory уруу орох ерѳнхий үүрэгтэй.
+ </p>
+
+<ul>
+<li>root directory уруу хандах үѳд “cd /”</li>
+<li>home directory уруу хандах үед “cd” эсвэл “cd ~”</li>
+<li>Нэг алхамаар урагшлах үѳд “cd ..”</li>
+<li>Ѳмнѳх directory уруу буцах үед “cd -”</li>
+</ul>
+</li>
+<li><p><strong>cp</strong>: Файлыг хуулах, copy хийх үүрэг гүйцэтгэнэ. Жишээлбэл: “cp file foo” нь file - хуулах үйлдэл хийн хуулж байгаа файлдаа “foo” нэртэй нэр ѳгч байна. Directory, copy хийх гэж байгаа бол “cp -r directory foo” (рекурс хуулах). Рекурс нь ямар учиртай вэ? Directory-г хуулах үѳд бүх файлуудыг нь хуулах үйлдийг давтах гэх мэтээр…</p></li>
+<li><p><strong>mv</strong>: Файлыг ѳѳр байршил уруу шилжүүлэх мѳн нэр ѳѳрчлѳх үүрэгтэй. Жишээлбэл: “mv file foo” нь file - ын нэрийг foo болгон ѳѳрчилж байна. “mv foo ~/Desktop” комманд нь foo нэртэй файлыг Desktop Directory уруу шилжүүлж байна. </p></li>
+<li><p><strong>rm</strong>: Энэхүү коммандыг ашиглан файл усгтаж болно. Жишээлбэл: “rm -f user/desktop/foo” нь user-ын Desktop directory-гоос force-оор foo файлыг устгаж байна.</p></li>
+<li><p><strong>rmdir</strong>: Хоосон directory-г устгах үед ашиглана. Харин дотроо файл болон контент агуулагдаж байгаа directory-г устгахын тулд “rm -r” коммандыг ашиглана.</p></li>
+<li><p><strong>mkdir</strong>: Шинээр directory үүсгэх үүрэгтэй. Жишээлбэл: “mkdir music” нь music нэртэй directory үүсгэж байна.</p></li>
+<li><p><strong>man</strong>: Ѳѳр бусад коммандуудын хэрэглэх аргачлал, зааврыг харуулна. Жишээлбэл: “man man” гэж бичихэд man коммандыг үүрэг, хэрхэн ашиглах гэх мэт document гарч ирнэ. </p></li>
+<li><p><strong>sudo</strong>: Зѳвхѳн Root user - д зѳвшѳѳрѳл олгох үүрэгтэй. Жишээлбэл: home directory-гын гаднаас файл хуулах шаардлага гарлаа гэж бодоё. “mv /mydoc.odt ~/Documents/mydoc.odt” гэж бичин гэж бодож байвал энэ нь буруу юм. Яагаад гэвэл home directory - гын гаднаас юм оруулах зѳвшѳѳрѳл бидэнд байхгүй байгаад юм. Харин “sudo mv /mydoc.odt ~/Documents/mydoc.odt” гэж бичиж ѳгснѳѳр бүгд хэвийн ажиллана. sudo коммандыг ашиглаж байгаа үѳд болгоомжтой байх нь чухал. Root user - ээр хандаж байгаа үѳд system - ээ ч гэмтээх магадал бий болохоор.</p></li>
+</ol>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">CaDiL</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-01-04T20:37:57+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>8:37 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/command-line/'>command_line</a>, <a class='category' href='/blog/categories/terminal/'>terminal</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://cadil.github.io/blog/2016/01/04/command-line/" data-via="" data-counturl="http://cadil.github.io/blog/2016/01/04/command-line/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/01/04/postgresql-tokhirghoo/" title="Previous Post: PostgreSQL тохиргоо">&laquo; PostgreSQL тохиргоо</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/01/04/dotfiles/" title="Next Post: Dotfiles">Dotfiles &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/01/04/hello/">Hello, Rails!</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/01/04/shineer-applieikshn-uusghekh/">Шинээр апплейкшн үүсгэх</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/01/04/editor/">Editor</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/01/04/git-version-control/">Git (Version Control)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/01/04/dotfiles/">Dotfiles</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - CaDiL -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

@@ -4,7 +4,7 @@
   <title><![CDATA[CaDiL's blog]]></title>
   <link href="http://cadil.github.io/atom.xml" rel="self"/>
   <link href="http://cadil.github.io/"/>
-  <updated>2016-01-04T20:19:12+08:00</updated>
+  <updated>2016-01-04T21:10:46+08:00</updated>
   <id>http://cadil.github.io/</id>
   <author>
     <name><![CDATA[CaDiL]]></name>
@@ -12,6 +12,389 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Hello, Rails!]]></title>
+    <link href="http://cadil.github.io/blog/2016/01/04/hello/"/>
+    <updated>2016-01-04T21:02:03+08:00</updated>
+    <id>http://cadil.github.io/blog/2016/01/04/hello</id>
+    <content type="html"><![CDATA[<p>“Hello World” гэсэн үгийг хэвлэх энгийн апплкейшн бичиж үзэцгээе. Энэ хэсэгт номын 3-р хэсгийн үндсэн агуулга болох Model-View-Controller (MVC) суурь тавигдана.</p>
+
+<!-- more -->
+
+
+<p>Rails нь MVC framework буюу тогтолцоо юм. Rails нь browser - ѳѳс ирэх хүсэлтүүдийг хүлээн авч controller-т ирсэн хүсэлтүүдийг декод (тайлж унших) хийх бѳгѳѳд уг болж байгаа процессыг action method гэж нэрлэдэг.</p>
+
+<p>Rails - аас авах нэг сайн тал гэвэл дотоод холболтууд нь цэгцтэй, дэс дараалалтай ер нь хамгийн сайн бүтэцтэй. “Hello World” - энгийн апплкейшн бичихийн тулд Controller, View шинээр үүсгэж кодлоно. Мэдээж энэ хоёрыг холбож ѳгсѳн холбоос, зам (route) хэрэгтэй. Нэг зүйл дутаагаад байна уу даа, гэж бодож байж магадгүй. Model - ыг яагаад бичихгүй юм бэ гэж гайхаж байгаа байх, хариулт нь, бидний одоо бичиж энэхүү апплкейшн нь ямар нэг байдлаар Data ч юм уу ѳгѳгдлийн сантай холбогдохгүй болохоор Model-ыг шууд алгасая. Эхлээд Controller - оос эхэлцгээе.
+Шинээр апплейкшн үүсгэж байсан райлс командыг ашиглан одоогийн бяцхан тѳсѳл дотроо controller үүсгэх юм. rails generate - гэх энэ райлс командыг ашиглах ба цаашид бид rails g гэж товчилж бичиж явна шүү. Controller үүсгэж байгаа rails g - араас script бичиж ѳгѳх байгаа. За, “Say” гэсэн controller - үүсгэцгээе.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>demo&gt; rails g controller Say hello goodbye
+</span><span class='line'>create app/controllers/say_controller.rb
+</span><span class='line'> route  get "say/goodbye"
+</span><span class='line'> route  get "say/hello"
+</span><span class='line'>invoke  erb
+</span><span class='line'>create    app/views/say
+</span><span class='line'>create    app/views/say/hello.html.erb
+</span><span class='line'>create    app/views/say/goodbye.html.erb
+</span><span class='line'>invoke  test_unit
+</span><span class='line'>create    test/controllers/say_controller_test.rb
+</span><span class='line'>invoke  helper
+</span><span class='line'>create    app/helpers/say_helper.rb
+</span><span class='line'>invoke    test_unit
+</span><span class='line'>create      test/helpers/say_helper_test.rb
+</span><span class='line'>invoke  assets
+</span><span class='line'>invoke    coffee
+</span><span class='line'>create      app/assets/javascripts/say.js.coffee
+</span><span class='line'>invoke    scss
+</span><span class='line'>create      app/assets/stylesheets/say.css.scss</span></code></pre></td></tr></table></div></figure>
+
+
+<p>За terminal доошоогоо бас л баахан шинэ файл, directories үүсчихлээ дээ. Удахгүй эдгээр файлууд нь ямар учиртай болохыг зах зухаас нь онгичож үзэцгээнэ. Ямартай ч эхлээд чухлаас нь:</p>
+
+<p>::demo1/app/controllers/say_controller.rb::</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>class SayController &lt; ApplicationController
+</span><span class='line'>  def hello
+</span><span class='line'> end
+</span><span class='line'>
+</span><span class='line'>def goodbye
+</span><span class='line'> end
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Хоосон, ил хул, код байхгүй юм шиг санагдаж байна уу?
+Нѳгѳѳ гоё удамшил ороод ирсэн байгаа юм л даа. Энгийнээр бол SayController гэсэн class нь ApplicationController - оос удамшчихлаа гэж. Нэг ёсондоо автомотоор бүхий л default утгуудыг нь ѳѳртѳѳ авчихлаа гэсэн үг л дээ. Тэхээр дээр байгаа код юу хийж болох, эсвэл яг одоогоор ямар үүрэг гүйцэтгэж байна гэж хэдүүлээ ѳѳрсѳддѳѳ асуулт тавиад үзэцгээе. Одоогоор бол дээрх код юу ч хийхгүй, ямар ч үүрэггүй байгаа л гэсэн үг. Маш энгийн, бидэнд hello() бас goodbye() гэсэн хоёр хоосон (empty) action method - ууд л байна. Яагаад бас hello(), goodbye() гэсэн method гараад ирэв ээ, гэж гайхаж байгаа байх. Энэ хэсгийг ойлгохын тулд ѳѳр нэг хэсэг үрүү ѳндийж харахгүй бол болохгүй нь дээ. Rails Handles requests буюу ирж байгаа хүсэлтүүдийг зохицуулагч.</p>
+
+<h4>Rails болон Request URLs</h4>
+
+<p>Яг л бусад веб апплкейшнуудын адил, Rails application - ын URL хаягийг хэрэглэгчтэй холбож ѳгч байгаа холболт юм. Тухайн URL - руу хандах хүсэлт browser - ээс явуулахад ар талд нь мэдээж тухайн хүсэлтийг боловсруулан (апп кодууд), эргүүлэн хэрэглэгч рүү хүргэх юм.
+Туршаад үзье. <a href="http://localhost:3000/say/hello">http://localhost:3000/say/hello</a> - энэ хаяг руу хандалт хийгээд үзэцгээе. Үр дүнд нь иймэрхүү илэрцээр буцна:</p>
+
+<h4>Бидний эхний action</h4>
+
+<p>Дээр байгаа зургийг харахад бол ер нь ойлгомжтой байна. URL - тай controller холбогдсон болохыг дээрх зурагнаас харагдаж байна. Дараагийн алхам маань дэлгэцэнд юу харуулах вэ гэх асуулт. Энэ хэсгээс л View орж ирж байгаа юм даа. Controller - шинээр үүсгэж байхдаа бид бүхэн ямар script ашиглаж байсныг санаж байна уу? Санахгүй байгаа бол эргүүлэн нэг хараарай. Тэр командаар терминал доошоо олон файл, directory үүссэн байхаа. Тэр дунд template файл буюу controller-ын views - үүссэн байгаа.. Үүннээс үзэхэд бид Say нэртэй controller үүсгэсэн. Тэгэхээр views маань app/view/say - directory-д байгаа юм.</p>
+
+<p>::/demo1/app/views/say/hello.html.erb::</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;h1&gt;Hello from Rails!&lt;/h1&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>hello.html.erb - файлаа хадаглаад, browser - оо refresh хийгээд үзээрэй. Одоо ойлгосон байх, тийм үү.</p>
+
+<p>Дүгнээд нэг харахад, бид Rails Application Tree - гээс хоёр файлын утга, арга, үүрэг зэргийг судлаад эзэмшчихлээ. Controller  гэж юу болох талаар мэдэж авлаа, browser дээр template - modify хийж үзлээ. За тэгээд, Rails-ын шатлалыг харвал: controller нь app/controller дотор, views нь app/views гэсэн subdirectories дотор байрлаж байна. Доорк figure - тэй танилцаад ав:</p>
+
+<h4>Гол нь Dynamic</h4>
+
+<p>Апп гэж хэлэхэд хэцүү нэг энгийн static page - ямартай ч хийчихлээ. Бага зэрэг Dynamic болговол ямарав, орох болгонд хэдэн цаг болгж байгааг харуулдаг хэсэг нэмж ѳгцгѳѳе.
+Нэмэхийн тулд views-д байгаа template файлыг ѳѳрчлѳх хэрэгтэй. Цаг (Time) - харуулах string хэрэг болох юм. Үүнээс улбаалаад хоёр асуулт үүснэ. Нэгт, хэрхэн яаж Dynamic Content - оо одоо байгаа template - дээ нэмэх вэ? Хоёрт, цагаа хаанаа авах юм бэ?</p>
+
+<h4>Dynamic Content</h4>
+
+<p>Райлс дотор Dynamic загвар оруулах олон арга бий. Хамгийн ѳргѳн ашигладдаг нь за одоо заагаад ѳгье. Ruby кодыг Template - тэйгээ embed (зарим энэ мэт үгийг орчуулахгүйгээр шууд хэрэглээд явна, угаасаа ч орчуулдахааргүй үг) хийх юм. Тиймээс л бид template файлаа show.html.erb гэж хадагалсан юм. Html.erb гэсэн формат залгаж бичсэн шалтгаан нь ERB гэсэн системыг Rails ѳрѳгжүүлэн дэмжээд явна.
+ERB нь Ruby - ын нэгэн хэсэг болж суудаг ба суулгах энэ тэрээ зүйл дээр санаа зовоод байх хэрэггүй. Erb нь output - үүдыг хувирган юу ч хамаагүй болгож болдог. Энгийнээр бол &lt;%= and %> - гэх код нь Рубю кодоор танигдах хэдий ч үр дүнд нь string болон хѳрвүүлэгдэж байгаад л онцлог юм. Тэхээр &lt;% … %> уг кодын дотор л утга аа оруулаад ѳгѳхѳд л үр дүн нь хэвлэгдэх юм. Жишээ нь:</p>
+
+<p>::demo/app/views/say/hello.html.erb::</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;h1&gt;Hello from Rails!&lt;/h1&gt;
+</span><span class='line'>&lt;p&gt;
+</span><span class='line'>  Одоо цаг &lt;%= Time.now %&gt; болж байна.
+</span><span class='line'>&lt;/p&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Одоо browser - оо refresh хийгээд үз. Харагдаж байгаа цаг бол Ruby - ын standard format - аар харагдаж байгаа гэдгийг л ойлгох нь чухал юм шүү.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Шинээр апплейкшн үүсгэх]]></title>
+    <link href="http://cadil.github.io/blog/2016/01/04/shineer-applieikshn-uusghekh/"/>
+    <updated>2016-01-04T20:56:26+08:00</updated>
+    <id>http://cadil.github.io/blog/2016/01/04/shineer-applieikshn-uusghekh</id>
+    <content type="html"><![CDATA[<p>Шинээр райлс апплейкшн create хийхийн ѳмнѳ бид эхлэл хэсгээсээ эхлээд зохион байгуулал, эмх цэгцтэй байх хэрэгтэй. <strong>Work</strong> гэсэн нэртэй <strong> шинэ directory </strong> үүсгэнэ. Энэ <strong> work </strong> гэсэн directory дотор тѳслүүдээ шинээр үүсгээд явбал эмх цэгцтэй, амар юм. Work - дотор demo гэсэн райлс аппклейкшн үүсгэцгээе.</p>
+
+<!-- more -->
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rubys&gt; mkdir work
+</span><span class='line'>rubys&gt; cd work
+</span><span class='line'>work&gt; rails new demo
+</span><span class='line'>create
+</span><span class='line'>create README.rdoc
+</span><span class='line'>create Rakefile
+</span><span class='line'>create config.ru
+</span><span class='line'>    :   : :   :
+</span><span class='line'>create vendor/assets/stylesheets
+</span><span class='line'>create vendor/assets/stylesheets/.keep
+</span><span class='line'>   run bundle install
+</span><span class='line'>Fetching gem metadata from https://rubygems.rog/.......
+</span><span class='line'>  :   :   :   :
+</span><span class='line'>Your bundle is complete!
+</span><span class='line'>Use 'bundle show [gemname]' to see where a bundled gem is installed
+</span><span class='line'>work&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Дээр бичигдсэн <strong> rails new demo</strong> коммандаар бид <strong>demo</strong> нэртэй <strong> directory</strong> үүсгэлээ. Терминал доошоогоо subdirectory болон олон шинэ файлуудыг автомотаар default - аар үүсгэж ѳгѳв.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>work&gt; cd demo
+</span><span class='line'>demo&gt; ls -p
+</span><span class='line'>app/  config/  db/  Gemfile.lock log/  Rakefile  test/   vendor/
+</span><span class='line'>bin/  config.ru  Gemfile lib/    public/  README.rdoc  tmp/</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Гэх мэтээр directory - ууд үүсгэх ба энэхүү chapter - т бид эдгээрийг ашиглах шаардлага одооогоор гарахгүй ба зѳвхѳн app/ directory-д ѳѳрсдийн кодоо бичих нэмж оруулах юм.</p>
+
+<p>Доорх коммандаар дэлгэрэнгүй мэдээлэл авах боломжтой:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>demo&gt; rake about</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Мѳн дээрх кодоор алдаа хайж болдог ба жишээ нь JavaScript runtime  - олдохгүй байгаа бол алдааны мэдээлэл гаргаж боломжит линкүүдээс татаж авах хүсэлт ирүүлнэ.</p>
+
+<p><strong>rake about</strong> - аар алдаа илэрээгүй бол цааш үргэлжүүлцгээе. Одоо юу хийх хэрэгтэй вэ гэхээр Stand-alone Web server - ыг асаахад л болно. Ингэж server асааж байж л бид шинээр үүсгэсэн райлс аппклейншаа ажиллуулах юм.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>demo&gt; rails server
+</span><span class='line'>=&gt; Booting WEBrick
+</span><span class='line'>=&gt; Rails 4.0.0 application starting in development on http://0.0.0.0:30000
+</span><span class='line'>=&gt; Run 'rails server -h' for more startup options
+</span><span class='line'>=&gt; Ctrl+C to shutdown server
+</span><span class='line'>[2013-04-18 20:22:16] INFO WEBrick 1.3.1
+</span><span class='line'>[2013-04-18 20:22:16] INFO ruby 2.0.0 (2013-02-24) [x86_64-linux] 
+</span><span class='line'>[2013-04-18 20:22:16] INFO WEBrick::HTTPServer#start: pid=25170 port=3000</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Web Server нь ямар server суулгасан эсэхээс шалтгаалан ажиллах ба Ruby-гийн хувьд <strong>WEBrick server</strong> нь ruby-гийн цѳм нь болж ѳгсѳн нэг үгээр бол ruby-г илтгэж чадахаар нэгэн бүхэл хэсэг нь болсон сервер юм. Гэхдээ яах уу, ѳѳрийн дурын веб серверыг суулган Ruby on Rails тай хослуулан ажиллуулж болно. </p>
+
+<p>Доорк коммандыг ашиглан WEBrick-ыг хүчлэн (force) ажиллуулж болно.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>demo&gt; rails server webtrick</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Сервер асаасан код боксын хамгийн сүүлийн мѳрийг харвал server нь port:3000 дээр ассан байна. 0.0.0.0 гэсэн холболтыг авч үзвэл WEBrick нь тухайн address-д connection - д бүхэл талын зѳвшѳѳрлыг олгож байна гэж ойлгож болно. Ойлгогдохоор хэлбэл дурын browser дээр **<a href="http://localhost:3000**">http://localhost:3000**</a> address - аар хандан сервер рүү холбогдох юм.</p>
+
+<p>Сервер ээ асаагаад localhost-oos харж болж байна. Терминал дээр сервер дээр болж байгаа үйл явцыг tracking - хийх боломжтой юм.</p>
+
+<p>Ctrl + C - командыг ашиглан WEBrick-ыг унтраана. Гэхдээ одоохондоо битгий унтраагаарай бид цааш үргэлжлүүлэн явах болхлоор…</p>
+
+<p>Апплкейшнаа үүсгээд сервер ээ асаачихлаа, харин ерѳѳсѳѳ код бичсэнгүй ээ, тийм ээ? Дараагийн хэсгээс код уруу орцгооё!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Editor]]></title>
+    <link href="http://cadil.github.io/blog/2016/01/04/editor/"/>
+    <updated>2016-01-04T20:52:42+08:00</updated>
+    <id>http://cadil.github.io/blog/2016/01/04/editor</id>
+    <content type="html"><![CDATA[<p>Райлс апплкейшныг бид editor ашиглан бичих ба олон программчлалын хэл дэмждэг, хѳгжүүлэлт хийхэд хялбар байх шаардлага хангасан байх шаардлагатай. </p>
+
+<!-- more -->
+
+
+<ul>
+<li><strong>TextMate</strong> нь Mac OS X дээрх стандарт хангасан Ruby on Rails - editor юм.</li>
+<li><strong>Sublime Text</strong> нь нэг үгээр TextMate - ын залгамжлагч гэж ойлгож болох ба ихэнх хѳгжүүлэгчид уг editor-ыг сонгон авах нь элбэг.</li>
+<li><strong>Aptana Studio 3</strong> нь Райлс хѳгжүүлэлтыг Eclipse - тэй нэгтгэсэн ба үйлдлийн систем голохгүй ажиллана. RadRails  - нэрээрээ илүү танил болсон. Уг editor нь 2006 онд Eclipse дээр суурилсан нээлттэй эх дээр бичигдсэн оны шилдэг Editor ѳргѳмжлѳл хүртэж байсан.</li>
+<li><strong>jEdit</strong> нь Ruby - г бүрэн дэмжиж ажилладаг, plugin хувьд ѳргѳн цар хүрээг хамарч чадсан editor.</li>
+<li><strong>Komodo</strong> нь ActiveState IDE -ын Dynamic хэлнүүдэд зориулагдсан ба мэдээж Ruby - г дэмжинэ. </li>
+<li><strong>RubyMine</strong> нь үйлдлийн систем голохгүй ажиллахаас гадна нээлттэй эх дээр бичигдсэн ба үнэгүй татан авч суулгаж болохоос гадна сургалтын зориулалтаар ашиглагддаг.</li>
+<li><strong>Netbeans Ruby and Rails Plugin</strong> нь NetBean IDE - ын нээлттэй эх дээр суурилсан нэмэлт (plugin) юм.</li>
+</ul>
+
+
+<p>Гэх мэтээр ѳргѳн сонголт байгаа ба ѳѳрийн мэдэх прогаммистуудаас ямар хѳгжүүлэлтийн орчинд ажилладаг болохыг мѳн лавлан асуугаарай.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Git (Version Control)]]></title>
+    <link href="http://cadil.github.io/blog/2016/01/04/git-version-control/"/>
+    <updated>2016-01-04T20:50:07+08:00</updated>
+    <id>http://cadil.github.io/blog/2016/01/04/git-version-control</id>
+    <content type="html"><![CDATA[<p>Version Control - д Github, BitBucket - гээд олон байгаа. Дийлэнх тохиолдолд Git-ыг ашиглана. Git дээр райлс дээр хѳгжүүлэлт хийж байгаа тѳслѳѳ commit хийх ба ѳѳрчлѳлт бүрийг оруулаад тест хийж баталгаатай болгож байгаад commit хийгээд явах юм. Git дээр үүсгэсэн repository-д олон цагийг commit хийх болохоор энэ хэсэг их чухал юм.</p>
+
+<!-- more -->
+
+
+<p>Багаараа хамтран райлс тѳсѳл дээр ажиллаж байгаа тохиолдолд CI буюу Continuous Integration - ыг сайн шийдсэн байх хэрэгтэй болдог. Ажиллах процесс нь багын гишүүд бүр ѳѳрийн ѳѳрчлѳлтыг repository-д нэмэхээс ѳмнѳ райлс апплейкшнд шинээр хийсэн ѳѳрчлѳлт бүрд тест хийн шалгаад явах юм. Энгийнээр бол багаар ажиллаж байгаа үед алдаатай commit хийсэн тохиолдолд багын ажлыг тэр чигт нь холион бантанд нь хутгадаг, тэр асуудлыг шийдээд ѳгѳх, тѳслийн удирдагч ѳѳрѳѳ хувийн тохиргоо хийж ѳгсѳнѳѳр тѳслийг баллах гэсэн аюулаас нэг алхам холдож чадаж байгаа юм. </p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Dotfiles]]></title>
+    <link href="http://cadil.github.io/blog/2016/01/04/dotfiles/"/>
+    <updated>2016-01-04T20:46:39+08:00</updated>
+    <id>http://cadil.github.io/blog/2016/01/04/dotfiles</id>
+    <content type="html"><![CDATA[<p>Терминал харагдах талаас нь ѳѳрчлѳлт хийдэг хүмүүс байхад терминал дээрээ ажил хѳнгѳвчлѳх нэмэлтүүд хийдэг хүмүүс ч бий. Таны хүслээс л хамаарна. Github  дээр хүмүүс ѳѳрсдийнхѳѳ хѳгжүүлэлтийн орчинг dotfile - нэрээр оруулдаг болохоор уг түлхүүр үгээр хайлт хийж сонирхож үзээрэй.</p>
+
+<!-- more -->
+
+
+<p>Зарим нэг dotfile-ууд:</p>
+
+<ul>
+<li>YADR Dotfile: <a href="https://github.com/skwp/dotfiles">https://github.com/skwp/dotfiles</a></li>
+<li>Thoughtbot Dotfiles: <a href="https://github.com/thoughtbot/dotfiles">https://github.com/thoughtbot/dotfiles</a></li>
+<li>YouCompleteMe |Vim нэмэлт|: <a href="https://github.com/Valloric/YouCompleteMe">https://github.com/Valloric/YouCompleteMe</a></li>
+</ul>
+
+
+<p>Гэх мэтээр хайвал зѳндѳѳ бий.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Command Line]]></title>
+    <link href="http://cadil.github.io/blog/2016/01/04/command-line/"/>
+    <updated>2016-01-04T20:37:57+08:00</updated>
+    <id>http://cadil.github.io/blog/2016/01/04/command-line</id>
+    <content type="html"><![CDATA[<p>Руби дээр ажиллаж байх үед терминалтай бол байнга ажиллана шүү. Тийм ч болохоор GUI зѳвхѳн Rails application бичиж байгаа бид бүхэнд зориулж хангалттай олон нэмэлтүүдыг гаргасаар байгаа. Хэрвээ терминал дээр ажиллаж мэдэхгүй бол анхан шатны хэдэн коммандуудын үүргийг тайлбарлан бичсэн байгаа. Тогтоогоод авахыг бодоороой, энэ коммандуудыг ер нь ѳдѳр болгон ашиглах болохоор.</p>
+
+<!-- more -->
+
+
+<h4>SUDO Kомманд</h4>
+
+<p>Дийлэнх комманд нь sudo - оор эхэлдэг. <strong>SUDO</strong> буюу superuserdo нь тухайн роот хэрэглэгчийн бүрэн эрхийг идэвхжүүлэх, тухайн роот хэрэглэгчийн фолдер, файлыг бүрэн эрхтэйгээр удирдах эрх олгож байгаа юм. Sudo коммандыг ашиглах үѳд гараас хэрэглэгчийн нууц үгийг оруулж ѳгѳх ёстой.</p>
+
+<h4>Файл болон Зам (Directory)</h4>
+
+<ol>
+<li><p>Долгионтой тэмдэгт (~) ээр home directory-г илэрхийлнэ. Xэрэглэгч буюу user, долгионтой тэмдэгт (~) харагдаж байвал /home/user directory-д байна гэсэн үг.</p></li>
+<li><p><strong>pwd</strong>: Энэ коммандын тусламжтайгаар аль directory-д байгаагаа мэдэж болно. Нэг үгээр бол замыг хэвлэн дэлгэцэнд харуулна. Жишээлбэл: Desktop directory дотор pwd комманд бичсэн гэж үзэхэд “~/Desktop” гэснийг терминал дээр хэвлэн харуулах юм. </p></li>
+<li><p><strong>ls</strong>: Directory дотор байгаа файлуудын list буюу нэрс, агуулгыг харуулна. ls -ын араас ѳѳр коммандууд ашиглан, тухайн directory дотор байгаа файлуудын хэмжээ, тѳрѳл, үүссэн огноо гэх мэт дэлгэрэнгүй мэдээллийг харах боломж бий.</p></li>
+<li><p><strong>cd</strong>: Тухайн directory - чиглэлыг ѳѳрчлѳх, нэг directory-гоос нѳгѳѳ directory уруу орох ерѳнхий үүрэгтэй.
+ </p>
+
+<ul>
+<li>root directory уруу хандах үѳд “cd /”</li>
+<li>home directory уруу хандах үед “cd” эсвэл “cd ~”</li>
+<li>Нэг алхамаар урагшлах үѳд “cd ..”</li>
+<li>Ѳмнѳх directory уруу буцах үед “cd -”</li>
+</ul>
+</li>
+<li><p><strong>cp</strong>: Файлыг хуулах, copy хийх үүрэг гүйцэтгэнэ. Жишээлбэл: “cp file foo” нь file - хуулах үйлдэл хийн хуулж байгаа файлдаа “foo” нэртэй нэр ѳгч байна. Directory, copy хийх гэж байгаа бол “cp -r directory foo” (рекурс хуулах). Рекурс нь ямар учиртай вэ? Directory-г хуулах үѳд бүх файлуудыг нь хуулах үйлдийг давтах гэх мэтээр…</p></li>
+<li><p><strong>mv</strong>: Файлыг ѳѳр байршил уруу шилжүүлэх мѳн нэр ѳѳрчлѳх үүрэгтэй. Жишээлбэл: “mv file foo” нь file - ын нэрийг foo болгон ѳѳрчилж байна. “mv foo ~/Desktop” комманд нь foo нэртэй файлыг Desktop Directory уруу шилжүүлж байна. </p></li>
+<li><p><strong>rm</strong>: Энэхүү коммандыг ашиглан файл усгтаж болно. Жишээлбэл: “rm -f user/desktop/foo” нь user-ын Desktop directory-гоос force-оор foo файлыг устгаж байна.</p></li>
+<li><p><strong>rmdir</strong>: Хоосон directory-г устгах үед ашиглана. Харин дотроо файл болон контент агуулагдаж байгаа directory-г устгахын тулд “rm -r” коммандыг ашиглана.</p></li>
+<li><p><strong>mkdir</strong>: Шинээр directory үүсгэх үүрэгтэй. Жишээлбэл: “mkdir music” нь music нэртэй directory үүсгэж байна.</p></li>
+<li><p><strong>man</strong>: Ѳѳр бусад коммандуудын хэрэглэх аргачлал, зааврыг харуулна. Жишээлбэл: “man man” гэж бичихэд man коммандыг үүрэг, хэрхэн ашиглах гэх мэт document гарч ирнэ. </p></li>
+<li><p><strong>sudo</strong>: Зѳвхѳн Root user - д зѳвшѳѳрѳл олгох үүрэгтэй. Жишээлбэл: home directory-гын гаднаас файл хуулах шаардлага гарлаа гэж бодоё. “mv /mydoc.odt ~/Documents/mydoc.odt” гэж бичин гэж бодож байвал энэ нь буруу юм. Яагаад гэвэл home directory - гын гаднаас юм оруулах зѳвшѳѳрѳл бидэнд байхгүй байгаад юм. Харин “sudo mv /mydoc.odt ~/Documents/mydoc.odt” гэж бичиж ѳгснѳѳр бүгд хэвийн ажиллана. sudo коммандыг ашиглаж байгаа үѳд болгоомжтой байх нь чухал. Root user - ээр хандаж байгаа үѳд system - ээ ч гэмтээх магадал бий болохоор.</p></li>
+</ol>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[PostgreSQL тохиргоо]]></title>
+    <link href="http://cadil.github.io/blog/2016/01/04/postgresql-tokhirghoo/"/>
+    <updated>2016-01-04T20:33:42+08:00</updated>
+    <id>http://cadil.github.io/blog/2016/01/04/postgresql-tokhirghoo</id>
+    <content type="html"><![CDATA[<p>Шинэ repository-г нэмж ѳгѳѳд Postgre 9.3 суулгана:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo sh -c "echo 'deb http://apt.postgresql.org/pub/repos/apt/ precise-pgdg main' &gt; /etc/apt/sources.list.d/pgdg.list"
+</span><span class='line'>wget --quiet -O - http://apt.postgresql.org/pub/repos/apt/ACCC4CF8.asc | sudo apt-key add -
+</span><span class='line'>sudo apt-get update
+</span><span class='line'>sudo apt-get install postgresql-common
+</span><span class='line'>sudo apt-get install postgresql-9.3 libpq-dev</span></code></pre></td></tr></table></div></figure>
+
+
+<!-- more -->
+
+
+<p>Postgre-г суулгах явцад <code>user</code> тохиргоог хийж ѳгѳхгүй. Тийм болохоор дээр зааврын дагуу хийж тохиргоогоо хийгээрэй. <code>chris</code> - оронд ѳѳрийн нэрийг бичин гэж бодох хэрэгтэй.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo -u postgres createuser chris -s
+</span><span class='line'># User-т нууц үгтэй хиймээр байна уу? Доорк коммандыг дагаад хийнэ үү.
+</span><span class='line'>sudo -u postgres psql
+</span><span class='line'>postgres=# \password chris</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[MySQL тохиргоо]]></title>
+    <link href="http://cadil.github.io/blog/2016/01/04/mysql-tokhirghoo/"/>
+    <updated>2016-01-04T20:30:44+08:00</updated>
+    <id>http://cadil.github.io/blog/2016/01/04/mysql-tokhirghoo</id>
+    <content type="html"><![CDATA[<p>MySQL server болон client суулгая:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo apt-get install mysql-server mysql-client libmysqlclient-dev</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Суулгах явцад root user - ын нууц үгийг шинээр үүсгэж ѳгнѳ.
+<code>libmysqlclient-dev</code> - ыг суулгаж ѳгснѳѳр mysql2 gem - ыг compile хийж Райлс аппд MySQL-ыг холбох тохиргоог хийж ѳгѳх юм.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Райлс болон Ѳгѳгдлийн сан]]></title>
@@ -25,14 +408,17 @@
 
 <blockquote><p>Ѳѳрийн хувийн Rails API Documentation үүсгэх</p>
 
-<p>Local орчинд ѳѳрийн Rails API Documentation үүсгэх боломжтой юм.  Маш энгийн, доорх командыг ѳѳрийн терминал дээр бичихэд л хангалттай.
-<code>
-ails_apps&gt; rails new dummy_app
-rails_apps&gt; cd dumny_app
-dumny_app&gt; rake doc:rails
-</code></p>
+<p>Local орчинд ѳѳрийн Rails API Documentation үүсгэх боломжтой юм.  Маш энгийн, доорх командыг ѳѳрийн терминал дээр бичихэд л хангалттай.</p></blockquote>
 
-<p>Хамгийн сүүлд бичсэн мѳр бага зэрэг хугацаа авна. Уншиж дуусмагц, Rails API Documentation нь doc/api гэсэн directory tree үүснэ. Нэг зѳвѳлгѳѳ хэлэхэд уг directory-г ѳѳрийн desktop уруу хуулаад dumnуapp tree -г устгах нь зүйтэй. </p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rails_apps&gt; rails new dummy_app
+</span><span class='line'>rails_apps&gt; cd dumny_app
+</span><span class='line'>dumny_app&gt; rake doc:rails</span></code></pre></td></tr></table></div></figure>
+
+
+<blockquote><p>Хамгийн сүүлд бичсэн мѳр бага зэрэг хугацаа авна. Уншиж дуусмагц, Rails API Documentation нь doc/api гэсэн directory tree үүснэ. Нэг зѳвѳлгѳѳ хэлэхэд уг directory-г ѳѳрийн desktop уруу хуулаад dumnуapp tree -г устгах нь зүйтэй. </p>
 
 <p>Rails API Documentation - хандах бол browser дээрээс doc/apo/index.html хаягаар орох боломжтой. </p></blockquote>
 
@@ -69,7 +455,7 @@ dumny_app&gt; rake doc:rails
 <!-- more -->
 
 
-<p>YOUR NAME, <a href="&#109;&#97;&#x69;&#108;&#x74;&#111;&#58;&#89;&#79;&#85;&#82;&#x40;&#69;&#77;&#65;&#73;&#76;&#46;&#67;&#x4f;&#x4d;">&#89;&#x4f;&#x55;&#x52;&#64;&#69;&#77;&#x41;&#x49;&#x4c;&#x2e;&#x43;&#x4f;&#x4d;</a> оронд ѳѳрийн нэр, майл хаягаа бичнэ.</p>
+<p>YOUR NAME, <a href="&#109;&#x61;&#x69;&#x6c;&#116;&#x6f;&#58;&#x59;&#x4f;&#x55;&#82;&#64;&#x45;&#77;&#65;&#73;&#76;&#x2e;&#67;&#79;&#77;">&#89;&#79;&#85;&#82;&#x40;&#x45;&#77;&#x41;&#73;&#x4c;&#46;&#67;&#79;&#x4d;</a> оронд ѳѳрийн нэр, майл хаягаа бичнэ.</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>

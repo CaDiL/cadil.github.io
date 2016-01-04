@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Rails | CaDiL's blog]]></title>
+  <link href="http://cadil.github.io/blog/categories/rails/atom.xml" rel="self"/>
+  <link href="http://cadil.github.io/"/>
+  <updated>2016-01-04T21:10:46+08:00</updated>
+  <id>http://cadil.github.io/</id>
+  <author>
+    <name><![CDATA[CaDiL]]></name>
+    <email><![CDATA[kkhoschuluu@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Шинээр апплейкшн үүсгэх]]></title>
+    <link href="http://cadil.github.io/blog/2016/01/04/shineer-applieikshn-uusghekh/"/>
+    <updated>2016-01-04T20:56:26+08:00</updated>
+    <id>http://cadil.github.io/blog/2016/01/04/shineer-applieikshn-uusghekh</id>
+    <content type="html"><![CDATA[<p>Шинээр райлс апплейкшн create хийхийн ѳмнѳ бид эхлэл хэсгээсээ эхлээд зохион байгуулал, эмх цэгцтэй байх хэрэгтэй. <strong>Work</strong> гэсэн нэртэй <strong> шинэ directory </strong> үүсгэнэ. Энэ <strong> work </strong> гэсэн directory дотор тѳслүүдээ шинээр үүсгээд явбал эмх цэгцтэй, амар юм. Work - дотор demo гэсэн райлс аппклейкшн үүсгэцгээе.</p>
+
+<!-- more -->
+
+
+<pre><code>rubys&gt; mkdir work
+rubys&gt; cd work
+work&gt; rails new demo
+create
+create README.rdoc
+create Rakefile
+create config.ru
+    :   :   :   :
+create vendor/assets/stylesheets
+create vendor/assets/stylesheets/.keep
+   run bundle install
+Fetching gem metadata from https://rubygems.rog/.......
+    :   :   :   :
+Your bundle is complete!
+Use 'bundle show [gemname]' to see where a bundled gem is installed
+work&gt;
+</code></pre>
+
+<p>Дээр бичигдсэн <strong> rails new demo</strong> коммандаар бид <strong>demo</strong> нэртэй <strong> directory</strong> үүсгэлээ. Терминал доошоогоо subdirectory болон олон шинэ файлуудыг автомотаар default - аар үүсгэж ѳгѳв.
+<code>
+work&gt; cd demo
+demo&gt; ls -p
+app/  config/  db/  Gemfile.lock log/  Rakefile  test/   vendor/
+bin/  config.ru  Gemfile lib/    public/  README.rdoc  tmp/
+</code>
+Гэх мэтээр directory - ууд үүсгэх ба энэхүү chapter - т бид эдгээрийг ашиглах шаардлага одооогоор гарахгүй ба зѳвхѳн app/ directory-д ѳѳрсдийн кодоо бичих нэмж оруулах юм.</p>
+
+<p>Доорх коммандаар дэлгэрэнгүй мэдээлэл авах боломжтой:
+<code>
+demo&gt; rake about
+</code>
+Мѳн дээрх кодоор алдаа хайж болдог ба жишээ нь JavaScript runtime  - олдохгүй байгаа бол алдааны мэдээлэл гаргаж боломжит линкүүдээс татаж авах хүсэлт ирүүлнэ.</p>
+
+<p><strong>rake about</strong> - аар алдаа илэрээгүй бол цааш үргэлжүүлцгээе. Одоо юу хийх хэрэгтэй вэ гэхээр Stand-alone Web server - ыг асаахад л болно. Ингэж server асааж байж л бид шинээр үүсгэсэн райлс аппклейншаа ажиллуулах юм.</p>
+
+<pre><code>demo&gt; rails server
+=&gt; Booting WEBrick
+=&gt; Rails 4.0.0 application starting in development on http://0.0.0.0:30000
+=&gt; Run 'rails server -h' for more startup options
+=&gt; Ctrl+C to shutdown server
+[2013-04-18 20:22:16] INFO WEBrick 1.3.1
+[2013-04-18 20:22:16] INFO ruby 2.0.0 (2013-02-24) [x86_64-linux] 
+[2013-04-18 20:22:16] INFO WEBrick::HTTPServer#start: pid=25170 port=3000
+</code></pre>
+
+<p>Web Server нь ямар server суулгасан эсэхээс шалтгаалан ажиллах ба Ruby-гийн хувьд <strong>WEBrick server</strong> нь ruby-гийн цѳм нь болж ѳгсѳн нэг үгээр бол ruby-г илтгэж чадахаар нэгэн бүхэл хэсэг нь болсон сервер юм. Гэхдээ яах уу, ѳѳрийн дурын веб серверыг суулган Ruby on Rails тай хослуулан ажиллуулж болно. </p>
+
+<p>Доорк коммандыг ашиглан WEBrick-ыг хүчлэн (force) ажиллуулж болно.</p>
+
+<pre><code>demo&gt; rails server webtrick
+</code></pre>
+
+<p>Сервер асаасан код боксын хамгийн сүүлийн мѳрийг харвал server нь port:3000 дээр ассан байна. 0.0.0.0 гэсэн холболтыг авч үзвэл WEBrick нь тухайн address-д connection - д бүхэл талын зѳвшѳѳрлыг олгож байна гэж ойлгож болно. Ойлгогдохоор хэлбэл дурын browser дээр **<a href="http://localhost:3000**">http://localhost:3000**</a> address - аар хандан сервер рүү холбогдох юм.</p>
+
+<p>Сервер ээ асаагаад localhost-oos харж болж байна. Терминал дээр сервер дээр болж байгаа үйл явцыг tracking - хийх боломжтой юм.</p>
+
+<p>Ctrl + C - командыг ашиглан WEBrick-ыг унтраана. Гэхдээ одоохондоо битгий унтраагаарай бид цааш үргэлжлүүлэн явах болхлоор…</p>
+
+<p>Апплкейшнаа үүсгээд сервер ээ асаачихлаа, харин ерѳѳсѳѳ код бичсэнгүй ээ, тийм ээ? Дараагийн хэсгээс код уруу орцгооё!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Райлс болон Ѳгѳгдлийн сан]]></title>
+    <link href="http://cadil.github.io/blog/2016/01/04/rails-bolon-fghfghdliin-san/"/>
+    <updated>2016-01-04T19:59:34+08:00</updated>
+    <id>http://cadil.github.io/blog/2016/01/04/rails-bolon-fghfghdliin-san</id>
+    <content type="html"><![CDATA[<p>Райлс апплкейшнг ѳѳр database - тэй холбох гэж байгаа бол DB2, MySQL, Oracle, Postgres, Firefird болон SQL Server гэх мэтээр сонголтууд бий. SQLite 3 - ыг Райлс апплкейшнтэй холбож ашиглахын ѳмнѳ database driver суулгаж Library нь Райлсын database engine-тэй холбож ѳгѳх хэрэгтэй.</p>
+
+<!-- more -->
+
+
+<blockquote><p>Ѳѳрийн хувийн Rails API Documentation үүсгэх</p>
+
+<p>Local орчинд ѳѳрийн Rails API Documentation үүсгэх боломжтой юм.  Маш энгийн, доорх командыг ѳѳрийн терминал дээр бичихэд л хангалттай.</p></blockquote>
+
+<pre><code>rails_apps&gt; rails new dummy_app
+rails_apps&gt; cd dumny_app
+dumny_app&gt; rake doc:rails
+</code></pre>
+
+<blockquote><p>Хамгийн сүүлд бичсэн мѳр бага зэрэг хугацаа авна. Уншиж дуусмагц, Rails API Documentation нь doc/api гэсэн directory tree үүснэ. Нэг зѳвѳлгѳѳ хэлэхэд уг directory-г ѳѳрийн desktop уруу хуулаад dumnуapp tree -г устгах нь зүйтэй. </p>
+
+<p>Rails API Documentation - хандах бол browser дээрээс doc/apo/index.html хаягаар орох боломжтой. </p></blockquote>
+
+<p>Доорх лкнкүүдыг бид бүхэн ашиглах боломжтой ба дэлгэрэнгүй мэдээллийг тухайн цахим хаягаар орон шалгана уу:</p>
+
+<ul>
+<li>DB 2: <a href="http://raa.ruby-lang.org/project/ruby-db2">http://raa.ruby-lang.org/project/ruby-db2</a> эсвэл <a href="http://rubyforge.org/projects/rubyibm">http://rubyforge.org/projects/rubyibm</a></li>
+<li>Firebird: <a href="http://rubyforge.org/projects/fireruby/">http://rubyforge.org/projects/fireruby/</a></li>
+<li>MySQL: <a href="http://www.tmtm.org/en/mysql/ruby/">http://www.tmtm.org/en/mysql/ruby/</a></li>
+<li>Oracle: <a href="http://rubyforge.org/projects/ruby-oci8">http://rubyforge.org/projects/ruby-oci8</a></li>
+<li>Postgres: <a href="https://bitbucket.org/ged/ruby-pg/wiki/Home">https://bitbucket.org/ged/ruby-pg/wiki/Home</a></li>
+<li>SQL Server: <a href="https://github.com/rails-sqlserver">https://github.com/rails-sqlserver</a></li>
+<li>SQLLite: <a href="https://github.com/luislavena/sqlite3-ruby">https://github.com/luislavena/sqlite3-ruby</a></li>
+</ul>
+
+
+<p>Xэрхэн ѳгѳдлийн сан сонгож, тохиргоо хийх вэ?</p>
+
+<p>Райлсын default database нь sqllite3. Sqllite3 нь ашиглахад тохиромжгүй гэж үзэж байгаа бол арай саруул database болох MySQL, PostgreSQL - нарыг ашиглах нь оновчтой шийдэл болно.</p>
+
+<p>Дээрх хоёр нь мэдээлэл, аргачлалын хувьд олдоц ихтэй тул ашиглахад хялбар болов уу.</p>
+]]></content>
+  </entry>
+  
+</feed>

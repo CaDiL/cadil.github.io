@@ -1,6 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://cadil.github.io/blog/2016/01/04/hello/</loc>
+    <lastmod>2016-01-04T21:02:03+08:00</lastmod>
+  </url>
+  <url>
+    <loc>http://cadil.github.io/blog/2016/01/04/shineer-applieikshn-uusghekh/</loc>
+    <lastmod>2016-01-04T20:56:26+08:00</lastmod>
+  </url>
+  <url>
+    <loc>http://cadil.github.io/blog/2016/01/04/editor/</loc>
+    <lastmod>2016-01-04T20:52:42+08:00</lastmod>
+  </url>
+  <url>
+    <loc>http://cadil.github.io/blog/2016/01/04/git-version-control/</loc>
+    <lastmod>2016-01-04T20:50:07+08:00</lastmod>
+  </url>
+  <url>
+    <loc>http://cadil.github.io/blog/2016/01/04/dotfiles/</loc>
+    <lastmod>2016-01-04T20:46:39+08:00</lastmod>
+  </url>
+  <url>
+    <loc>http://cadil.github.io/blog/2016/01/04/command-line/</loc>
+    <lastmod>2016-01-04T20:37:57+08:00</lastmod>
+  </url>
+  <url>
+    <loc>http://cadil.github.io/blog/2016/01/04/postgresql-tokhirghoo/</loc>
+    <lastmod>2016-01-04T20:33:42+08:00</lastmod>
+  </url>
+  <url>
+    <loc>http://cadil.github.io/blog/2016/01/04/mysql-tokhirghoo/</loc>
+    <lastmod>2016-01-04T20:30:44+08:00</lastmod>
+  </url>
+  <url>
     <loc>http://cadil.github.io/blog/2016/01/04/rails-bolon-fghfghdliin-san/</loc>
     <lastmod>2016-01-04T19:59:34+08:00</lastmod>
   </url>
@@ -28,6 +60,33 @@
     <loc>http://cadil.github.io/blog/categories/git/</loc>
   </url>
   <url>
-    <loc>http://cadil.github.io/blog/categories/rails-database/</loc>
+    <loc>http://cadil.github.io/blog/categories/rails/</loc>
+  </url>
+  <url>
+    <loc>http://cadil.github.io/blog/categories/database/</loc>
+  </url>
+  <url>
+    <loc>http://cadil.github.io/blog/categories/mysql/</loc>
+  </url>
+  <url>
+    <loc>http://cadil.github.io/blog/categories/postgresql/</loc>
+  </url>
+  <url>
+    <loc>http://cadil.github.io/blog/categories/command-line/</loc>
+  </url>
+  <url>
+    <loc>http://cadil.github.io/blog/categories/terminal/</loc>
+  </url>
+  <url>
+    <loc>http://cadil.github.io/blog/categories/dotfile/</loc>
+  </url>
+  <url>
+    <loc>http://cadil.github.io/blog/categories/version-control/</loc>
+  </url>
+  <url>
+    <loc>http://cadil.github.io/blog/categories/editor/</loc>
+  </url>
+  <url>
+    <loc>http://cadil.github.io/blog/categories/new-application/</loc>
   </url>
 </urlset>
