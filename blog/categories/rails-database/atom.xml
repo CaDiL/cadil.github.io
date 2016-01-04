@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Rails, Database | CaDiL's blog]]></title>
+  <link href="http://cadil.github.io/blog/categories/rails-database/atom.xml" rel="self"/>
+  <link href="http://cadil.github.io/"/>
+  <updated>2016-01-04T20:08:59+08:00</updated>
+  <id>http://cadil.github.io/</id>
+  <author>
+    <name><![CDATA[CaDiL]]></name>
+    <email><![CDATA[kkhoschuluu@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Райлс болон Ѳгѳгдлийн сан]]></title>
+    <link href="http://cadil.github.io/blog/2016/01/04/rails-bolon-fghfghdliin-san/"/>
+    <updated>2016-01-04T19:59:34+08:00</updated>
+    <id>http://cadil.github.io/blog/2016/01/04/rails-bolon-fghfghdliin-san</id>
+    <content type="html"><![CDATA[<p>Райлс апплкейшнг ѳѳр database - тэй холбох гэж байгаа бол DB2, MySQL, Oracle, Postgres, Firefird болон SQL Server гэх мэтээр сонголтууд бий. SQLite 3 - ыг Райлс апплкейшнтэй холбож ашиглахын ѳмнѳ database driver суулгаж Library нь Райлсын database engine-тэй холбож ѳгѳх хэрэгтэй.</p>
+
+<blockquote><p>Ѳѳрийн хувийн Rails API Documentation үүсгэх</p>
+
+<p>Local орчинд ѳѳрийн Rails API Documentation үүсгэх боломжтой юм.  Маш энгийн, доорх командыг ѳѳрийн терминал дээр бичихэд л хангалттай.
+<code>
+rails_apps&gt; rails new dummy_app
+rails_apps&gt; cd dumny_app
+dumny_app&gt; rake doc:rails
+</code></p>
+
+<p>Хамгийн сүүлд бичсэн мѳр бага зэрэг хугацаа авна. Уншиж дуусмагц, Rails API Documentation нь doc/api гэсэн directory tree үүснэ. Нэг зѳвѳлгѳѳ хэлэхэд уг directory-г ѳѳрийн desktop уруу хуулаад dumnуapp tree -г устгах нь зүйтэй. </p>
+
+<p>Rails API Documentation - хандах бол browser дээрээс doc/apo/index.html хаягаар орох боломжтой. </p></blockquote>
+
+<p>Доорх лкнкүүдыг бид бүхэн ашиглах боломжтой ба дэлгэрэнгүй мэдээллийг тухайн цахим хаягаар орон шалгана уу:
+DB 2: [<a href="http://raa.ruby-lang.org/project/ruby-db2">http://raa.ruby-lang.org/project/ruby-db2</a>] эсвэл [<a href="http://rubyforge.org/projects/rubyibm">http://rubyforge.org/projects/rubyibm</a> ]
+Firebird: [<a href="http://rubyforge.org/projects/fireruby/">http://rubyforge.org/projects/fireruby/</a> ]
+MySQL: [<a href="http://www.tmtm.org/en/mysql/ruby/">http://www.tmtm.org/en/mysql/ruby/</a> ]
+Oracle: [<a href="http://rubyforge.org/projects/ruby-oci8">http://rubyforge.org/projects/ruby-oci8</a> ]
+Postgres: [<a href="https://bitbucket.org/ged/ruby-pg/wiki/Home">https://bitbucket.org/ged/ruby-pg/wiki/Home</a> ]
+SQL Server: [<a href="https://github.com/rails-sqlserver">https://github.com/rails-sqlserver</a> ]
+SQLLite: [<a href="https://github.com/luislavena/sqlite3-ruby">https://github.com/luislavena/sqlite3-ruby</a> ]</p>
+
+<p>Гурван ѳѳр тѳрлийн OS дээр рубю, райлс суулгах зааварчилгаа авлаа. Тэгвэл хэрхэн ѳгѳдлийн сан сонгож, тохиргоо хийх вэ?</p>
+
+<p>Райлсын default database нь sqllite3. Sqllite3 нь ашиглахад тохиромжгүй гэж үзэж байгаа бол арай саруул database болох MySQL, PostgreSQL - нарыг ашиглах нь оновчтой шийдэл болно.</p>
+
+<p>Дээрх хоёр нь мэдээлэл, аргачлалын хувьд олдоц ихтэй тул ашиглахад хялбар болов уу.</p>
+]]></content>
+  </entry>
+  
+</feed>
