@@ -125,11 +125,11 @@
 <h4>Rails болон Request URLs</h4>
 
 <p>Яг л бусад веб апплкейшнуудын адил, Rails application - ын URL хаягийг хэрэглэгчтэй холбож ѳгч байгаа холболт юм. Тухайн URL - руу хандах хүсэлт browser - ээс явуулахад ар талд нь мэдээж тухайн хүсэлтийг боловсруулан (апп кодууд), эргүүлэн хэрэглэгч рүү хүргэх юм.
-Туршаад үзье. <a href="http://localhost:3000/say/hello">http://localhost:3000/say/hello</a> - энэ хаяг руу хандалт хийгээд үзэцгээе. Үр дүнд нь иймэрхүү илэрцээр буцна:</p>
+Туршаад үзье. <a href="http://localhost:3000/say/hello">http://localhost:3000/say/hello</a> - энэ хаяг руу хандалт хийгээд үзэцгээе.</p>
 
 <h4>Бидний эхний action</h4>
 
-<p>Дээр байгаа зургийг харахад бол ер нь ойлгомжтой байна. URL - тай controller холбогдсон болохыг дээрх зурагнаас харагдаж байна. Дараагийн алхам маань дэлгэцэнд юу харуулах вэ гэх асуулт. Энэ хэсгээс л View орж ирж байгаа юм даа. Controller - шинээр үүсгэж байхдаа бид бүхэн ямар script ашиглаж байсныг санаж байна уу? Санахгүй байгаа бол эргүүлэн нэг хараарай. Тэр командаар терминал доошоо олон файл, directory үүссэн байхаа. Тэр дунд template файл буюу controller-ын views - үүссэн байгаа.. Үүннээс үзэхэд бид Say нэртэй controller үүсгэсэн. Тэгэхээр views маань app/view/say - directory-д байгаа юм.</p>
+<p>Дараагийн алхам маань дэлгэцэнд юу харуулах вэ гэх асуулт. Энэ хэсгээс л View орж ирж байгаа юм даа. Controller - шинээр үүсгэж байхдаа бид бүхэн ямар script ашиглаж байсныг санаж байна уу? Санахгүй байгаа бол эргүүлэн нэг хараарай. Тэр командаар терминал доошоо олон файл, directory үүссэн байхаа. Тэр дунд template файл буюу controller-ын views - үүссэн байгаа.. Үүннээс үзэхэд бид Say нэртэй controller үүсгэсэн. Тэгэхээр views маань app/view/say - directory-д байгаа юм.</p>
 
 <figure class='code'><figcaption><span>demo/app/views/say/hello.html.erb</span><a href='https://github.com/CaDiL/demo/blob/master/app/views/say/hello.html.erb'>link</a></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;h1&gt;</span>Hello from Rails!<span class="nt">&lt;/h1&gt;</span>
@@ -138,11 +138,11 @@
 
 <p>hello.html.erb - файлаа хадаглаад, browser - оо refresh хийгээд үзээрэй. Одоо ойлгосон байх, тийм үү.</p>
 
-<p>Дүгнээд нэг харахад, бид Rails Application Tree - гээс хоёр файлын утга, арга, үүрэг зэргийг судлаад эзэмшчихлээ. Controller  гэж юу болох талаар мэдэж авлаа, browser дээр template - modify хийж үзлээ. За тэгээд, Rails-ын шатлалыг харвал: controller нь app/controller дотор, views нь app/views гэсэн subdirectories дотор байрлаж байна. Доорк figure - тэй танилцаад ав:</p>
+<p>Дүгнээд нэг харахад, бид Rails Application Tree - гээс хоёр файлын утга, арга, үүрэг зэргийг судлаад эзэмшчихлээ. Controller  гэж юу болох талаар мэдэж авлаа, browser дээр template - modify хийж үзлээ. За тэгээд, Rails-ын шатлалыг харвал: controller нь app/controller дотор, views нь app/views гэсэн subdirectories дотор байрлаж байна.</p>
 
 <h4>Гол нь Dynamic</h4>
 
-<p>Апп гэж хэлэхэд хэцүү нэг энгийн static page - ямартай ч хийчихлээ. Бага зэрэг Dynamic болговол ямарав, орох болгонд хэдэн цаг болгж байгааг харуулдаг хэсэг нэмж ѳгцгѳѳе.
+<p>Апп гэж хэлэхэд хэцүү нэг энгийн static page ямартай ч хийчихлээ. Бага зэрэг Dynamic болговол ямарав, орох болгонд хэдэн цаг болж байгааг харуулдаг хэсэг нэмж ѳгцгѳѳе.
 Нэмэхийн тулд views-д байгаа template файлыг ѳѳрчлѳх хэрэгтэй. Цаг (Time) - харуулах string хэрэг болох юм. Үүнээс улбаалаад хоёр асуулт үүснэ. Нэгт, хэрхэн яаж Dynamic Content - оо одоо байгаа template - дээ нэмэх вэ? Хоёрт, цагаа хаанаа авах юм бэ?</p>
 
 <h4>Dynamic Content</h4>
