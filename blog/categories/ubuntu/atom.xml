@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ubuntu | CaDiL's blog]]></title>
   <link href="http://cadil.github.io/blog/categories/ubuntu/atom.xml" rel="self"/>
   <link href="http://cadil.github.io/"/>
-  <updated>2016-01-05T00:55:29+08:00</updated>
+  <updated>2016-01-05T01:13:56+08:00</updated>
   <id>http://cadil.github.io/</id>
   <author>
     <name><![CDATA[CaDiL]]></name>
@@ -73,7 +73,7 @@ sudo apt-get install mysql-server mysql-client libmysqlclient-dev
 <!-- more -->
 
 
-<p>YOUR NAME, <a href="&#x6d;&#x61;&#105;&#x6c;&#x74;&#x6f;&#58;&#x59;&#x4f;&#x55;&#82;&#64;&#x45;&#x4d;&#65;&#73;&#x4c;&#x2e;&#x43;&#x4f;&#x4d;">&#89;&#79;&#85;&#x52;&#x40;&#69;&#x4d;&#x41;&#x49;&#x4c;&#x2e;&#67;&#x4f;&#77;</a> оронд ѳѳрийн нэр, майл хаягаа бичнэ.
+<p>YOUR NAME, <a href="&#x6d;&#97;&#105;&#x6c;&#116;&#x6f;&#x3a;&#x59;&#79;&#x55;&#82;&#64;&#69;&#77;&#x41;&#73;&#x4c;&#46;&#67;&#x4f;&#x4d;">&#x59;&#79;&#85;&#82;&#x40;&#69;&#77;&#65;&#73;&#76;&#x2e;&#67;&#79;&#x4d;</a> оронд ѳѳрийн нэр, майл хаягаа бичнэ.
 <code>
 git config --global color.ui true
 git config --global user.name "YOUR NAME"
