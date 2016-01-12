@@ -50,55 +50,36 @@
 
 <time datetime="2016-01-04T21:02:03+08:00" pubdate data-updated="true">Jan 4th, 2016</time></div>
 	</div>
-	<div class="entry-content"><p>“Hello World” гэсэн үгийг хэвлэх энгийн апплкейшн бичиж үзэцгээе. Энэ хэсэгт номын 3-р хэсгийн үндсэн агуулга болох Model-View-Controller (MVC) суурь тавигдана.</p>
+	<div class="entry-content"><p>“Hello World” гэсэн үгийг хэвлэх энгийн апплкейшн бичиж үзэцгээе. Энэ хэсэгт <code>Model-View-Controller</code> (MVC) суурь тавигдана.</p>
 
 <!-- more -->
 
 
-<p>Rails нь MVC framework буюу тогтолцоо юм. Rails нь browser - ѳѳс ирэх хүсэлтүүдийг хүлээн авч controller-т ирсэн хүсэлтүүдийг декод (тайлж унших) хийх бѳгѳѳд уг болж байгаа процессыг action method гэж нэрлэдэг.</p>
+<p>Rails нь MVC framework буюу тогтолцоо юм. Rails нь browser - ѳѳс ирэх хүсэлтүүдийг хүлээн авч controller-т ирсэн хүсэлтүүдийг декод (тайлж унших) хийх бѳгѳѳд уг болж байгаа процессыг <code>action method</code> гэж нэрлэдэг.</p>
 
 <p>Rails - аас авах нэг сайн тал гэвэл дотоод холболтууд нь цэгцтэй, дэс дараалалтай ер нь хамгийн сайн бүтэцтэй. “Hello World” - энгийн апплкейшн бичихийн тулд Controller, View шинээр үүсгэж кодлоно. Мэдээж энэ хоёрыг холбож ѳгсѳн холбоос, зам (route) хэрэгтэй. Нэг зүйл дутаагаад байна уу даа, гэж бодож байж магадгүй. Model - ыг яагаад бичихгүй юм бэ гэж гайхаж байгаа байх, хариулт нь, бидний одоо бичиж энэхүү апплкейшн нь ямар нэг байдлаар Data ч юм уу ѳгѳгдлийн сантай холбогдохгүй болохоор Model-ыг шууд алгасая. Эхлээд Controller - оос эхэлцгээе.
-Шинээр апплейкшн үүсгэж байсан райлс командыг ашиглан одоогийн бяцхан тѳсѳл дотроо controller үүсгэх юм. rails generate - гэх энэ райлс командыг ашиглах ба цаашид бид rails g гэж товчилж бичиж явна шүү. Controller үүсгэж байгаа rails g - араас script бичиж ѳгѳх байгаа. За, “Say” гэсэн controller - үүсгэцгээе.</p>
+Шинээр апплейкшн үүсгэж байсан райлс командыг ашиглан одоогийн бяцхан тѳсѳл дотроо controller үүсгэх юм. rails generate - гэх энэ райлс командыг ашиглах ба цаашид бид <code>rails g</code> гэж товчилж бичиж явна шүү. Controller үүсгэж байгаа rails g - араас script бичиж ѳгѳх байгаа. За, “Say” гэсэн controller үүсгэцгээе.</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>demo&gt; rails g controller Say hello goodbye
-</span><span class='line'>create app/controllers/say_controller.rb
-</span><span class='line'> route  get "say/goodbye"
-</span><span class='line'> route  get "say/hello"
-</span><span class='line'>invoke  erb
-</span><span class='line'>create    app/views/say
-</span><span class='line'>create    app/views/say/hello.html.erb
-</span><span class='line'>create    app/views/say/goodbye.html.erb
-</span><span class='line'>invoke  test_unit
-</span><span class='line'>create    test/controllers/say_controller_test.rb
-</span><span class='line'>invoke  helper
-</span><span class='line'>create    app/helpers/say_helper.rb
-</span><span class='line'>invoke    test_unit
-</span><span class='line'>create      test/helpers/say_helper_test.rb
-</span><span class='line'>invoke  assets
-</span><span class='line'>invoke    coffee
-</span><span class='line'>create      app/assets/javascripts/say.js.coffee
-</span><span class='line'>invoke    scss
-</span><span class='line'>create      app/assets/stylesheets/say.css.scss</span></code></pre></td></tr></table></div></figure>
-
+<pre><code>demo&gt; rails g controller Say hello goodbye
+create app/controllers/say_controller.rb
+ route  get "say/goodbye"
+ route  get "say/hello"
+invoke  erb
+create    app/views/say
+create    app/views/say/hello.html.erb
+create    app/views/say/goodbye.html.erb
+invoke  test_unit
+create    test/controllers/say_controller_test.rb
+invoke  helper
+create    app/helpers/say_helper.rb
+invoke    test_unit
+create      test/helpers/say_helper_test.rb
+invoke  assets
+invoke    coffee
+create      app/assets/javascripts/say.js.coffee
+invoke    scss
+create      app/assets/stylesheets/say.css.scss
+</code></pre>
 
 <p>За terminal доошоогоо бас л баахан шинэ файл, directories үүсчихлээ дээ. Удахгүй эдгээр файлууд нь ямар учиртай болохыг зах зухаас нь онгичож үзэцгээнэ. Ямартай ч эхлээд чухлаас нь:</p>
 
@@ -120,16 +101,16 @@
 
 
 <p>Хоосон, ил хул, код байхгүй юм шиг санагдаж байна уу?
-Нѳгѳѳ гоё удамшил ороод ирсэн байгаа юм л даа. Энгийнээр бол SayController гэсэн class нь ApplicationController - оос удамшчихлаа гэж. Нэг ёсондоо автомотоор бүхий л default утгуудыг нь ѳѳртѳѳ авчихлаа гэсэн үг л дээ. Тэхээр дээр байгаа код юу хийж болох, эсвэл яг одоогоор ямар үүрэг гүйцэтгэж байна гэж хэдүүлээ ѳѳрсѳддѳѳ асуулт тавиад үзэцгээе. Одоогоор бол дээрх код юу ч хийхгүй, ямар ч үүрэггүй байгаа л гэсэн үг. Маш энгийн, бидэнд hello() бас goodbye() гэсэн хоёр хоосон (empty) action method - ууд л байна. Яагаад бас hello(), goodbye() гэсэн method гараад ирэв ээ, гэж гайхаж байгаа байх. Энэ хэсгийг ойлгохын тулд ѳѳр нэг хэсэг үрүү ѳндийж харахгүй бол болохгүй нь дээ. Rails Handles requests буюу ирж байгаа хүсэлтүүдийг зохицуулагч.</p>
+Нѳгѳѳ гоё удамшил ороод ирсэн байгаа юм л даа. Энгийнээр бол SayController гэсэн class нь ApplicationController - оос удамшчихлаа гэж. Нэг ёсондоо автомотоор бүхий л default утгуудыг нь ѳѳртѳѳ авчихлаа гэсэн үг л дээ. Тэхээр дээр байгаа код юу хийж болох, эсвэл яг одоогоор ямар үүрэг гүйцэтгэж байна гэж хэдүүлээ ѳѳрсѳддѳѳ асуулт тавиад үзэцгээе. Одоогоор бол дээрх код юу ч хийхгүй, ямар ч үүрэггүй байгаа л гэсэн үг. Маш энгийн, бидэнд <code>hello()</code> бас <code>goodbye()</code> гэсэн хоёр хоосон (empty) action method - ууд л байна. Яагаад бас hello(), goodbye() гэсэн method гараад ирэв ээ, гэж гайхаж байгаа байх. Энэ хэсгийг ойлгохын тулд ѳѳр нэг хэсэг үрүү ѳндийж харахгүй бол болохгүй нь дээ. Rails Handles requests буюу ирж байгаа хүсэлтүүдийг зохицуулагч.</p>
 
-<h4>Rails болон Request URLs</h4>
+<h1>Rails болон Request URLs</h1>
 
 <p>Яг л бусад веб апплкейшнуудын адил, Rails application - ын URL хаягийг хэрэглэгчтэй холбож ѳгч байгаа холболт юм. Тухайн URL - руу хандах хүсэлт browser - ээс явуулахад ар талд нь мэдээж тухайн хүсэлтийг боловсруулан (апп кодууд), эргүүлэн хэрэглэгч рүү хүргэх юм.
 Туршаад үзье. <a href="http://localhost:3000/say/hello">http://localhost:3000/say/hello</a> - энэ хаяг руу хандалт хийгээд үзэцгээе.</p>
 
-<h4>Бидний эхний action</h4>
+<h1>Бидний эхний action</h1>
 
-<p>Дараагийн алхам маань дэлгэцэнд юу харуулах вэ гэх асуулт. Энэ хэсгээс л View орж ирж байгаа юм даа. Controller - шинээр үүсгэж байхдаа бид бүхэн ямар script ашиглаж байсныг санаж байна уу? Санахгүй байгаа бол эргүүлэн нэг хараарай. Тэр командаар терминал доошоо олон файл, directory үүссэн байхаа. Тэр дунд template файл буюу controller-ын views - үүссэн байгаа.. Үүннээс үзэхэд бид Say нэртэй controller үүсгэсэн. Тэгэхээр views маань app/view/say - directory-д байгаа юм.</p>
+<p>Дараагийн алхам маань дэлгэцэнд юу харуулах вэ гэх асуулт. Энэ хэсгээс л <code>View</code> орж ирж байгаа юм даа. Controller - шинээр үүсгэж байхдаа бид бүхэн ямар script ашиглаж байсныг санаж байна уу? Санахгүй байгаа бол эргүүлэн нэг хараарай. Тэр командаар терминал доошоо олон файл, directory үүссэн байхаа. Тэр дунд template файл буюу controller-ын views - үүссэн байгаа.. Үүннээс үзэхэд бид Say нэртэй controller үүсгэсэн. Тэгэхээр views маань app/view/say - directory-д байгаа юм.</p>
 
 <figure class='code'><figcaption><span>demo/app/views/say/hello.html.erb</span><a href='https://github.com/CaDiL/demo/blob/master/app/views/say/hello.html.erb'>link</a></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;h1&gt;</span>Hello from Rails!<span class="nt">&lt;/h1&gt;</span>
@@ -140,15 +121,15 @@
 
 <p>Дүгнээд нэг харахад, бид Rails Application Tree - гээс хоёр файлын утга, арга, үүрэг зэргийг судлаад эзэмшчихлээ. Controller  гэж юу болох талаар мэдэж авлаа, browser дээр template - modify хийж үзлээ. За тэгээд, Rails-ын шатлалыг харвал: controller нь app/controller дотор, views нь app/views гэсэн subdirectories дотор байрлаж байна.</p>
 
-<h4>Гол нь Dynamic</h4>
+<h1>Гол нь Dynamic</h1>
 
 <p>Апп гэж хэлэхэд хэцүү нэг энгийн static page ямартай ч хийчихлээ. Бага зэрэг Dynamic болговол ямарав, орох болгонд хэдэн цаг болж байгааг харуулдаг хэсэг нэмж ѳгцгѳѳе.
 Нэмэхийн тулд views-д байгаа template файлыг ѳѳрчлѳх хэрэгтэй. Цаг (Time) - харуулах string хэрэг болох юм. Үүнээс улбаалаад хоёр асуулт үүснэ. Нэгт, хэрхэн яаж Dynamic Content - оо одоо байгаа template - дээ нэмэх вэ? Хоёрт, цагаа хаанаа авах юм бэ?</p>
 
-<h4>Dynamic Content</h4>
+<h1>Dynamic Content</h1>
 
-<p>Райлс дотор Dynamic загвар оруулах олон арга бий. Хамгийн ѳргѳн ашигладдаг нь за одоо заагаад ѳгье. Ruby кодыг Template - тэйгээ embed (зарим энэ мэт үгийг орчуулахгүйгээр шууд хэрэглээд явна, угаасаа ч орчуулдахааргүй үг) хийх юм. Тиймээс л бид template файлаа show.html.erb гэж хадагалсан юм. Html.erb гэсэн формат залгаж бичсэн шалтгаан нь ERB гэсэн системыг Rails ѳрѳгжүүлэн дэмжээд явна.
-ERB нь Ruby - ын нэгэн хэсэг болж суудаг ба суулгах энэ тэрээ зүйл дээр санаа зовоод байх хэрэггүй. Erb нь output - үүдыг хувирган юу ч хамаагүй болгож болдог. Энгийнээр бол &lt;%= and %> - гэх код нь Рубю кодоор танигдах хэдий ч үр дүнд нь string болон хѳрвүүлэгдэж байгаад л онцлог юм. Тэхээр &lt;% … %> уг кодын дотор л утга аа оруулаад ѳгѳхѳд л үр дүн нь хэвлэгдэх юм. Жишээ нь:</p>
+<p>Райлс дотор Dynamic загвар оруулах олон арга бий. Хамгийн ѳргѳн ашигладдаг нь за одоо заагаад ѳгье. Ruby кодыг Template - тэйгээ embed (зарим энэ мэт үгийг орчуулахгүйгээр шууд хэрэглээд явна, угаасаа ч орчуулдахааргүй үг) хийх юм. Тиймээс л бид template файлаа show.html.erb гэж хадагалсан юм. Html.erb гэсэн формат залгаж бичсэн шалтгаан нь <code>ERB</code> гэсэн системыг Rails ѳрѳгжүүлэн дэмжээд явна.
+ERB нь Ruby - ын нэгэн хэсэг болж суудаг ба суулгах энэ тэрээ зүйл дээр санаа зовоод байх хэрэггүй. Erb нь output - үүдыг хувирган юу ч хамаагүй болгож болдог. Энгийнээр бол <code>&lt;%= and %&gt;</code> - гэх код нь Рубю кодоор танигдах хэдий ч үр дүнд нь string болон хѳрвүүлэгдэж байгаад л онцлог юм. Тэхээр &lt;% … %> уг кодын дотор л утга аа оруулаад ѳгѳхѳд л үр дүн нь хэвлэгдэх юм. Жишээ нь:</p>
 
 <figure class='code'><figcaption><span>demo/app/views/say/hello.html.erb</span><a href='https://github.com/CaDiL/demo/blob/master/app/views/say/hello.html.erb'>link</a></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>

@@ -52,98 +52,65 @@
 	</div>
 	<div class="entry-content"><p>Шинээр райлс апплейкшн create хийхийн ѳмнѳ бид эхлэл хэсгээсээ эхлээд зохион байгуулал, эмх цэгцтэй байх хэрэгтэй. <strong>Work</strong> гэсэн нэртэй <strong> шинэ directory </strong> үүсгэнэ. Энэ <strong> work </strong> гэсэн directory дотор тѳслүүдээ шинээр үүсгээд явбал эмх цэгцтэй, амар юм. Work - дотор demo гэсэн райлс аппклейкшн үүсгэцгээе.</p>
 
-<!-- more -->
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rubys&gt; mkdir work
-</span><span class='line'>rubys&gt; cd work
-</span><span class='line'>work&gt; rails new demo
-</span><span class='line'>create
-</span><span class='line'>create README.rdoc
-</span><span class='line'>create Rakefile
-</span><span class='line'>create config.ru
-</span><span class='line'>    :   : :   :
-</span><span class='line'>create vendor/assets/stylesheets
-</span><span class='line'>create vendor/assets/stylesheets/.keep
-</span><span class='line'>   run bundle install
-</span><span class='line'>Fetching gem metadata from https://rubygems.rog/.......
-</span><span class='line'>  :   :   :   :
-</span><span class='line'>Your bundle is complete!
-</span><span class='line'>Use 'bundle show [gemname]' to see where a bundled gem is installed
-</span><span class='line'>work&gt;</span></code></pre></td></tr></table></div></figure>
-
+<pre><code>rubys&gt; mkdir work
+rubys&gt; cd work
+work&gt; rails new demo
+create
+create README.rdoc
+create Rakefile
+create config.ru
+    :   :   :   :
+create vendor/assets/stylesheets
+create vendor/assets/stylesheets/.keep
+   run bundle install
+Fetching gem metadata from https://rubygems.rog/.......
+    :   :   :   :
+Your bundle is complete!
+Use 'bundle show [gemname]' to see where a bundled gem is installed
+work&gt;
+</code></pre>
 
 <p>Дээр бичигдсэн <strong> rails new demo</strong> коммандаар бид <strong>demo</strong> нэртэй <strong> directory</strong> үүсгэлээ. Терминал доошоогоо subdirectory болон олон шинэ файлуудыг автомотаар default - аар үүсгэж ѳгѳв.</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>work&gt; cd demo
-</span><span class='line'>demo&gt; ls -p
-</span><span class='line'>app/  config/  db/  Gemfile.lock log/  Rakefile  test/   vendor/
-</span><span class='line'>bin/  config.ru  Gemfile lib/    public/  README.rdoc  tmp/</span></code></pre></td></tr></table></div></figure>
-
+<pre><code>work&gt; cd demo
+demo&gt; ls -p
+app/  config/  db/  Gemfile.lock log/  Rakefile  test/   vendor/
+bin/  config.ru  Gemfile lib/    public/  README.rdoc  tmp/
+</code></pre>
 
 <p>Гэх мэтээр directory - ууд үүсгэх ба энэхүү chapter - т бид эдгээрийг ашиглах шаардлага одооогоор гарахгүй ба зѳвхѳн app/ directory-д ѳѳрсдийн кодоо бичих нэмж оруулах юм.</p>
 
 <p>Доорх коммандаар дэлгэрэнгүй мэдээлэл авах боломжтой:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>demo&gt; rake about</span></code></pre></td></tr></table></div></figure>
-
+<pre><code>demo&gt; rake about
+</code></pre>
 
 <p>Мѳн дээрх кодоор алдаа хайж болдог ба жишээ нь JavaScript runtime  - олдохгүй байгаа бол алдааны мэдээлэл гаргаж боломжит линкүүдээс татаж авах хүсэлт ирүүлнэ.</p>
 
 <p><strong>rake about</strong> - аар алдаа илэрээгүй бол цааш үргэлжүүлцгээе. Одоо юу хийх хэрэгтэй вэ гэхээр Stand-alone Web server - ыг асаахад л болно. Ингэж server асааж байж л бид шинээр үүсгэсэн райлс аппклейншаа ажиллуулах юм.</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>demo&gt; rails server
-</span><span class='line'>=&gt; Booting WEBrick
-</span><span class='line'>=&gt; Rails 4.0.0 application starting in development on http://0.0.0.0:30000
-</span><span class='line'>=&gt; Run 'rails server -h' for more startup options
-</span><span class='line'>=&gt; Ctrl+C to shutdown server
-</span><span class='line'>[2013-04-18 20:22:16] INFO WEBrick 1.3.1
-</span><span class='line'>[2013-04-18 20:22:16] INFO ruby 2.0.0 (2013-02-24) [x86_64-linux] 
-</span><span class='line'>[2013-04-18 20:22:16] INFO WEBrick::HTTPServer#start: pid=25170 port=3000</span></code></pre></td></tr></table></div></figure>
-
+<pre><code>demo&gt; rails server
+=&gt; Booting WEBrick
+=&gt; Rails 4.0.0 application starting in development on http://0.0.0.0:30000
+=&gt; Run 'rails server -h' for more startup options
+=&gt; Ctrl+C to shutdown server
+[2013-04-18 20:22:16] INFO WEBrick 1.3.1
+[2013-04-18 20:22:16] INFO ruby 2.0.0 (2013-02-24) [x86_64-linux] 
+[2013-04-18 20:22:16] INFO WEBrick::HTTPServer#start: pid=25170 port=3000
+</code></pre>
 
 <p>Web Server нь ямар server суулгасан эсэхээс шалтгаалан ажиллах ба Ruby-гийн хувьд <strong>WEBrick server</strong> нь ruby-гийн цѳм нь болж ѳгсѳн нэг үгээр бол ruby-г илтгэж чадахаар нэгэн бүхэл хэсэг нь болсон сервер юм. Гэхдээ яах уу, ѳѳрийн дурын веб серверыг суулган Ruby on Rails тай хослуулан ажиллуулж болно. </p>
 
 <p>Доорк коммандыг ашиглан WEBrick-ыг хүчлэн (force) ажиллуулж болно.</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>demo&gt; rails server webtrick</span></code></pre></td></tr></table></div></figure>
-
+<pre><code>demo&gt; rails server webtrick
+</code></pre>
 
 <p>Сервер асаасан код боксын хамгийн сүүлийн мѳрийг харвал server нь port:3000 дээр ассан байна. 0.0.0.0 гэсэн холболтыг авч үзвэл WEBrick нь тухайн address-д connection - д бүхэл талын зѳвшѳѳрлыг олгож байна гэж ойлгож болно. Ойлгогдохоор хэлбэл дурын browser дээр **<a href="http://localhost:3000**">http://localhost:3000**</a> address - аар хандан сервер рүү холбогдох юм.</p>
 
-<p>Сервер ээ асаагаад localhost-oos харж болж байна. Терминал дээр сервер дээр болж байгаа үйл явцыг tracking - хийх боломжтой юм.</p>
+<p>Сервер ээ асаагаад localhost-oos харж болж байна. Терминал дээр сервер дээр болж байгаа үйл явцыг <code>tracking</code> - хийх боломжтой юм.</p>
 
-<p>Ctrl + C - командыг ашиглан WEBrick-ыг унтраана. Гэхдээ одоохондоо битгий унтраагаарай бид цааш үргэлжлүүлэн явах болхлоор…</p>
+<p><code>Ctrl + C</code> - командыг ашиглан WEBrick-ыг унтраана. Гэхдээ одоохондоо битгий унтраагаарай бид цааш үргэлжлүүлэн явах болхлоор…</p>
 
 <p>Апплкейшнаа үүсгээд сервер ээ асаачихлаа, харин ерѳѳсѳѳ код бичсэнгүй ээ, тийм ээ? Дараагийн хэсгээс код уруу орцгооё!</p>
 </div>

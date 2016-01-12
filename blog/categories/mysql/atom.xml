@@ -4,7 +4,7 @@
   <title><![CDATA[Category: mysql | CaDiL's blog]]></title>
   <link href="http://cadil.github.io/blog/categories/mysql/atom.xml" rel="self"/>
   <link href="http://cadil.github.io/"/>
-  <updated>2016-01-12T22:19:12+08:00</updated>
+  <updated>2016-01-12T22:43:14+08:00</updated>
   <id>http://cadil.github.io/</id>
   <author>
     <name><![CDATA[CaDiL]]></name>
@@ -18,12 +18,12 @@
     <link href="http://cadil.github.io/blog/2016/01/04/mysql-tokhirghoo/"/>
     <updated>2016-01-04T20:30:44+08:00</updated>
     <id>http://cadil.github.io/blog/2016/01/04/mysql-tokhirghoo</id>
-    <content type="html"><![CDATA[<p>MySQL server болон client суулгая:
-<code>
-sudo apt-get install mysql-server mysql-client libmysqlclient-dev
-</code></p>
+    <content type="html"><![CDATA[<p>MySQL server болон client суулгая:</p>
 
-<p>Суулгах явцад root user - ын нууц үгийг шинээр үүсгэж ѳгнѳ.
+<pre><code>sudo apt-get install mysql-server mysql-client libmysqlclient-dev
+</code></pre>
+
+<p>Суулгах явцад root <code>user</code> - ын нууц үгийг шинээр үүсгэж ѳгнѳ.
 <code>libmysqlclient-dev</code> - ыг суулгаж ѳгснѳѳр mysql2 gem - ыг compile хийж Райлс аппд MySQL-ыг холбох тохиргоог хийж ѳгѳх юм.</p>
 ]]></content>
   </entry>

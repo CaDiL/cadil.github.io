@@ -4,7 +4,7 @@
   <title><![CDATA[Category: rails | CaDiL's blog]]></title>
   <link href="http://cadil.github.io/blog/categories/rails/atom.xml" rel="self"/>
   <link href="http://cadil.github.io/"/>
-  <updated>2016-01-12T22:19:12+08:00</updated>
+  <updated>2016-01-12T22:43:14+08:00</updated>
   <id>http://cadil.github.io/</id>
   <author>
     <name><![CDATA[CaDiL]]></name>
@@ -19,9 +19,6 @@
     <updated>2016-01-04T20:56:26+08:00</updated>
     <id>http://cadil.github.io/blog/2016/01/04/shineer-applieikshn-uusghekh</id>
     <content type="html"><![CDATA[<p>Шинээр райлс апплейкшн create хийхийн ѳмнѳ бид эхлэл хэсгээсээ эхлээд зохион байгуулал, эмх цэгцтэй байх хэрэгтэй. <strong>Work</strong> гэсэн нэртэй <strong> шинэ directory </strong> үүсгэнэ. Энэ <strong> work </strong> гэсэн directory дотор тѳслүүдээ шинээр үүсгээд явбал эмх цэгцтэй, амар юм. Work - дотор demo гэсэн райлс аппклейкшн үүсгэцгээе.</p>
-
-<!-- more -->
-
 
 <pre><code>rubys&gt; mkdir work
 rubys&gt; cd work
@@ -41,20 +38,22 @@ Use 'bundle show [gemname]' to see where a bundled gem is installed
 work&gt;
 </code></pre>
 
-<p>Дээр бичигдсэн <strong> rails new demo</strong> коммандаар бид <strong>demo</strong> нэртэй <strong> directory</strong> үүсгэлээ. Терминал доошоогоо subdirectory болон олон шинэ файлуудыг автомотаар default - аар үүсгэж ѳгѳв.
-<code>
-work&gt; cd demo
+<p>Дээр бичигдсэн <strong> rails new demo</strong> коммандаар бид <strong>demo</strong> нэртэй <strong> directory</strong> үүсгэлээ. Терминал доошоогоо subdirectory болон олон шинэ файлуудыг автомотаар default - аар үүсгэж ѳгѳв.</p>
+
+<pre><code>work&gt; cd demo
 demo&gt; ls -p
 app/  config/  db/  Gemfile.lock log/  Rakefile  test/   vendor/
 bin/  config.ru  Gemfile lib/    public/  README.rdoc  tmp/
-</code>
-Гэх мэтээр directory - ууд үүсгэх ба энэхүү chapter - т бид эдгээрийг ашиглах шаардлага одооогоор гарахгүй ба зѳвхѳн app/ directory-д ѳѳрсдийн кодоо бичих нэмж оруулах юм.</p>
+</code></pre>
 
-<p>Доорх коммандаар дэлгэрэнгүй мэдээлэл авах боломжтой:
-<code>
-demo&gt; rake about
-</code>
-Мѳн дээрх кодоор алдаа хайж болдог ба жишээ нь JavaScript runtime  - олдохгүй байгаа бол алдааны мэдээлэл гаргаж боломжит линкүүдээс татаж авах хүсэлт ирүүлнэ.</p>
+<p>Гэх мэтээр directory - ууд үүсгэх ба энэхүү chapter - т бид эдгээрийг ашиглах шаардлага одооогоор гарахгүй ба зѳвхѳн app/ directory-д ѳѳрсдийн кодоо бичих нэмж оруулах юм.</p>
+
+<p>Доорх коммандаар дэлгэрэнгүй мэдээлэл авах боломжтой:</p>
+
+<pre><code>demo&gt; rake about
+</code></pre>
+
+<p>Мѳн дээрх кодоор алдаа хайж болдог ба жишээ нь JavaScript runtime  - олдохгүй байгаа бол алдааны мэдээлэл гаргаж боломжит линкүүдээс татаж авах хүсэлт ирүүлнэ.</p>
 
 <p><strong>rake about</strong> - аар алдаа илэрээгүй бол цааш үргэлжүүлцгээе. Одоо юу хийх хэрэгтэй вэ гэхээр Stand-alone Web server - ыг асаахад л болно. Ингэж server асааж байж л бид шинээр үүсгэсэн райлс аппклейншаа ажиллуулах юм.</p>
 
@@ -77,9 +76,9 @@ demo&gt; rake about
 
 <p>Сервер асаасан код боксын хамгийн сүүлийн мѳрийг харвал server нь port:3000 дээр ассан байна. 0.0.0.0 гэсэн холболтыг авч үзвэл WEBrick нь тухайн address-д connection - д бүхэл талын зѳвшѳѳрлыг олгож байна гэж ойлгож болно. Ойлгогдохоор хэлбэл дурын browser дээр **<a href="http://localhost:3000**">http://localhost:3000**</a> address - аар хандан сервер рүү холбогдох юм.</p>
 
-<p>Сервер ээ асаагаад localhost-oos харж болж байна. Терминал дээр сервер дээр болж байгаа үйл явцыг tracking - хийх боломжтой юм.</p>
+<p>Сервер ээ асаагаад localhost-oos харж болж байна. Терминал дээр сервер дээр болж байгаа үйл явцыг <code>tracking</code> - хийх боломжтой юм.</p>
 
-<p>Ctrl + C - командыг ашиглан WEBrick-ыг унтраана. Гэхдээ одоохондоо битгий унтраагаарай бид цааш үргэлжлүүлэн явах болхлоор…</p>
+<p><code>Ctrl + C</code> - командыг ашиглан WEBrick-ыг унтраана. Гэхдээ одоохондоо битгий унтраагаарай бид цааш үргэлжлүүлэн явах болхлоор…</p>
 
 <p>Апплкейшнаа үүсгээд сервер ээ асаачихлаа, харин ерѳѳсѳѳ код бичсэнгүй ээ, тийм ээ? Дараагийн хэсгээс код уруу орцгооё!</p>
 ]]></content>
