@@ -4,7 +4,7 @@
   <title><![CDATA[Category: setup | CaDiL's blog]]></title>
   <link href="http://cadil.github.io/blog/categories/setup/atom.xml" rel="self"/>
   <link href="http://cadil.github.io/"/>
-  <updated>2016-01-05T01:27:29+08:00</updated>
+  <updated>2016-01-12T21:29:24+08:00</updated>
   <id>http://cadil.github.io/</id>
   <author>
     <name><![CDATA[CaDiL]]></name>
@@ -28,7 +28,7 @@
 <h4>Руби суулгах [2.2.3]</h4>
 
 <pre><code>sudo apt-get update
-sudo apt-get install git-core curl zlib1g-dev build-essential libssl-dev libreadline-dev libyaml-dev libsqlite3-dev sqlite3
+sudo apt-get install git-core curl zlib1g-dev build-essential libssl-dev libreadline-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev libcurl4-openssl-dev python-software-properties libffi-dev
 </code></pre>
 
 <p>Эхллэд зарим шаардлагатай зүйлсийг суулгана.
@@ -41,61 +41,55 @@ Ruby-г суулгах үндсэндээ 3 арга байдаг. Тус бүр
 </ul>
 
 
-<p>Хамгийн recommended арга нь rbenv, rvm хоёр юм. Энэ удаа rbenv аргаар ruby-г суулгана:
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>cd
-</span><span class='line'>git clone git://github.com/sstephenson/rbenv.git .rbenv
-</span><span class='line'>echo &lsquo;export PATH=&ldquo;$HOME/.rbenv/bin:$PATH&rdquo;&rsquo; &gt;&gt; ~/.bashrc
-</span><span class='line'>echo &lsquo;eval &ldquo;$(rbenv init -)&rdquo;&rsquo; &gt;&gt; ~/.bashrc
-</span><span class='line'>exec $SHELL
-</span><span class='line'>git clone git://github.com/sstephenson/ruby-build.git ~/.rbenv/
-</span><span class='line'>plugins/ruby-build
-</span><span class='line'>echo &lsquo;export PATH=&ldquo;$HOME/.rbenv/plugins/ruby-build/bin:$PATH&rdquo;&rsquo;&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;blockquote&gt;&lt;blockquote&gt;&lt;p&gt;~/.bashrc
-</span><span class='line'>exec $SHELL
-</span><span class='line'>git clone &lt;a href="https://github.com/sstephenson/rbenv-gem-rehash.git"&gt;https://github.com/sstephenson/rbenv-gem-rehash.git&lt;/a&gt;</span></code></pre></td></tr></table></div></figure>
-Rbenv арга нь энгийн хоёр алхамтай. Эхлээд rbenv-гээ суулгаад дараа нь ruby-build - ээ суулгана:</p></blockquote></blockquote>
+<p>Хамгийн recommended арга нь rbenv, rvm хоёр юм. Энэ удаа <code>rbenv</code> аргаар ruby-г суулгана.
+Rbenv арга нь энгийн хоёр алхамтай. Эхлээд <code>rbenv</code>-гээ суулгаад дараа нь <code>ruby-build</code> - ээ суулгана:</p>
 
-<p>Rubygems - ыг илүү дутуу documentation-гүйгээр суулгана:
-<code>
-echo "gem: --no-ri --no-rdoc" &gt; `~/.gemrc
-</code>
-Дараагаар нь Bundler суулгана:
-<code>
+<pre><code>cd
+git clone git://github.com/sstephenson/rbenv.git .rbenv
+echo 'export PATH="$HOME/.rbenv/bin:$PATH"' &gt;&gt; ~/.bashrc
+echo 'eval "$(rbenv init -)"' &gt;&gt; ~/.bashrc
+exec $SHELL
+
+git clone git://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
+echo 'export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"' &gt;&gt; ~/.bashrc
+exec $SHELL
+
+git clone https://github.com/sstephenson/rbenv-gem-rehash.git ~/.rbenv/plugins/rbenv-gem-rehash
+
+rbenv install 2.2.3
+rbenv global 2.2.3
+ruby -v
+</code></pre>
+
+<p>Rubygems - ыг илүү дутуу documentation-гүйгээр суулгана:</p>
+
+<pre><code>echo "gem: --no-ri --no-rdoc" &gt; ~/.gemrc
 gem install bundler
-</code></p>
+</code></pre>
 
 <h4>Rails суулгах [4.2.4]</h4>
 
-<p>Райлсыг суулгахын ѳмнѳ нь NodeJS суулгана:
-<code>
-`sudo add-apt-repository ppa:chris-lea/node.js `
-`sudo apt-get update `
-</code>
-Райлсаа суулгая:
-<code>
-gem install rails -v 4.2.4 `
-</code>
-Райлс суусан эсэхийг шалгах:
-<code>
-rbenv rehash
-</code>
-Rails -v коммандыг ашиглан яг бүрэн суусан эсэхийг шалгая:
-<code>
-rails -v
-</code></p>
+<p>Rails суулгахын ѳмнѳ <code>NodeJS</code> суулгана:</p>
+
+<pre><code>curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
+sudo apt-get install -y nodejs
+</code></pre>
+
+<p>Rails суулгая:</p>
+
+<pre><code>gem install rails -v 4.2.4
+</code></pre>
+
+<p>Rails суусан эсэхийг шалгах:</p>
+
+<pre><code>rbenv rehash
+</code></pre>
+
+<p>Rails -v коммандыг ашиглан яг бүрэн суусан эсэхийг шалгая:</p>
+
+<pre><code>rails -v
+# Rails 4.2.4
+</code></pre>
 ]]></content>
   </entry>
   
