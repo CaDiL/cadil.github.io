@@ -4,7 +4,7 @@
   <title><![CDATA[CaDiL's blog]]></title>
   <link href="http://cadil.github.io/atom.xml" rel="self"/>
   <link href="http://cadil.github.io/"/>
-  <updated>2016-01-12T21:29:24+08:00</updated>
+  <updated>2016-01-12T22:19:12+08:00</updated>
   <id>http://cadil.github.io/</id>
   <author>
     <name><![CDATA[CaDiL]]></name>
@@ -447,38 +447,33 @@ ERB нь Ruby - ын нэгэн хэсэг болж суудаг ба суулг
     <id>http://cadil.github.io/blog/2016/01/03/git</id>
     <content type="html"><![CDATA[<h3>Git for Ubuntu</h3>
 
-<p>Git-ыг сая суулгасан Руби 2.2.3-ын удирдах систем хэлбэрээр ашиглана . Тиймээс ѳѳрийн github аккоунттайгаа холбох хэрэгтэй. Аккоунт байхгүй бол <a href="https://github.com">https://github.com</a> - орж бүртгүүлээрэй.</p>
+<p>Git-ыг сая суулгасан Руби 2.2.3-ын удирдах систем хэлбэрээр ашиглана . Тиймээс ѳѳрийн github аккоунттайгаа холбох хэрэгтэй. Аккоунт байхгүй бол <a href="https://github.com">Github</a> - орж бүртгүүлээрэй.</p>
 
 <!-- more -->
 
 
-<p>YOUR NAME, <a href="&#x6d;&#x61;&#x69;&#108;&#116;&#111;&#58;&#89;&#x4f;&#x55;&#x52;&#64;&#x45;&#77;&#x41;&#73;&#x4c;&#x2e;&#67;&#79;&#77;">&#x59;&#79;&#85;&#x52;&#x40;&#x45;&#77;&#65;&#x49;&#76;&#x2e;&#67;&#x4f;&#77;</a> оронд ѳѳрийн нэр, майл хаягаа бичнэ.</p>
+<p><code>YOUR NAME</code>, <code>YOUR@EMAIL.COM</code> оронд ѳѳрийн нэр, майл хаягаа бичнэ.</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>git config --global color.ui true
-</span><span class='line'>git config --global user.name "YOUR NAME"
-</span><span class='line'>git config --global user.email "YOUR@EMAIL.com"</span></code></pre></td></tr></table></div></figure>
+<pre><code>git config --global color.ui true
+git config --global user.name "YOUR NAME"
+git config --global user.email "YOUR@EMAIL.com"
+ssh-keygen -t rsa -C "YOUR@EMAIL.com"
+</code></pre>
 
+<p>Шинээр үүссэн <code>SSH key</code> - ыг ѳѳрийн <code>github account</code> - д хуулж ѳгнѳ. Copy хийсэн бол SSH Key-ээ <a href="https://github.com/settings/ssh">энд</a> хуулна.</p>
 
-<p>Шинээр үүссэн SSH key - ыг ѳѳрийн github - д хуулж ѳгнѳ. Copy хийсэн бол SSH Key-ээ энд -> <a href="https://github.com/settings/ssh">https://github.com/settings/ssh</a> хуулна.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>cat `~/.ssh/id_rsa.pub </span></code></pre></td></tr></table></div></figure>
-
+<pre><code>cat ~/.ssh/id_rsa.pub
+</code></pre>
 
 <p>Хуулсан бол ажиллаж байгаа эсэхийг нь check хийж үзье:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>ssh -T git@github.com</span></code></pre></td></tr></table></div></figure>
-
+<pre><code>ssh -T git@github.com
+</code></pre>
 
 <p>Ийм message гарч ирэх ёстой.</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Hi excid3! You've successfully authenticated, but GitHub</span></code></pre></td></tr></table></div></figure>
-
+<pre><code>Hi excid3! You've successfully authenticated, but GitHub does not provide shell access.
+</code></pre>
 ]]></content>
   </entry>
   
@@ -487,14 +482,7 @@ ERB нь Ruby - ын нэгэн хэсэг болж суудаг ба суулг
     <link href="http://cadil.github.io/blog/2016/01/03/ruby-on-rails-setup/"/>
     <updated>2016-01-03T21:22:17+08:00</updated>
     <id>http://cadil.github.io/blog/2016/01/03/ruby-on-rails-setup</id>
-    <content type="html"><![CDATA[<h3>Ubuntu орчинд суулгах</h3>
-
-<p>Убунтуг ашиглаж байгаа шалтгаан нь бичсэн кодны чинь дийлэнх ху   вь нь Linux Сервер дээр ажилладаг. Убунту нь Linux-ын бусад OS дундаас ашиглахад хамгийн хялбар бѳгѳѳд олон талын нэмэлт боломжуудтай.</p>
-
-<!-- more -->
-
-
-<h4>Руби суулгах [2.2.3]</h4>
+    <content type="html"><![CDATA[<h1>Руби суулгах [2.2.3]</h1>
 
 <pre><code>sudo apt-get update
 sudo apt-get install git-core curl zlib1g-dev build-essential libssl-dev libreadline-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev libcurl4-openssl-dev python-software-properties libffi-dev
@@ -536,7 +524,7 @@ ruby -v
 gem install bundler
 </code></pre>
 
-<h4>Rails суулгах [4.2.4]</h4>
+<h1>Rails суулгах [4.2.4]</h1>
 
 <p>Rails суулгахын ѳмнѳ <code>NodeJS</code> суулгана:</p>
 
