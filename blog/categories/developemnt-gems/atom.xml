@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: gem | CaDiL's blog]]></title>
-  <link href="http://cadil.github.io/blog/categories/gem/atom.xml" rel="self"/>
+  <title><![CDATA[Category: developemnt gems | CaDiL's blog]]></title>
+  <link href="http://cadil.github.io/blog/categories/developemnt-gems/atom.xml" rel="self"/>
   <link href="http://cadil.github.io/"/>
   <updated>2016-04-13T22:08:19+09:00</updated>
   <id>http://cadil.github.io/</id>
@@ -138,79 +138,6 @@ end
 
 
 <p>```</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Devise gem]]></title>
-    <link href="http://cadil.github.io/blog/2016/04/12/devise-gem/"/>
-    <updated>2016-04-12T21:03:10+09:00</updated>
-    <id>http://cadil.github.io/blog/2016/04/12/devise-gem</id>
-    <content type="html"><![CDATA[<h1>Devise Gem</h1>
-
-<p>Devise нь Rails дээр суурилсан уян хатан <code>authentication</code> шийдлийн нэг юм.</p>
-
-<ul>
-<li>Rack дээр суурилсан</li>
-<li>Rails engine дээр суурилсан бүрэн MVC шийдэл юм</li>
-<li>Нэг цагт олон моделиуд зэрэг хандалт хийх боломжтой</li>
-</ul>
-
-
-<h1>Инфо</h1>
-
-<p>Devise ѳргѳн ашиглагддаг gem болохоор internet-ээс хайхад хүссэн мэдээллээ авах боломжтой. Доорх линкээр орон мэдээлэл авах боломжтой: <a href="https://github.com/plataformatec/devise">Devise</a></p>
-
-<h1>Эхлэл</h1>
-
-<p>Devise 4.0 нь Rails 4.2 болон 4.2 дээшээ загваруудыг дэмжин ажиллана. Gemfile дотор хуулж ѳгѳх:
-<code>
-gem 'devise'
-</code></p>
-
-<p>Хуулсан бол <code>bundle install</code> командыг ашиглан суулгана:
-<code>
-bundle install
-</code></p>
-
-<p>Gemfile дотроо хуулан bundle install хийсэн бол <code>generate</code> хийн суулгах хэрэгтэй:
-<code>
-rails generate devise:install
-</code></p>
-
-<p>Generate хийх явцад тохиргооны хэсэг гарч ирэх ба тэдгээрийг зааврын дагуу суулгах шаардлагатай. Тохиргоог хийж дууссан бол generate ашиглан Devise-д <code>модель</code> үүсгэж ѳгнѳ:
-<code>
-rails generate devise MODEL
-</code></p>
-
-<p><code>MODEL</code> - ын оронд апплкейшны хэрэглэгчийн классын нэрийг бичиж ѳгнѳ. Уг тохиолдолд <code>User</code> эсвэл <code>Admin</code> байж болно. Модель үүсгэсэн бол <code>rake db:migrate</code> хийж ѳгнѳ
-<code>
-rake db:migrate
-</code></p>
-
-<h1>Helper</h1>
-
-<p>Devise нь controller болон views дотор <code>helper</code> үүсгэж ѳгсѳн байгаа. Controller хэсэгт user authentication оруулж ѳгѳх бол before_action (тухайн моделийг User гэж үзвэл)
-<code>
-before_action :authenticate_user!
-</code></p>
-
-<p>Devise model - т User - ээс ѳѳр утга оноож ѳгсѳн бол <code>“_user”</code> оронд <code>“_ѳѳрийн утга”</code>аа онож ѳгѳх зарчмаар явна.</p>
-
-<p>Хэрэглэгч бүртгүүлсэн болохыг шалгах helper:
-<code>
-user_signed_in?
-</code></p>
-
-<p>Одоогоор нэвтрэн орсон хэрэглэгч:
-<code>
-current_user
-</code></p>
-
-<p>Session рүү энэ хүрээллээр нэвтрэх боломжтой:
-<code>
-user_session
-</code></p>
 ]]></content>
   </entry>
   

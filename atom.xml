@@ -4,7 +4,7 @@
   <title><![CDATA[CaDiL's blog]]></title>
   <link href="http://cadil.github.io/atom.xml" rel="self"/>
   <link href="http://cadil.github.io/"/>
-  <updated>2016-04-12T21:19:25+09:00</updated>
+  <updated>2016-04-13T22:08:19+09:00</updated>
   <id>http://cadil.github.io/</id>
   <author>
     <name><![CDATA[CaDiL]]></name>
@@ -12,6 +12,177 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Rspec-rails gem]]></title>
+    <link href="http://cadil.github.io/blog/2016/04/13/rspec-rails-gem/"/>
+    <updated>2016-04-13T20:32:33+09:00</updated>
+    <id>http://cadil.github.io/blog/2016/04/13/rspec-rails-gem</id>
+    <content type="html"><![CDATA[<h2>Танилцуулга</h2>
+
+<p>Хамгийн хэрэгтэй гэсэн Development - gem - үүдээс эхнээс нь танилцаж явах болно. Мэдээж бид бүхэнд юуны ѳмнѳ rspec-rails gem хэрэгтэй. Rspec нь тест хийх зориулалттай framework ба олон талт боломжуудтай юм.</p>
+
+<h3>Developemnt Gems</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">group</span> <span class="ss">:development</span><span class="p">,</span> <span class="ss">:test</span> <span class="k">do</span>
+</span><span class='line'>   <span class="n">gem</span> <span class="s1">&#39;better_errors&#39;</span>
+</span><span class='line'>   <span class="n">gem</span> <span class="s1">&#39;capybara-webkit&#39;</span>
+</span><span class='line'>   <span class="n">gem</span> <span class="s1">&#39;factory_girl_rails&#39;</span>
+</span><span class='line'>   <span class="n">gem</span> <span class="s1">&#39;ffaker&#39;</span>
+</span><span class='line'>   <span class="n">gem</span> <span class="s1">&#39;database_cleaner&#39;</span>
+</span><span class='line'>   <span class="n">gem</span> <span class="s1">&#39;letter_opener&#39;</span>
+</span><span class='line'>   <span class="n">gem</span> <span class="s1">&#39;rspec-rails&#39;</span>
+</span><span class='line'>   <span class="n">gem</span> <span class="s1">&#39;pry&#39;</span>
+</span><span class='line'>   <span class="n">gem</span> <span class="s1">&#39;pry-nav&#39;</span>
+</span><span class='line'>   <span class="n">gem</span> <span class="s1">&#39;pry-rails&#39;</span><span class="p">,</span> <span class="s1">&#39;~&gt; 0.3.2&#39;</span>
+</span><span class='line'>   <span class="n">gem</span> <span class="s1">&#39;simple_bdd&#39;</span>
+</span><span class='line'>   <span class="n">gem</span> <span class="s1">&#39;shoulda-matchers&#39;</span>
+</span><span class='line'>   <span class="n">gem</span> <span class="s1">&#39;spring&#39;</span>
+</span><span class='line'> <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Дээр байгаа нийт 13 Development, test - gem - үүдийг нэг нэгээр нь дэлгэрэнгүй үзэх болно.
+Энэ удаа бид gem &lsquo;rspec-rails&rsquo; дэлгэрэнгүй авч үзнэ. Rspec - ыг ажиллуулах үед <a href="https://github.com/thoughtbot/capybara-webkit">capybara-webkit</a> суулгахыг шаардана. Capybara-webkit-ыг суулгахын ѳмнѳ Qt libraries суулгасан байх шаардлагатай. <a href="https://github.com/thoughtbot/capybara-webkit/wiki/Installing-Qt-and-compiling-capybara-webkit">Энд</a> дарж суулгах заавартай танилцаарай.</p>
+
+<h3>rspec-rails</h3>
+
+<p>rspec-rails нь Rails 3.x 4.x зориулсан testing framework юм.
+Gemfile - ын group :development, :test do - дотор бичиж ѳгнѳ:</p>
+
+<figure class='code'><figcaption><span>Gemfile</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">group</span> <span class="ss">:development</span><span class="p">,</span> <span class="ss">:test</span> <span class="k">do</span>
+</span><span class='line'>   <span class="n">gem</span> <span class="s1">&#39;rspec-rails&#39;</span>
+</span><span class='line'>   <span class="n">gem</span> <span class="s1">&#39;capybara-webkit&#39;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Дараагаар нь терминал дээр:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ bundle install</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Bundle install хийгдэж дууссан бол, rspec - ээ суулгана. Терминал дээр:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ rails generate rspec:install</span></code></pre></td></tr></table></div></figure>
+
+
+<p>/spec/rails_helper.rb замаар орон require ‘rspec/rails’ - ыг нэмнэ:</p>
+
+<figure class='code'><figcaption><span>/spec/rails_helper.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;rspec/rails&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Home Spec</h3>
+
+<p>/spec - фолдер дотор features - фолдер шинээр үүсгэнэ. Энэ фолдер дотор бид spec-үүдээ бичээд явах юм.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ cd spec
+</span><span class='line'>$ mkdir features</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Шинээр үүсгэсэн features - фолдер дотроо home_spec.rb - үүсгэж ѳгнѳ:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ vi /spec/features/home_spec.rb</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Энэ хичээлийн явцад <a href="https://en.wikipedia.org/wiki/Vim_(text_editor">Vim</a> ашиглах ба та ѳѳрийн дурын editor-ыг ашиглах боломжтой.</p>
+
+<figure class='code'><figcaption><span>/spec/features/home_spec.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;rails_helper&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">feature</span> <span class="s2">&quot;Home page уруу орох&quot;</span> <span class="k">do</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">scenario</span> <span class="s2">&quot;Хэрэглэгч, тавтай морилно уу гэсэн текст харах&quot;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">visit</span> <span class="n">root_path</span>
+</span><span class='line'>    <span class="n">expect</span><span class="p">(</span><span class="n">page</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">have_text</span><span class="p">(</span><span class="s2">&quot;Тавтай морилно уу CaDiL&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Spec - ыг ажиллуулах</h3>
+
+<p>Бүх spec - ыг ажлуулах:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ rspec</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Фолдер дотор байгаа spec-үүдыг ажлуулах:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ rspec spec/features</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Нэг spec ажлуулах:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ rspec spec/features/home_spec.rb</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Spec-ын дагуу</h2>
+
+<p>rspec ажиллуулж үзэн гарсан алдааны мэдээллээр алдааг засаж үзье.</p>
+
+<p>Home controller - ыг index method - той хамт үүсгэх:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ rails g controller Home index</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Home index - ыг үндсэн хуудсаар сонгож ѳгѳхын тулд app/config/routes.rb - уруу орон:</p>
+
+<figure class='code'><figcaption><span>app/config/routes.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">root</span> <span class="s1">&#39;home#index&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>бичиж ѳгнѳ.</p>
+
+<p>Шинээр үүсгэсэн Home index үрүү орон доорх мѳрийг бичиж ѳгнѳ:</p>
+
+<figure class='code'><figcaption><span>app/views/home/index.html</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;p&gt;</span>Тавтай морилно уу CaDiL<span class="nt">&lt;/p&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Devise gem]]></title>

@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://cadil.github.io/blog/2016/04/13/rspec-rails-gem/</loc>
+    <lastmod>2016-04-13T20:32:33+09:00</lastmod>
+  </url>
+  <url>
     <loc>http://cadil.github.io/blog/2016/04/12/devise-gem/</loc>
     <lastmod>2016-04-12T21:03:10+09:00</lastmod>
   </url>
@@ -117,5 +121,11 @@
   </url>
   <url>
     <loc>http://cadil.github.io/blog/categories/authentication/</loc>
+  </url>
+  <url>
+    <loc>http://cadil.github.io/blog/categories/rspec/</loc>
+  </url>
+  <url>
+    <loc>http://cadil.github.io/blog/categories/developemnt-gems/</loc>
   </url>
 </urlset>
