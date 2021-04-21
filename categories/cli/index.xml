@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>cli on CaDiL&#39;s Blog</title>
+    <link>https://cadil.github.io/categories/cli/</link>
+    <description>Recent content in cli on CaDiL&#39;s Blog</description>
+    <image>
+      <url>https://cadil.github.io/static</url>
+      <link>https://cadil.github.io/static</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Mon, 04 Jan 2016 00:00:00 +0000</lastBuildDate><atom:link href="https://cadil.github.io/categories/cli/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Энгийн коммандууд</title>
+      <link>https://cadil.github.io/posts/2016-01-04-command-line/</link>
+      <pubDate>Mon, 04 Jan 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://cadil.github.io/posts/2016-01-04-command-line/</guid>
+      <description>Энгийн коммандуудын тайлбар</description>
+    </item>
+    
+    <item>
+      <title>Git</title>
+      <link>https://cadil.github.io/posts/2016-01-03-git/</link>
+      <pubDate>Sun, 03 Jan 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://cadil.github.io/posts/2016-01-03-git/</guid>
+      <description>Version Control болон Git CLI</description>
+    </item>
+    
+  </channel>
+</rss>
