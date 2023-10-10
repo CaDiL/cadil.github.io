@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Nginx on CaDiL&#39;s Blog</title>
     <link>https://cadil.github.io/tags/nginx/</link>
     <description>Recent content in Nginx on CaDiL&#39;s Blog</description>
     <image>
+      <title>CaDiL&#39;s Blog</title>
       <url>https://cadil.github.io/static</url>
       <link>https://cadil.github.io/static</link>
     </image>
     <generator>Hugo -- gohugo.io</generator>
+    <language>mn</language>
     <lastBuildDate>Mon, 21 Dec 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://cadil.github.io/tags/nginx/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Localhost дээр Nginx ажилууллах</title>
