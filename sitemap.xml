@@ -2,10 +2,10 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://cadil.github.io/posts/2021-01-14-gke-kubernetes/</loc>
-    <lastmod>2021-01-14T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>https://cadil.github.io/posts/2024-01-18-docker-thinkpadr500/</loc>
+    <lastmod>2024-01-18T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://cadil.github.io/posts/2021-01-14-gke-kubernetes/</loc>
     <lastmod>2021-01-14T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://cadil.github.io/posts/2021-01-13-kubernetes-with-odoo/</loc>
@@ -60,19 +60,16 @@
     <lastmod>2016-01-03T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://cadil.github.io/</loc>
-    <lastmod>2021-01-14T00:00:00+00:00</lastmod>
+    <lastmod>2024-01-18T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://cadil.github.io/categories/</loc>
-    <lastmod>2021-01-14T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://cadil.github.io/tags/docker/</loc>
-    <lastmod>2021-01-14T00:00:00+00:00</lastmod>
+    <lastmod>2024-01-18T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://cadil.github.io/categories/docker/</loc>
-    <lastmod>2021-01-14T00:00:00+00:00</lastmod>
+    <lastmod>2024-01-18T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://cadil.github.io/tags/duckdns/</loc>
-    <lastmod>2021-01-14T00:00:00+00:00</lastmod>
+    <loc>https://cadil.github.io/posts/</loc>
+    <lastmod>2024-01-18T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://cadil.github.io/tags/erp/</loc>
     <lastmod>2021-01-14T00:00:00+00:00</lastmod>
@@ -86,16 +83,7 @@
     <loc>https://cadil.github.io/categories/kubernetes/</loc>
     <lastmod>2021-01-14T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://cadil.github.io/tags/nginxproxymanager/</loc>
-    <lastmod>2021-01-14T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>https://cadil.github.io/tags/odoo/</loc>
-    <lastmod>2021-01-14T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://cadil.github.io/posts/</loc>
-    <lastmod>2021-01-14T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://cadil.github.io/tags/ssl/</loc>
     <lastmod>2021-01-14T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://cadil.github.io/tags/</loc>
@@ -111,6 +99,9 @@
     <lastmod>2021-01-12T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://cadil.github.io/tags/container/</loc>
+    <lastmod>2020-12-25T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://cadil.github.io/tags/docker/</loc>
     <lastmod>2020-12-25T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://cadil.github.io/tags/nginx/</loc>
