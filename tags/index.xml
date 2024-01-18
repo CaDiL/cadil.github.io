@@ -13,6 +13,24 @@
     <language>mn</language>
     <lastBuildDate>Thu, 14 Jan 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://cadil.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>Docker</title>
+      <link>https://cadil.github.io/tags/docker/</link>
+      <pubDate>Thu, 14 Jan 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://cadil.github.io/tags/docker/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>DuckDNS</title>
+      <link>https://cadil.github.io/tags/duckdns/</link>
+      <pubDate>Thu, 14 Jan 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://cadil.github.io/tags/duckdns/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>ERP</title>
       <link>https://cadil.github.io/tags/erp/</link>
       <pubDate>Thu, 14 Jan 2021 00:00:00 +0000</pubDate>
@@ -40,11 +58,29 @@
     </item>
     
     <item>
+      <title>NginxProxyManager</title>
+      <link>https://cadil.github.io/tags/nginxproxymanager/</link>
+      <pubDate>Thu, 14 Jan 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://cadil.github.io/tags/nginxproxymanager/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Odoo</title>
       <link>https://cadil.github.io/tags/odoo/</link>
       <pubDate>Thu, 14 Jan 2021 00:00:00 +0000</pubDate>
       
       <guid>https://cadil.github.io/tags/odoo/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>SSL</title>
+      <link>https://cadil.github.io/tags/ssl/</link>
+      <pubDate>Thu, 14 Jan 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://cadil.github.io/tags/ssl/</guid>
       <description></description>
     </item>
     
@@ -81,15 +117,6 @@
       <pubDate>Fri, 25 Dec 2020 00:00:00 +0000</pubDate>
       
       <guid>https://cadil.github.io/tags/container/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Docker</title>
-      <link>https://cadil.github.io/tags/docker/</link>
-      <pubDate>Fri, 25 Dec 2020 00:00:00 +0000</pubDate>
-      
-      <guid>https://cadil.github.io/tags/docker/</guid>
       <description></description>
     </item>
     
