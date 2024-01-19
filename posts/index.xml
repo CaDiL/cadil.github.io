@@ -13,7 +13,7 @@
     <language>mn</language>
     <lastBuildDate>Thu, 18 Jan 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://cadil.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Thinkpad R500-д Almalinux 8 OS &#43; Docker суулган (DuckDNS) SSL Certificate тохируулав</title>
+      <title>Thinkpad R500-д Almalinux 8 OS &#43; Docker &#43; Nginx proxy manager &#43; SSL certificate &#43; DuckDNS</title>
       <link>https://cadil.github.io/posts/2024-01-18-docker-thinkpadr500/</link>
       <pubDate>Thu, 18 Jan 2024 00:00:00 +0000</pubDate>
       
