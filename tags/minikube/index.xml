@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Minikube on CaDiL&#39;s Blog</title>
     <link>https://cadil.github.io/tags/minikube/</link>
@@ -11,24 +11,21 @@
     </image>
     <generator>Hugo -- gohugo.io</generator>
     <language>mn</language>
-    <lastBuildDate>Wed, 13 Jan 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://cadil.github.io/tags/minikube/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 13 Jan 2021 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://cadil.github.io/tags/minikube/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Helm Chart ашиглан Odoo-г локал орчинд суулгах</title>
       <link>https://cadil.github.io/posts/2021-01-13-kubernetes-with-odoo/</link>
       <pubDate>Wed, 13 Jan 2021 00:00:00 +0000</pubDate>
-      
       <guid>https://cadil.github.io/posts/2021-01-13-kubernetes-with-odoo/</guid>
       <description>Helm Chart ашиглан Odoo-г локал орчинд суулгах</description>
     </item>
-    
     <item>
       <title>Minikube болон kubectl суулгах</title>
       <link>https://cadil.github.io/posts/2021-01-12-kubernetes-install/</link>
       <pubDate>Tue, 12 Jan 2021 00:00:00 +0000</pubDate>
-      
       <guid>https://cadil.github.io/posts/2021-01-12-kubernetes-install/</guid>
       <description>Minikube болон kubectl суулгах</description>
     </item>
-    
   </channel>
 </rss>

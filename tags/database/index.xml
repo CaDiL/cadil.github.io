@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>database on CaDiL&#39;s Blog</title>
     <link>https://cadil.github.io/tags/database/</link>
@@ -11,15 +11,14 @@
     </image>
     <generator>Hugo -- gohugo.io</generator>
     <language>mn</language>
-    <lastBuildDate>Mon, 04 Jan 2016 00:00:00 +0000</lastBuildDate><atom:link href="https://cadil.github.io/tags/database/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 04 Jan 2016 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://cadil.github.io/tags/database/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Rails болон ѳгѳгдлийн сан</title>
       <link>https://cadil.github.io/posts/2016-01-04-ror-with-database/</link>
       <pubDate>Mon, 04 Jan 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://cadil.github.io/posts/2016-01-04-ror-with-database/</guid>
       <description>Ѳгѳгдлийн сан тайлбар, ѳгѳгдлийн сан суулгах</description>
     </item>
-    
   </channel>
 </rss>

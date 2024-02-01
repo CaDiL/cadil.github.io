@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>ruby on CaDiL&#39;s Blog</title>
     <link>https://cadil.github.io/categories/ruby/</link>
@@ -11,60 +11,49 @@
     </image>
     <generator>Hugo -- gohugo.io</generator>
     <language>mn</language>
-    <lastBuildDate>Wed, 13 Apr 2016 00:00:00 +0000</lastBuildDate><atom:link href="https://cadil.github.io/categories/ruby/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 13 Apr 2016 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://cadil.github.io/categories/ruby/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Rspec-rails gem</title>
       <link>https://cadil.github.io/posts/2016-04-13-rspec-rails-gem/</link>
       <pubDate>Wed, 13 Apr 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://cadil.github.io/posts/2016-04-13-rspec-rails-gem/</guid>
       <description>Rspec нь тест хийх зориулалттай framework ба олон талт боломжуудтай юм. </description>
     </item>
-    
     <item>
       <title>Devise gem</title>
       <link>https://cadil.github.io/posts/2016-04-12-devise-gem/</link>
       <pubDate>Tue, 12 Apr 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://cadil.github.io/posts/2016-04-12-devise-gem/</guid>
       <description>Devise нь Rails дээр суурилсан уян хатан `authentication` шийдлийн нэг юм.</description>
     </item>
-    
     <item>
       <title>Hello, Rails!</title>
       <link>https://cadil.github.io/posts/2016-01-04-hello/</link>
       <pubDate>Mon, 04 Jan 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://cadil.github.io/posts/2016-01-04-hello/</guid>
       <description>Энгийн апплкейшн бичих.</description>
     </item>
-    
     <item>
       <title>Rails болон ѳгѳгдлийн сан</title>
       <link>https://cadil.github.io/posts/2016-01-04-ror-with-database/</link>
       <pubDate>Mon, 04 Jan 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://cadil.github.io/posts/2016-01-04-ror-with-database/</guid>
       <description>Ѳгѳгдлийн сан тайлбар, ѳгѳгдлийн сан суулгах</description>
     </item>
-    
     <item>
       <title>Шинээр апплейкшн үүсгэх</title>
       <link>https://cadil.github.io/posts/2016-01-04-shineer-applieikshn-uusghekh.%D0%BC%D0%B4/</link>
       <pubDate>Mon, 04 Jan 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://cadil.github.io/posts/2016-01-04-shineer-applieikshn-uusghekh.%D0%BC%D0%B4/</guid>
       <description>Шинээр апплейкшн үүсгэх</description>
     </item>
-    
     <item>
       <title>Ruby on Rails суулгах</title>
       <link>https://cadil.github.io/posts/2016-01-03-ruby-on-rails-setup/</link>
       <pubDate>Sun, 03 Jan 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://cadil.github.io/posts/2016-01-03-ruby-on-rails-setup/</guid>
       <description>Ruby, Rails суулгах</description>
     </item>
-    
   </channel>
 </rss>

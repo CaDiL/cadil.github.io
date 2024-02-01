@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Docker on CaDiL&#39;s Blog</title>
     <link>https://cadil.github.io/categories/docker/</link>
@@ -11,60 +11,49 @@
     </image>
     <generator>Hugo -- gohugo.io</generator>
     <language>mn</language>
-    <lastBuildDate>Thu, 18 Jan 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://cadil.github.io/categories/docker/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 18 Jan 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://cadil.github.io/categories/docker/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Thinkpad R500-д Almalinux 8 OS &#43; Docker &#43; Nginx proxy manager &#43; SSL certificate &#43; DuckDNS</title>
       <link>https://cadil.github.io/posts/2024-01-18-docker-thinkpadr500/</link>
       <pubDate>Thu, 18 Jan 2024 00:00:00 +0000</pubDate>
-      
       <guid>https://cadil.github.io/posts/2024-01-18-docker-thinkpadr500/</guid>
       <description>Nginx Proxy Manager &#43; DuckDNS &#43; Containers</description>
     </item>
-    
     <item>
       <title>Odoo -г Docker-с ажилууллах</title>
       <link>https://cadil.github.io/posts/2020-12-25-docker-compose/</link>
       <pubDate>Fri, 25 Dec 2020 00:00:00 +0000</pubDate>
-      
       <guid>https://cadil.github.io/posts/2020-12-25-docker-compose/</guid>
       <description>Odoo -г Docker-с ажилууллах</description>
     </item>
-    
     <item>
       <title>Localhost дээр Nginx ажилууллах</title>
       <link>https://cadil.github.io/posts/2020-12-21-nginx-container/</link>
       <pubDate>Mon, 21 Dec 2020 00:00:00 +0000</pubDate>
-      
       <guid>https://cadil.github.io/posts/2020-12-21-nginx-container/</guid>
       <description>Localhost дээр Nginx ажилууллах</description>
     </item>
-    
     <item>
       <title>Ubuntu контейнер ажилууллах</title>
       <link>https://cadil.github.io/posts/2020-12-21-ubuntu-container/</link>
       <pubDate>Mon, 21 Dec 2020 00:00:00 +0000</pubDate>
-      
       <guid>https://cadil.github.io/posts/2020-12-21-ubuntu-container/</guid>
       <description>Ubuntu контейнер ажилууллах</description>
     </item>
-    
     <item>
       <title>Докэр контейнр болон Виртуалчлал</title>
       <link>https://cadil.github.io/posts/2020-12-16-docker-container/</link>
       <pubDate>Wed, 16 Dec 2020 00:00:00 +0000</pubDate>
-      
       <guid>https://cadil.github.io/posts/2020-12-16-docker-container/</guid>
       <description>Докэр контейнр болон Виртуалчлал</description>
     </item>
-    
     <item>
       <title>Жишээ контейнер ажилуулах (hello-world)</title>
       <link>https://cadil.github.io/posts/2020-12-17-hello-world-container/</link>
       <pubDate>Wed, 16 Dec 2020 00:00:00 +0000</pubDate>
-      
       <guid>https://cadil.github.io/posts/2020-12-17-hello-world-container/</guid>
       <description>Жишээ контейнер ажилуулах (hello-world)</description>
     </item>
-    
   </channel>
 </rss>
