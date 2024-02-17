@@ -11,8 +11,15 @@
     </image>
     <generator>Hugo -- gohugo.io</generator>
     <language>mn</language>
-    <lastBuildDate>Thu, 18 Jan 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 17 Feb 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://cadil.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>HTB - Winter</title>
+      <link>https://cadil.github.io/posts/2024-02-17-htb-winter-writeup/</link>
+      <pubDate>Sat, 17 Feb 2024 00:00:00 +0000</pubDate>
+      <guid>https://cadil.github.io/posts/2024-02-17-htb-winter-writeup/</guid>
+      <description>HTB - Winter - Writeup</description>
+    </item>
     <item>
       <title>Thinkpad R500-д Almalinux 8 OS &#43; Docker &#43; Nginx proxy manager &#43; SSL certificate &#43; DuckDNS</title>
       <link>https://cadil.github.io/posts/2024-01-18-docker-thinkpadr500/</link>
@@ -145,14 +152,6 @@
       <pubDate>Sun, 03 Jan 2016 00:00:00 +0000</pubDate>
       <guid>https://cadil.github.io/posts/2016-01-03-ruby-on-rails-setup/</guid>
       <description>Ruby, Rails суулгах</description>
-    </item>
-    <item>
-      <title></title>
-      <link>https://cadil.github.io/posts/2024-02-17-htb-winter-writeup/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://cadil.github.io/posts/2024-02-17-htb-winter-writeup/</guid>
-      <description>author: &amp;ldquo;CaDiL&amp;rdquo; title: &amp;ldquo;HTB - Winter&amp;rdquo; date: &amp;ldquo;2024-02-17&amp;rdquo; description: &amp;ldquo;HTB - Winter - Writeup&amp;rdquo; tags: [&amp;ldquo;Writeup&amp;rdquo;] categories: [&amp;ldquo;Writeup&amp;rdquo;] aliases: [&amp;ldquo;Writeup&amp;rdquo;] ShowToc: true TocOpen: true weight: 2
-1. IP Address # Machine Address 10.10.11.101 # Local Address 10.10.14.31 2. Nmap sudo nmap -sC -sV -oA nmap/writer 10.10.11.101 # Nmap 7.91 scan initiated Fri Sep 3 10:52:33 2021 as: nmap -sC -sV -oA nmap/writer 10.10.11.101 Nmap scan report for 10.10.11.101 Host is up (0.</description>
     </item>
   </channel>
 </rss>
