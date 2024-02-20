@@ -19,34 +19,6 @@
       <pubDate>Tue, 12 Jan 2021 00:00:00 +0000</pubDate>
       <guid>https://cadil.github.io/posts/2021-01-12-kubernetes-install/</guid>
       <description>Minikube болон kubectl суулгах</description>
-      <content:encoded><![CDATA[<h2 id="minikube-болон-kubectl-суулгах">Minikube болон kubectl суулгах</h2>
-<p><code>Minikube</code> ашиглан локал Kubernetes Cluster үүсгэх үзье. Эхлээд minikube суулгана.</p>
-<h3 id="minikube-суулгахдаа">Minikube суулгахдаа:</h3>
-<p>Lunix:
-Binary:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span> curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
-</span></span><span style="display:flex;"><span> sudo install minikube-linux-amd64 /usr/local/bin/minikube
-</span></span></code></pre></div><p>Debain Package:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb
-</span></span><span style="display:flex;"><span>sudo dpkg -i minikube_latest_amd64.deb
-</span></span></code></pre></div><p>MacOS:
-<a href="https://brew.sh">Homebrew</a> ашиглан суулгана.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>brew install minikube
-</span></span></code></pre></div><p>Бусад OS болон дэлгэрэнгүйг <a href="https://minikube.sigs.k8s.io/docs/start/">эндээс</a> ороод танилцаарай.</p>
-<h3 id="kubectl-суулгахдаа">Kubectl суулгахдаа:</h3>
-<p><code>kubectl</code> нь Kubernetes-н Command Line Tool ба cluster инспект хийх лог шалгах deploy хийх зэрэг бүхий л хэрэгтэй коммандууд ажилууллна. <a href="https://kubernetes.io/docs/reference/kubectl/overview/">Дэлгэрэнгүй</a></p>
-<h3 id="minikube-асаах">Minikube асаах:</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>minikube start
-</span></span></code></pre></div><p>MacOS дээр асаж буй лог:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>😄  minikube v1.15.1 on Darwin 10.15.7
-</span></span><span style="display:flex;"><span>✨  Using the hyperkit driver based on existing profile
-</span></span><span style="display:flex;"><span>👍  Starting control plane node minikube in cluster minikube
-</span></span><span style="display:flex;"><span>🔄  Restarting existing hyperkit VM <span style="color:#66d9ef">for</span> <span style="color:#e6db74">&#34;minikube&#34;</span> ...
-</span></span><span style="display:flex;"><span>    ... 
-</span></span><span style="display:flex;"><span>🏄  Done! kubectl is now configured to use <span style="color:#e6db74">&#34;minikube&#34;</span> cluster and <span style="color:#e6db74">&#34;default&#34;</span> namespace by default
-</span></span></code></pre></div><h3 id="minikube-унтраах">Minikube унтраах:</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>minikube stop
-</span></span></code></pre></div>]]></content:encoded>
     </item>
   </channel>
 </rss>

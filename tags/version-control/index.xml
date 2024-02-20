@@ -19,29 +19,6 @@
       <pubDate>Sun, 03 Jan 2016 00:00:00 +0000</pubDate>
       <guid>https://cadil.github.io/posts/2016-01-03-git/</guid>
       <description>Version Control болон Git CLI</description>
-      <content:encoded><![CDATA[<h3 id="version-control">Version Control</h3>
-<p>Version Control - д Github, BitBucket - гээд олон байгаа. Дийлэнх тохиолдолд Git-ыг ашиглана. Git дээр райлс дээр хѳгжүүлэлт хийж байгаа тѳслѳѳ commit хийх ба ѳѳрчлѳлт бүрийг оруулаад тест хийж баталгаатай болгож байгаад commit хийгээд явах юм. Git дээр үүсгэсэн repository-д олон цагийг commit хийх болохоор энэ хэсэг их чухал юм.</p>
-<p>Багаараа хамтран райлс тѳсѳл дээр ажиллаж байгаа тохиолдолд CI буюу Continuous Integration - ыг сайн шийдсэн байх хэрэгтэй болдог. Ажиллах процесс нь багын гишүүд бүр ѳѳрийн ѳѳрчлѳлтыг repository-д нэмэхээс ѳмнѳ райлс апплейкшнд шинээр хийсэн ѳѳрчлѳлт бүрд тест хийн шалгаад явах юм. Энгийнээр бол багаар ажиллаж байгаа үед алдаатай commit хийсэн тохиолдолд багын ажлыг тэр чигт нь холион бантанд нь хутгадаг, тэр асуудлыг шийдээд ѳгѳх, тѳслийн удирдагч ѳѳрѳѳ хувийн тохиргоо хийж ѳгсѳнѳѳр тѳслийг баллах гэсэн аюулаас нэг алхам холдож чадаж байгаа юм. </p>
-<h3 id="git">Git</h3>
-<p>Ѳѳрийн github аккоунттайгаа холбох хэрэгтэй. Аккоунт байхгүй бол <a href="https://github.com">Github</a> - орж бүртгүүлээрэй.</p>
-<p><code>YOUR NAME</code>, <code>YOUR@EMAIL.COM</code> оронд ѳѳрийн нэр, майл хаягаа бичнэ:</p>
-<pre><code>git config --global color.ui true
-git config --global user.name &quot;YOUR NAME&quot;
-git config --global user.email &quot;YOUR@EMAIL.com&quot;
-ssh-keygen -t rsa -C &quot;YOUR@EMAIL.com&quot;
-</code></pre>
-<h3 id="ssh">SSH</h3>
-<p>Шинээр үүссэн <code>SSH key</code> - ыг ѳѳрийн <code>github account</code> - д хуулж ѳгнѳ. Copy хийсэн бол SSH Key-ээ <a href="https://github.com/settings/ssh">энд</a> хуулна.</p>
-<pre><code>cat ~/.ssh/id_rsa.pub
-</code></pre>
-<h3 id="холболт-шалгах">Холболт шалгах</h3>
-<p>Хуулсан бол ажиллаж байгаа эсэхийг нь check хийж үзье:</p>
-<pre><code>ssh -T git@github.com
-</code></pre>
-<p>Ийм message гарч ирэх ёстой:</p>
-<pre><code>Hi excid3! You've successfully authenticated, but GitHub does not provide shell access.
-</code></pre>
-]]></content:encoded>
     </item>
   </channel>
 </rss>
