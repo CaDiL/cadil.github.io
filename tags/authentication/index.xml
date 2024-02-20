@@ -19,6 +19,37 @@
       <pubDate>Tue, 12 Apr 2016 00:00:00 +0000</pubDate>
       <guid>https://cadil.github.io/posts/2016-04-12-devise-gem/</guid>
       <description>Devise нь Rails дээр суурилсан уян хатан `authentication` шийдлийн нэг юм.</description>
+      <content:encoded><![CDATA[<h3 id="devise-gem">Devise Gem</h3>
+<p>Devise нь Rails дээр суурилсан уян хатан <code>authentication</code> шийдлийн нэг юм.</p>
+<ul>
+<li>Rack дээр суурилсан</li>
+<li>Rails engine дээр суурилсан бүрэн MVC шийдэл юм</li>
+<li>Нэг цагт олон моделиуд зэрэг хандалт хийх боломжтой</li>
+</ul>
+<h4 id="инфо">Инфо</h4>
+<p>Devise ѳргѳн ашиглагддаг gem болохоор internet-ээс хайхад хүссэн мэдээллээ авах боломжтой. Доорх линкээр орон мэдээлэл авах боломжтой: <a href="https://github.com/plataformatec/devise">Devise</a></p>
+<h4 id="эхлэл">Эхлэл</h4>
+<p>Devise 4.0 нь Rails 4.2 болон 4.2 дээшээ загваруудыг дэмжин ажиллана. Gemfile дотор хуулж ѳгѳх:</p>
+<pre tabindex="0"><code>gem &#39;devise&#39;
+</code></pre><p>Хуулсан бол <code>bundle install</code> командыг ашиглан суулгана:</p>
+<pre tabindex="0"><code>bundle install
+</code></pre><p>Gemfile дотроо хуулан bundle install хийсэн бол <code>generate</code> хийн суулгах хэрэгтэй:</p>
+<pre tabindex="0"><code>rails generate devise:install
+</code></pre><p>Generate хийх явцад тохиргооны хэсэг гарч ирэх ба тэдгээрийг зааврын дагуу суулгах шаардлагатай. Тохиргоог хийж дууссан бол generate ашиглан Devise-д <code>модель</code> үүсгэж ѳгнѳ:</p>
+<pre tabindex="0"><code>rails generate devise MODEL
+</code></pre><p><code>MODEL</code> - ын оронд апплкейшны хэрэглэгчийн классын нэрийг бичиж ѳгнѳ. Уг тохиолдолд <code>User</code> эсвэл <code>Admin</code> байж болно. Модель үүсгэсэн бол <code>rake db:migrate</code> хийж ѳгнѳ</p>
+<pre tabindex="0"><code>rake db:migrate
+</code></pre><h4 id="helper">Helper</h4>
+<p>Devise нь controller болон views дотор <code>helper</code> үүсгэж ѳгсѳн байгаа. Controller хэсэгт user authentication оруулж ѳгѳх бол before_action (тухайн моделийг User гэж үзвэл)</p>
+<pre tabindex="0"><code>before_action :authenticate_user!
+</code></pre><p>Devise model - т User - ээс ѳѳр утга оноож ѳгсѳн бол <code>“_user”</code> оронд <code>“_ѳѳрийн утга”</code>аа онож ѳгѳх зарчмаар явна.</p>
+<p>Хэрэглэгч бүртгүүлсэн болохыг шалгах helper:</p>
+<pre tabindex="0"><code>user_signed_in?
+</code></pre><p>Одоогоор нэвтрэн орсон хэрэглэгч:</p>
+<pre tabindex="0"><code>current_user
+</code></pre><p>Session рүү энэ хүрээллээр нэвтрэх боломжтой:</p>
+<pre tabindex="0"><code>user_session
+</code></pre>]]></content:encoded>
     </item>
   </channel>
 </rss>

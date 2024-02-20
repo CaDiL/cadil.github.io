@@ -19,6 +19,40 @@
       <pubDate>Mon, 04 Jan 2016 00:00:00 +0000</pubDate>
       <guid>https://cadil.github.io/posts/2016-01-04-command-line/</guid>
       <description>Энгийн коммандуудын тайлбар</description>
+      <content:encoded><![CDATA[<h3 id="оршил">Оршил</h3>
+<p>Руби дээр ажиллаж байх үед терминалтай бол байнга ажиллана. Хэрвээ терминал дээр ажиллаж мэдэхгүй бол анхан шатны хэдэн коммандуудын үүргийг тайлбарлан бичсэн байгаа.</p>
+<h4 id="sudo-kомманд">SUDO Kомманд</h4>
+<p>Дийлэнх комманд нь sudo - оор эхэлдэг. <strong>SUDO</strong> буюу superuserdo нь тухайн роот хэрэглэгчийн бүрэн эрхийг идэвхжүүлэх, тухайн роот хэрэглэгчийн фолдер, файлыг бүрэн эрхтэйгээр удирдах эрх олгож байгаа юм. Sudo коммандыг ашиглах үѳд гараас хэрэглэгчийн нууц үгийг оруулж ѳгѳх ёстой.</p>
+<h4 id="файл-болон-зам-directory">Файл болон Зам (Directory)</h4>
+<p>Долгионтой тэмдэгт (~) ээр home directory-г илэрхийлнэ. Xэрэглэгч буюу user, долгионтой тэмдэгт (~) харагдаж байвал /home/user directory-д байна гэсэн үг.</p>
+<h4 id="pwd">pwd</h4>
+<p>Энэ коммандын тусламжтайгаар аль directory-д байгаагаа мэдэж болно. Нэг үгээр бол замыг хэвлэн дэлгэцэнд харуулна. Жишээлбэл: Desktop directory дотор pwd комманд бичсэн гэж үзэхэд “~/Desktop” гэснийг терминал дээр хэвлэн харуулах юм. </p>
+<h4 id="ls">ls</h4>
+<p>Directory дотор байгаа файлуудын list буюу нэрс, агуулгыг харуулна. ls -ын араас ѳѳр коммандууд ашиглан, тухайн directory дотор байгаа файлуудын хэмжээ, тѳрѳл, үүссэн огноо гэх мэт дэлгэрэнгүй мэдээллийг харах боломж бий.</p>
+<h4 id="cd">cd</h4>
+<p>Тухайн directory - чиглэлыг ѳѳрчлѳх, нэг directory-гоос нѳгѳѳ directory уруу орох ерѳнхий үүрэгтэй.
+ </p>
+<ul>
+<li>root directory уруу хандах үѳд “cd /”</li>
+<li>home directory уруу хандах үед “cd” эсвэл “cd ~”</li>
+<li>Нэг алхамаар урагшлах үѳд “cd ..”</li>
+<li>Ѳмнѳх directory уруу буцах үед “cd -”</li>
+</ul>
+<h4 id="cp">cp</h4>
+<p>Файлыг хуулах, copy хийх үүрэг гүйцэтгэнэ. Жишээлбэл: “cp file foo” нь file - хуулах үйлдэл хийн хуулж байгаа файлдаа “foo” нэртэй нэр ѳгч байна. Directory, copy хийх гэж байгаа бол “cp -r directory foo” (рекурс хуулах). Рекурс нь ямар учиртай вэ? Directory-г хуулах үѳд бүх файлуудыг нь хуулах үйлдийг давтах гэх мэтээр…</p>
+<h4 id="mv">mv</h4>
+<p>Файлыг ѳѳр байршил уруу шилжүүлэх мѳн нэр ѳѳрчлѳх үүрэгтэй. Жишээлбэл: “mv file foo” нь file - ын нэрийг foo болгон ѳѳрчилж байна. “mv foo ~/Desktop” комманд нь foo нэртэй файлыг Desktop Directory уруу шилжүүлж байна. </p>
+<h4 id="rm">rm</h4>
+<p>Энэхүү коммандыг ашиглан файл усгтаж болно. Жишээлбэл: “rm -f user/desktop/foo” нь user-ын Desktop directory-гоос force-оор foo файлыг устгаж байна.</p>
+<h4 id="rmdir">rmdir</h4>
+<p>Хоосон directory-г устгах үед ашиглана. Харин дотроо файл болон контент агуулагдаж байгаа directory-г устгахын тулд “rm -r” коммандыг ашиглана.</p>
+<h4 id="mkdir">mkdir</h4>
+<p>Шинээр directory үүсгэх үүрэгтэй. Жишээлбэл: “mkdir music” нь music нэртэй directory үүсгэж байна.</p>
+<h4 id="man">man</h4>
+<p>Ѳѳр бусад коммандуудын хэрэглэх аргачлал, зааврыг харуулна. Жишээлбэл: “man man” гэж бичихэд man коммандыг үүрэг, хэрхэн ашиглах гэх мэт document гарч ирнэ. </p>
+<h4 id="sudo">sudo</h4>
+<p>Зѳвхѳн Root user - д зѳвшѳѳрѳл олгох үүрэгтэй. Жишээлбэл: home directory-гын гаднаас файл хуулах шаардлага гарлаа гэж бодоё. “mv /mydoc.odt ~/Documents/mydoc.odt” гэж бичин гэж бодож байвал энэ нь буруу юм. Яагаад гэвэл home directory - гын гаднаас юм оруулах зѳвшѳѳрѳл бидэнд байхгүй байгаад юм. Харин “sudo mv /mydoc.odt ~/Documents/mydoc.odt” гэж бичиж ѳгснѳѳр бүгд хэвийн ажиллана. sudo коммандыг ашиглаж байгаа үѳд болгоомжтой байх нь чухал. Root user - ээр хандаж байгаа үѳд system - ээ ч гэмтээх магадал бий болохоор.</p>
+]]></content:encoded>
     </item>
     <item>
       <title>Git</title>
@@ -26,6 +60,29 @@
       <pubDate>Sun, 03 Jan 2016 00:00:00 +0000</pubDate>
       <guid>https://cadil.github.io/posts/2016-01-03-git/</guid>
       <description>Version Control болон Git CLI</description>
+      <content:encoded><![CDATA[<h3 id="version-control">Version Control</h3>
+<p>Version Control - д Github, BitBucket - гээд олон байгаа. Дийлэнх тохиолдолд Git-ыг ашиглана. Git дээр райлс дээр хѳгжүүлэлт хийж байгаа тѳслѳѳ commit хийх ба ѳѳрчлѳлт бүрийг оруулаад тест хийж баталгаатай болгож байгаад commit хийгээд явах юм. Git дээр үүсгэсэн repository-д олон цагийг commit хийх болохоор энэ хэсэг их чухал юм.</p>
+<p>Багаараа хамтран райлс тѳсѳл дээр ажиллаж байгаа тохиолдолд CI буюу Continuous Integration - ыг сайн шийдсэн байх хэрэгтэй болдог. Ажиллах процесс нь багын гишүүд бүр ѳѳрийн ѳѳрчлѳлтыг repository-д нэмэхээс ѳмнѳ райлс апплейкшнд шинээр хийсэн ѳѳрчлѳлт бүрд тест хийн шалгаад явах юм. Энгийнээр бол багаар ажиллаж байгаа үед алдаатай commit хийсэн тохиолдолд багын ажлыг тэр чигт нь холион бантанд нь хутгадаг, тэр асуудлыг шийдээд ѳгѳх, тѳслийн удирдагч ѳѳрѳѳ хувийн тохиргоо хийж ѳгсѳнѳѳр тѳслийг баллах гэсэн аюулаас нэг алхам холдож чадаж байгаа юм. </p>
+<h3 id="git">Git</h3>
+<p>Ѳѳрийн github аккоунттайгаа холбох хэрэгтэй. Аккоунт байхгүй бол <a href="https://github.com">Github</a> - орж бүртгүүлээрэй.</p>
+<p><code>YOUR NAME</code>, <code>YOUR@EMAIL.COM</code> оронд ѳѳрийн нэр, майл хаягаа бичнэ:</p>
+<pre><code>git config --global color.ui true
+git config --global user.name &quot;YOUR NAME&quot;
+git config --global user.email &quot;YOUR@EMAIL.com&quot;
+ssh-keygen -t rsa -C &quot;YOUR@EMAIL.com&quot;
+</code></pre>
+<h3 id="ssh">SSH</h3>
+<p>Шинээр үүссэн <code>SSH key</code> - ыг ѳѳрийн <code>github account</code> - д хуулж ѳгнѳ. Copy хийсэн бол SSH Key-ээ <a href="https://github.com/settings/ssh">энд</a> хуулна.</p>
+<pre><code>cat ~/.ssh/id_rsa.pub
+</code></pre>
+<h3 id="холболт-шалгах">Холболт шалгах</h3>
+<p>Хуулсан бол ажиллаж байгаа эсэхийг нь check хийж үзье:</p>
+<pre><code>ssh -T git@github.com
+</code></pre>
+<p>Ийм message гарч ирэх ёстой:</p>
+<pre><code>Hi excid3! You've successfully authenticated, but GitHub does not provide shell access.
+</code></pre>
+]]></content:encoded>
     </item>
   </channel>
 </rss>

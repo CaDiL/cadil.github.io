@@ -19,6 +19,20 @@
       <pubDate>Mon, 21 Dec 2020 00:00:00 +0000</pubDate>
       <guid>https://cadil.github.io/posts/2020-12-21-nginx-container/</guid>
       <description>Localhost дээр Nginx ажилууллах</description>
+      <content:encoded><![CDATA[<h1 id="localhost-дээр-nginx-ажилууллах">Localhost дээр Nginx ажилууллах</h1>
+<p>Локалхост дээр Nignx вэбсервер асаах</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker run -d -p 80:80 --name webserver nginx
+</span></span></code></pre></div><p>Коммандын ажиллаж буй зарчим:</p>
+<ul>
+<li><a href="https://docs.docker.com/engine/reference/commandline/cli/"><code>docker</code></a> - Докэр ачааллах үндсэн комманд.</li>
+<li><a href="https://docs.docker.com/engine/reference/run/"><code>run</code></a> - Контейнер ажлууллна.</li>
+<li><a href="https://docs.docker.com/engine/reference/run/#detached--d"><code>-d</code></a> - Контейнерыг салангид тѳлѳвтэйгээр ажиллуулна. Процесс (веб-сервер) зогсвол контейнер мѳн зогсоно.</li>
+<li><a href="https://docs.docker.com/engine/reference/commandline/run/#publish-or-expose-port--p---expose"><code>-p 80:80</code></a> - Хостинг портыг <code>80</code> контейнер дэх <code>80</code> порттой [host-port]:[container-port] холбох үед ашиглана.</li>
+<li>[<code>--name</code>] - Контейнерт нэр онооно.</li>
+<li><code>nginx</code> - Локал дээр ийм нэртэй repo байгаа эсэхийг шалгаад байхгүй бол Docker Hub - аас <a href="https://hub.docker.com/_/nginx/"><code>nginx</code></a> image - татаж авна. Tag - ыг тодорхой бичиж ѳгѳѳгүй бол хамгийн сүүлийн хувилбар буюу <code>nginx:latest</code> - татаж авна.</li>
+</ul>
+<p>Дээрх комманд ажиллаж дуусан бол browser-с <code>http://localhost:80/</code> - хандан Nginx -д ажиллаж байгааг шалгаарай.</p>
+]]></content:encoded>
     </item>
   </channel>
 </rss>

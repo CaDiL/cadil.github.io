@@ -19,6 +19,88 @@
       <pubDate>Wed, 13 Apr 2016 00:00:00 +0000</pubDate>
       <guid>https://cadil.github.io/posts/2016-04-13-rspec-rails-gem/</guid>
       <description>Rspec нь тест хийх зориулалттай framework ба олон талт боломжуудтай юм. </description>
+      <content:encoded><![CDATA[<h3 id="танилцуулга">Танилцуулга</h3>
+<p>Хамгийн хэрэгтэй гэсэн Development - gem - үүдээс эхнээс нь танилцаж явах болно. Мэдээж бид бүхэнд юуны ѳмнѳ rspec-rails gem хэрэгтэй. Rspec нь тест хийх зориулалттай framework ба олон талт боломжуудтай юм.</p>
+<h3 id="dev-gems">Dev Gems</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ruby" data-lang="ruby"><span style="display:flex;"><span>group <span style="color:#e6db74">:development</span>, <span style="color:#e6db74">:test</span> <span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>   gem <span style="color:#e6db74">&#39;better_errors&#39;</span>
+</span></span><span style="display:flex;"><span>   gem <span style="color:#e6db74">&#39;capybara-webkit&#39;</span>
+</span></span><span style="display:flex;"><span>   gem <span style="color:#e6db74">&#39;factory_girl_rails&#39;</span>
+</span></span><span style="display:flex;"><span>   gem <span style="color:#e6db74">&#39;ffaker&#39;</span>
+</span></span><span style="display:flex;"><span>   gem <span style="color:#e6db74">&#39;database_cleaner&#39;</span>
+</span></span><span style="display:flex;"><span>   gem <span style="color:#e6db74">&#39;letter_opener&#39;</span>
+</span></span><span style="display:flex;"><span>   gem <span style="color:#e6db74">&#39;rspec-rails&#39;</span> 
+</span></span><span style="display:flex;"><span>   gem <span style="color:#e6db74">&#39;pry&#39;</span>
+</span></span><span style="display:flex;"><span>   gem <span style="color:#e6db74">&#39;pry-nav&#39;</span>
+</span></span><span style="display:flex;"><span>   gem <span style="color:#e6db74">&#39;pry-rails&#39;</span>, <span style="color:#e6db74">&#39;~&gt; 0.3.2&#39;</span>
+</span></span><span style="display:flex;"><span>   gem <span style="color:#e6db74">&#39;simple_bdd&#39;</span>
+</span></span><span style="display:flex;"><span>   gem <span style="color:#e6db74">&#39;shoulda-matchers&#39;</span>
+</span></span><span style="display:flex;"><span>   gem <span style="color:#e6db74">&#39;spring&#39;</span>
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">end</span>
+</span></span></code></pre></div><p>Дээр байгаа нийт 13 Development, test - gem - үүдийг нэг нэгээр нь дэлгэрэнгүй үзэх болно.
+Энэ удаа бид gem &lsquo;rspec-rails&rsquo; дэлгэрэнгүй авч үзнэ. Rspec - ыг ажиллуулах үед <a href="https://github.com/thoughtbot/capybara-webkit">capybara-webkit</a> суулгахыг шаардана. Capybara-webkit-ыг суулгахын ѳмнѳ Qt libraries суулгасан байх шаардлагатай. <a href="https://github.com/thoughtbot/capybara-webkit/wiki/Installing-Qt-and-compiling-capybara-webkit">Энд</a> дарж суулгах заавартай танилцаарай.</p>
+<h3 id="rspec-rails">rspec-rails</h3>
+<p>rspec-rails нь Rails 3.x 4.x зориулсан testing framework юм.
+Gemfile - ын group :development, :test do - дотор бичиж ѳгнѳ:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ruby" data-lang="ruby"><span style="display:flex;"><span>group <span style="color:#e6db74">:development</span>, <span style="color:#e6db74">:test</span> <span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>   gem <span style="color:#e6db74">&#39;rspec-rails&#39;</span>
+</span></span><span style="display:flex;"><span>   gem <span style="color:#e6db74">&#39;capybara-webkit&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span></code></pre></div><p>Дараагаар нь терминал дээр:</p>
+<p>{% codeblock %}
+$ bundle install
+{% endcodeblock %}</p>
+<p>Bundle install хийгдэж дууссан бол, rspec - ээ суулгана. Терминал дээр:</p>
+<p>{% codeblock %}
+$ rails generate rspec:install
+{% endcodeblock %}</p>
+<p>/spec/rails_helper.rb замаар орон require ‘rspec/rails’ - ыг нэмнэ:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ruby" data-lang="ruby"><span style="display:flex;"><span>require <span style="color:#e6db74">&#39;rspec/rails&#39;</span>
+</span></span></code></pre></div><h3 id="home-spec">Home Spec</h3>
+<p>/spec - фолдер дотор features - фолдер шинээр үүсгэнэ. Энэ фолдер дотор бид spec-үүдээ бичээд явах юм.</p>
+<p>{% codeblock %}
+$ cd spec
+$ mkdir features
+{% endcodeblock %}</p>
+<p>Шинээр үүсгэсэн features - фолдер дотроо home_spec.rb - үүсгэж ѳгнѳ:</p>
+<p>{% codeblock %}
+$ vi /spec/features/home_spec.rb
+{% endcodeblock %}</p>
+<p>Энэ хичээлийн явцад [Vim](<a href="https://en.wikipedia.org/wiki/Vim_(text_editor)">https://en.wikipedia.org/wiki/Vim_(text_editor)</a> ашиглах ба та ѳѳрийн дурын editor-ыг ашиглах боломжтой.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ruby" data-lang="ruby"><span style="display:flex;"><span>require <span style="color:#e6db74">&#39;rails_helper&#39;</span>
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>feature <span style="color:#e6db74">&#34;Home page уруу орох&#34;</span> <span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>  scenario <span style="color:#e6db74">&#34;Хэрэглэгч, тавтай морилно уу гэсэн текст харах&#34;</span> <span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>    visit root_path
+</span></span><span style="display:flex;"><span>    expect(page)<span style="color:#f92672">.</span>to have_text(<span style="color:#e6db74">&#34;Тавтай морилно уу CaDiL&#34;</span>)
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span></code></pre></div><h3 id="spec---ыг-ажиллуулах">Spec - ыг ажиллуулах</h3>
+<p>Бүх spec - ыг ажлуулах:</p>
+<p>{% codeblock %}
+$ rspec
+{% endcodeblock %}</p>
+<p>Фолдер дотор байгаа spec-үүдыг ажлуулах:</p>
+<p>{% codeblock %}
+$ rspec spec/features
+{% endcodeblock %}</p>
+<p>Нэг spec ажлуулах:</p>
+<p>{% codeblock %}
+$ rspec spec/features/home_spec.rb
+{% endcodeblock %}</p>
+<h3 id="spec-ын-дагуу">Spec-ын дагуу</h3>
+<p>rspec ажиллуулж үзэн гарсан алдааны мэдээллээр алдааг засаж үзье.</p>
+<p>Home controller - ыг index method - той хамт үүсгэх:</p>
+<p>{% codeblock %}
+$ rails g controller Home index
+{% endcodeblock %}</p>
+<p>Home index - ыг үндсэн хуудсаар сонгож ѳгѳхын тулд app/config/routes.rb - уруу орон:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ruby" data-lang="ruby"><span style="display:flex;"><span>root <span style="color:#e6db74">&#39;home#index&#39;</span>
+</span></span></code></pre></div><p>бичиж ѳгнѳ.</p>
+<p>Шинээр үүсгэсэн Home index үрүү орон доорх мѳрийг бичиж ѳгнѳ:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>&lt;<span style="color:#f92672">p</span>&gt;Тавтай морилно уу CaDiL&lt;/<span style="color:#f92672">p</span>&gt;
+</span></span></code></pre></div>]]></content:encoded>
     </item>
     <item>
       <title>Devise gem</title>
@@ -26,6 +108,37 @@
       <pubDate>Tue, 12 Apr 2016 00:00:00 +0000</pubDate>
       <guid>https://cadil.github.io/posts/2016-04-12-devise-gem/</guid>
       <description>Devise нь Rails дээр суурилсан уян хатан `authentication` шийдлийн нэг юм.</description>
+      <content:encoded><![CDATA[<h3 id="devise-gem">Devise Gem</h3>
+<p>Devise нь Rails дээр суурилсан уян хатан <code>authentication</code> шийдлийн нэг юм.</p>
+<ul>
+<li>Rack дээр суурилсан</li>
+<li>Rails engine дээр суурилсан бүрэн MVC шийдэл юм</li>
+<li>Нэг цагт олон моделиуд зэрэг хандалт хийх боломжтой</li>
+</ul>
+<h4 id="инфо">Инфо</h4>
+<p>Devise ѳргѳн ашиглагддаг gem болохоор internet-ээс хайхад хүссэн мэдээллээ авах боломжтой. Доорх линкээр орон мэдээлэл авах боломжтой: <a href="https://github.com/plataformatec/devise">Devise</a></p>
+<h4 id="эхлэл">Эхлэл</h4>
+<p>Devise 4.0 нь Rails 4.2 болон 4.2 дээшээ загваруудыг дэмжин ажиллана. Gemfile дотор хуулж ѳгѳх:</p>
+<pre tabindex="0"><code>gem &#39;devise&#39;
+</code></pre><p>Хуулсан бол <code>bundle install</code> командыг ашиглан суулгана:</p>
+<pre tabindex="0"><code>bundle install
+</code></pre><p>Gemfile дотроо хуулан bundle install хийсэн бол <code>generate</code> хийн суулгах хэрэгтэй:</p>
+<pre tabindex="0"><code>rails generate devise:install
+</code></pre><p>Generate хийх явцад тохиргооны хэсэг гарч ирэх ба тэдгээрийг зааврын дагуу суулгах шаардлагатай. Тохиргоог хийж дууссан бол generate ашиглан Devise-д <code>модель</code> үүсгэж ѳгнѳ:</p>
+<pre tabindex="0"><code>rails generate devise MODEL
+</code></pre><p><code>MODEL</code> - ын оронд апплкейшны хэрэглэгчийн классын нэрийг бичиж ѳгнѳ. Уг тохиолдолд <code>User</code> эсвэл <code>Admin</code> байж болно. Модель үүсгэсэн бол <code>rake db:migrate</code> хийж ѳгнѳ</p>
+<pre tabindex="0"><code>rake db:migrate
+</code></pre><h4 id="helper">Helper</h4>
+<p>Devise нь controller болон views дотор <code>helper</code> үүсгэж ѳгсѳн байгаа. Controller хэсэгт user authentication оруулж ѳгѳх бол before_action (тухайн моделийг User гэж үзвэл)</p>
+<pre tabindex="0"><code>before_action :authenticate_user!
+</code></pre><p>Devise model - т User - ээс ѳѳр утга оноож ѳгсѳн бол <code>“_user”</code> оронд <code>“_ѳѳрийн утга”</code>аа онож ѳгѳх зарчмаар явна.</p>
+<p>Хэрэглэгч бүртгүүлсэн болохыг шалгах helper:</p>
+<pre tabindex="0"><code>user_signed_in?
+</code></pre><p>Одоогоор нэвтрэн орсон хэрэглэгч:</p>
+<pre tabindex="0"><code>current_user
+</code></pre><p>Session рүү энэ хүрээллээр нэвтрэх боломжтой:</p>
+<pre tabindex="0"><code>user_session
+</code></pre>]]></content:encoded>
     </item>
     <item>
       <title>Hello, Rails!</title>
@@ -33,6 +146,137 @@
       <pubDate>Mon, 04 Jan 2016 00:00:00 +0000</pubDate>
       <guid>https://cadil.github.io/posts/2016-01-04-hello/</guid>
       <description>Энгийн апплкейшн бичих.</description>
+      <content:encoded><![CDATA[<h3 id="mvc">MVC</h3>
+<p>Rails нь MVC framework буюу тогтолцоо юм. Rails нь browser - ѳѳс ирэх хүсэлтүүдийг хүлээн авч controller-т ирсэн хүсэлтүүдийг декод (тайлж унших) хийх бѳгѳѳд уг болж байгаа процессыг <code>action method</code> гэж нэрлэдэг.</p>
+<p>Rails - аас авах нэг сайн тал гэвэл дотоод холболтууд нь цэгцтэй, дэс дараалалтай ер нь хамгийн сайн бүтэцтэй. “Hello World” - энгийн апплкейшн бичихийн тулд Controller, View шинээр үүсгэж кодлоно. Мэдээж энэ хоёрыг холбож ѳгсѳн холбоос, зам (route) хэрэгтэй. Нэг зүйл дутаагаад байна уу даа, гэж бодож байж магадгүй. Model - ыг яагаад бичихгүй юм бэ гэж гайхаж байгаа байх, хариулт нь, бидний одоо бичиж энэхүү апплкейшн нь ямар нэг байдлаар Data ч юм уу ѳгѳгдлийн сантай холбогдохгүй болохоор Model-ыг шууд алгасая. Эхлээд Controller - оос эхэлцгээе.
+Шинээр апплейкшн үүсгэж байсан райлс командыг ашиглан одоогийн бяцхан тѳсѳл дотроо controller үүсгэх юм. rails generate - гэх энэ райлс командыг ашиглах ба цаашид бид <code>rails g</code> гэж товчилж бичиж явна шүү. Controller үүсгэж байгаа rails g - араас script бичиж ѳгѳх байгаа. За, “Say” гэсэн controller үүсгэцгээе.</p>
+<pre><code>demo&gt; rails g controller Say hello goodbye
+create app/controllers/say_controller.rb
+ route  get &quot;say/goodbye&quot;
+ route  get &quot;say/hello&quot;
+invoke  erb
+create    app/views/say
+create    app/views/say/hello.html.erb
+create    app/views/say/goodbye.html.erb
+invoke  test_unit
+create    test/controllers/say_controller_test.rb
+invoke  helper
+create    app/helpers/say_helper.rb
+invoke    test_unit
+create      test/helpers/say_helper_test.rb
+invoke  assets
+invoke    coffee
+create      app/assets/javascripts/say.js.coffee
+invoke    scss
+create      app/assets/stylesheets/say.css.scss
+</code></pre>
+<p>За terminal доошоогоо бас л баахан шинэ файл, directories үүсчихлээ дээ. Удахгүй эдгээр файлууд нь ямар учиртай болохыг зах зухаас нь онгичож үзэцгээнэ. Ямартай ч эхлээд чухлаас нь:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ruby" data-lang="ruby"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">SayController</span> <span style="color:#f92672">&lt;</span> <span style="color:#66d9ef">ApplicationController</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">hello</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">goodbye</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span></code></pre></div><p>Хоосон, ил хул, код байхгүй юм шиг санагдаж байна уу?
+Нѳгѳѳ гоё удамшил ороод ирсэн байгаа юм л даа. Энгийнээр бол SayController гэсэн class нь ApplicationController - оос удамшчихлаа гэж. Нэг ёсондоо автомотоор бүхий л default утгуудыг нь ѳѳртѳѳ авчихлаа гэсэн үг л дээ. Тэхээр дээр байгаа код юу хийж болох, эсвэл яг одоогоор ямар үүрэг гүйцэтгэж байна гэж хэдүүлээ ѳѳрсѳддѳѳ асуулт тавиад үзэцгээе. Одоогоор бол дээрх код юу ч хийхгүй, ямар ч үүрэггүй байгаа л гэсэн үг. Маш энгийн, бидэнд <code>hello()</code> бас <code>goodbye()</code> гэсэн хоёр хоосон (empty) action method - ууд л байна. Яагаад бас hello(), goodbye() гэсэн method гараад ирэв ээ, гэж гайхаж байгаа байх. Энэ хэсгийг ойлгохын тулд ѳѳр нэг хэсэг үрүү ѳндийж харахгүй бол болохгүй нь дээ. Rails Handles requests буюу ирж байгаа хүсэлтүүдийг зохицуулагч.</p>
+<h3 id="rails-болон-request-urls">Rails болон Request URLs</h3>
+<p>Яг л бусад веб апплкейшнуудын адил, Rails application - ын URL хаягийг хэрэглэгчтэй холбож ѳгч байгаа холболт юм. Тухайн URL - руу хандах хүсэлт browser - ээс явуулахад ар талд нь мэдээж тухайн хүсэлтийг боловсруулан (апп кодууд), эргүүлэн хэрэглэгч рүү хүргэх юм.
+Туршаад үзье. http://localhost:3000/say/hello - энэ хаяг руу хандалт хийгээд үзэцгээе.</p>
+<h3 id="action">Action</h3>
+<p>Дараагийн алхам маань дэлгэцэнд юу харуулах вэ гэх асуулт. Энэ хэсгээс л <code>View</code> орж ирж байгаа юм даа. Controller - шинээр үүсгэж байхдаа бид бүхэн ямар script ашиглаж байсныг санаж байна уу? Санахгүй байгаа бол эргүүлэн нэг хараарай. Тэр командаар терминал доошоо олон файл, directory үүссэн байхаа. Тэр дунд template файл буюу controller-ын views - үүссэн байгаа.. Үүннээс үзэхэд бид Say нэртэй controller үүсгэсэн. Тэгэхээр views маань app/view/say - directory-д байгаа юм.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>&lt;<span style="color:#f92672">h1</span>&gt;Hello from Rails!&lt;/<span style="color:#f92672">h1</span>&gt;
+</span></span></code></pre></div><p>hello.html.erb - файлаа хадаглаад, browser - оо refresh хийгээд үзээрэй. Одоо ойлгосон байх, тийм үү.</p>
+<p>Дүгнээд нэг харахад, бид Rails Application Tree - гээс хоёр файлын утга, арга, үүрэг зэргийг судлаад эзэмшчихлээ. Controller  гэж юу болох талаар мэдэж авлаа, browser дээр template - modify хийж үзлээ. За тэгээд, Rails-ын шатлалыг харвал: controller нь app/controller дотор, views нь app/views гэсэн subdirectories дотор байрлаж байна.</p>
+<h3 id="dynamic">Dynamic</h3>
+<p>Апп гэж хэлэхэд хэцүү нэг энгийн static page ямартай ч хийчихлээ. Бага зэрэг Dynamic болговол ямарав, орох болгонд хэдэн цаг болж байгааг харуулдаг хэсэг нэмж ѳгцгѳѳе.
+Нэмэхийн тулд views-д байгаа template файлыг ѳѳрчлѳх хэрэгтэй. Цаг (Time) - харуулах string хэрэг болох юм. Үүнээс улбаалаад хоёр асуулт үүснэ. Нэгт, хэрхэн яаж Dynamic Content - оо одоо байгаа template - дээ нэмэх вэ? Хоёрт, цагаа хаанаа авах юм бэ?</p>
+<h3 id="dynamic-content">Dynamic Content</h3>
+<p>Райлс дотор Dynamic загвар оруулах олон арга бий. Хамгийн ѳргѳн ашигладдаг нь за одоо заагаад ѳгье. Ruby кодыг Template - тэйгээ embed (зарим энэ мэт үгийг орчуулахгүйгээр шууд хэрэглээд явна, угаасаа ч орчуулдахааргүй үг) хийх юм. Тиймээс л бид template файлаа show.html.erb гэж хадагалсан юм. Html.erb гэсэн формат залгаж бичсэн шалтгаан нь <code>ERB</code> гэсэн системыг Rails ѳрѳгжүүлэн дэмжээд явна.
+ERB нь Ruby - ын нэгэн хэсэг болж суудаг ба суулгах энэ тэрээ зүйл дээр санаа зовоод байх хэрэггүй. Erb нь output - үүдыг хувирган юу ч хамаагүй болгож болдог. Энгийнээр бол <code>&lt;%= and %&gt;</code> - гэх код нь Рубю кодоор танигдах хэдий ч үр дүнд нь string болон хѳрвүүлэгдэж байгаад л онцлог юм. Тэхээр &lt;% … %&gt; уг кодын дотор л утга аа оруулаад ѳгѳхѳд л үр дүн нь хэвлэгдэх юм. Жишээ нь:</p>
+<pre tabindex="0"><code class="language-ERB" data-lang="ERB">&lt;h1&gt;Hello from Rails!&lt;/h1&gt;
+&lt;p&gt;
+	Одоо цаг &lt;%= Time.now %&gt; болж байна.
+&lt;/p&gt;
+</code></pre><p>Одоо browser - оо refresh хийгээд үз. Харагдаж байгаа цаг бол Ruby - ын standard format - аар харагдаж байгаа.</p>
+<h3 id="цаг-нэмэх">Цаг нэмэх</h3>
+<p>Ерѳнхийдѳѳ applcation - оо Dynamic болгох ганц хоёр алхамтай танилцлаа.. Дараагийн алхам бол одоо харагдаж байгаа цаг нь хаанаас дамжин харагдаж байгааг тогтоон address хийж ѳгѳх юм.</p>
+<p>Ruby-гын <code>Time.now()</code> method нь embed хийж hello.html.erb загварт дуудан ѳгч ажиллаж байна. Хэрэглэгч, хандагч, уг page руу хандах бүр хэдэн цаг болж байгааг яг таг харуулж байна. Жижиг хэмжээний ѳѳрчлѳлт оруулж үзэцгээе. Одоо харагдаж байгаа view хэсгийг энэ чигт нь үлдээж controller хэсэгт цагийг байрлуулах шаардлагатай гэж үзээд Controller хэсэгт action method - ыг <code>@time</code> гэсэн хувьсагчид орлуулна. </p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ruby" data-lang="ruby"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">SayController</span> <span style="color:#f92672">&lt;</span> <span style="color:#66d9ef">ApplicationController</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">hello</span>
+</span></span><span style="display:flex;"><span>	@time <span style="color:#f92672">=</span> <span style="color:#66d9ef">Time</span><span style="color:#f92672">.</span>now
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">goodbye</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span></code></pre></div><p>.html.erb - загвар дотор, controller хэсэгт оруулж ѳгсѳн хувьсагчаа орлуулж бичнэ.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>&lt;<span style="color:#f92672">h1</span>&gt;Hello from Rails!&lt;/<span style="color:#f92672">h1</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">p</span>&gt; 
+</span></span><span style="display:flex;"><span>  It is now <span style="color:#960050;background-color:#1e0010">&lt;</span>%= @time %&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">p</span>&gt; 
+</span></span></code></pre></div><p>Browser - ѳѳ refresh хийгээд харвал controller дээр нэмсэн хувьсагч маань views хэсэгт буюу энэ хоёрын хооронд утга дамжин амжилттайгаар дэлгэцэд хэвлэн харуулж байна. </p>
+<p>Яагаад заавал controller - оос харуулж байгаа зүйлийг views - дээр зарлан, хоёр гурван юм нэмж хийж, ажил удаад байгаа юм гэж гайхаж магадгүй. Уг Application - дотор бол ингэж хийсэн хийгээгүй нээх ѳѳрчлѳлт гарахгүй. Гэхдээ логикоор харвал ингэж хийх нь бидэнд ашигтай юм. Жишээ нь: 
+Application - оо цаашид хѳгжүүлж олон орны хэрэглэгч хандалт хийх боломжтой болгоё гэж тѳсѳѳлье. Үүн дээр үндэслэхэд, тухайн орны цагын бүсээс хамааран дэлгэцэнд хэдэн цаг болж байгааг харуулах нь чухал. Ингэж харуулахад хангалттай хэмжээний код нэмж бичих хэрэг болно. Харин энэ их хэмжээний код нь views - д тийм тохиромжтой шийдэл болж чадахгүй л болох уу! Харин controller - т цагийг харуулахаар шийдэж ѳгснѳѳр уг application - ыг илүү уян хатан боглож ѳгч байгаа ба controller хэсгээс ѳѳрчлѳсѳн цагын бүс нь views хэсэгт мѳн time object - ыг update хийгээд байх шаардлага байхгүй гэсэн үг юм. Цагыг Data гэж үз, тэгвэл заавал view болон controller - тэй холбогдсон байх шаардлагтай. Цаашид Model гэж судлаад ирэхээр бид энэ тухай илүү ихийг сурах болно.</p>
+<h3 id="дүгнээд-нэг-харвал">Дүгнээд нэг харвал</h3>
+<ul>
+<li>Хэрэглэгч уг application-нд хандалтыг local-оос http://localhost:3000/say/hello - URL хаягаар хандан орсон..</li>
+<li>Rails - routes - ыг тааруулж ѳгсѳн. 2 хэсэгт хуваан авч үзвэл, <code>say</code> хэсэг нь controller хэсгийг авч, ингэснээр Rails нь шинээр Ruby-гын SayController хэсгийг дуурайлган буюу удамшуулан үүсгэх боломжтой болсон. (app/controllers/say_controller.rb - гэх дарааллаар олж болно)</li>
+<li>Дараагийн хэсэгт нь <code>hello</code> - ыг action - гэдгийг тодорхойлсон. Rails нь тухайн нэрийн дагуу controller - оос method - ыг дуудсан. Энэхүү action method нь time object - ыг үүсгэж, <code>@time</code> гэсэн хувьсагч болгосон.</li>
+<li>Rails нь загвар ашиглан үр дүнг дэлгэцэд хэвлэдэг болсон. App/view directory -&gt; subdirectory нь controller-ын (say) - тэй адил нэрээр, тэрхүү subdirectory дотор hello.html.erb.</li>
+<li>Rails нь уг файлыг <code>ERB templating system</code> - руу боловсруулан, controller хэсэгт утгыг (value) заан Ruby - д оруулж (embed) ѳгсѳн.</li>
+<li>Үр дүнг browser дээрээс харахад, Rails хүсэлтүүдийг боловсруулан, ажиллаж байсан.</li>
+</ul>
+<h3 id="pages---үүдыг-холбох">Pages - үүдыг холбох</h3>
+<p>Нэг хуудастай Web Application гэж ч бас хаана байхав. Энэ удаа бид applicaiton - доо энгийн веб загвар хийж үзэцгээе.</p>
+<p>2 action - доо нэг controller ашиглана. Яагаад гэвэл бидэнд одоо шинээр controller - үүсгээд байх шаардлага гараагүй болохоор.</p>
+<p>Goodbye action - г controller - т define хийгээд ѳгчихсѳн болохоор одоо app/views/say дотор шинэ template үүсгэж ѳгѳх юм. Goodbye.html.erb гэж байгаа учир нь action нь default template загвар авах үедээ action - ын нэртэй холбогдож байдаг болохоор гэж ойлгож болно. </p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>&lt;<span style="color:#f92672">h1</span>&gt;Goodbye!&lt;/<span style="color:#f92672">h1</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">p</span>&gt; 
+</span></span><span style="display:flex;"><span>	Энд байх сайхан байна.
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">p</span>&gt; 
+</span></span></code></pre></div><p>Browser - рүүгээ ороод энэ удаа URL хаягаа ѳѳрчлѳѳд хандалт хийнэ. http://localhost:3000/say/goodbye</p>
+<p>Харин одоо хоёр page - ээ хооронд нь холболт хийх хэрэгтэй. Hello page - ыг Goodbye page - тэй холбоно. Цаашид application хийхдээ хоорондын холболтыг button ашиглаж хийнэ, энэ удаа зүгээр hyperlink - ашиглаад хийчихье.</p>
+<p>hello.html.erb - иймэрхүү байдлаар:</p>
+<pre tabindex="0"><code class="language-erb" data-lang="erb">&lt;p&gt; 
+	Say &lt;a href=&#34;https://cadil.github.io/say/goodbye&#34;&gt;Goodbye&lt;/a&gt;! 
+&lt;/p&gt; 
+</code></pre><p>Харин goodbye.html.erb:</p>
+<pre tabindex="0"><code class="language-erb" data-lang="erb">&lt;p&gt; 
+	Say &lt;a href=&#34;https://cadil.github.io/say/hello&#34;&gt;Hello&lt;/a&gt;! 
+&lt;/p&gt; 
+</code></pre><p>Дээрx аргаар бичиж болно, асуудалгүй ажиллана. Нѳгѳѳ талаас жаахан эмзэг л болох юм даа. Уг Application - ынхаа web server - ыг ѳѳрчлѳѳд үзьѳ гэж бодоход URL - ууд шууд танихаа болино. 
+Тийм болохоор, бид иймэрхүү эрсдэл хүлээх хэрэг байхгүй. Rails цаанаасаа маш олон helper, methods байдаг болохоор ур аргуудыг views, template - д ашиглаж болно. Жишээл нь:
+<code>link_to()</code> - энэ method нь action - нд hyperlink үүсгэж ѳгдѳг жишээтэй. Басаж болохгүй, энэ method - ын хийж чадах зүйл их шүү. 
+hello.html.erb - дээ <code>link_to()</code> - ашиглаад үзье:</p>
+<pre tabindex="0"><code class="language-erb" data-lang="erb">&lt;h1&gt;Hello from Rails!&lt;/h1&gt;
+&lt;p&gt;
+	It is now &lt;%= @time %&gt;
+&lt;/p&gt;
+&lt;p&gt;
+	Time to say
+	&lt;%= link_to &#34;Goodbye&#34;, say_goodbye_path %&gt;!
+&lt;/p&gt;
+</code></pre><p>Түр зогсоод энэ мѳрийг сайн харьцгаая:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ruby" data-lang="ruby"><span style="display:flex;"><span><span style="color:#f92672">&lt;%=</span> link_to <span style="color:#e6db74">&#34;Goodbye&#34;</span>, say_goodbye_path <span style="color:#f92672">%&gt;</span>
+</span></span></code></pre></div><p><code>Link_to</code> - оор дуудах үйлдэл хийгдэж байна. (Rails-д method-ыг templates, helpers- ыг бичихид илүү хялбар болгож ѳгсѳн)
+<code>say_goodbye_path</code> нь зам гээд ойлгоход болно доо.</p>
+<p>Goodbye.html.erb - мѳн адил аргаар:</p>
+<pre tabindex="0"><code class="language-erb" data-lang="erb">&lt;h1&gt;Goodbye!&lt;/h1&gt;
+&lt;p&gt;
+	It was nice having you here.
+&lt;/p&gt;
+&lt;p&gt;
+	Say &lt;%= link_to &#34;Hello&#34;, say_hello_path %&gt; again.
+&lt;/p&gt;
+</code></pre><p>За энэ хүрээд энгийн туршилтын application маань дуусаж байна. Дараагийн хичээлээр бид жинхэнэ application хийхэд суралцах болно. </p>
+<h3 id="юу-хийсэн-бэ">Юу хийсэн бэ?</h3>
+<ul>
+<li>Rails application хэрхэн шинээр үүсгэх, үүсгэсэн application - доо controller шинээр үүсгэж сурлаа.</li>
+<li>Хэрхэн Dynamic контентыг controller дээр үүсгэх, үүсгэсэн контентоо view - ыг ашиглан харуулахад суралцсан.</li>
+<li>Хэрхэн page хооронд холбох талаар үзлээ.</li>
+</ul>
+]]></content:encoded>
     </item>
     <item>
       <title>Rails болон ѳгѳгдлийн сан</title>
@@ -40,6 +284,54 @@
       <pubDate>Mon, 04 Jan 2016 00:00:00 +0000</pubDate>
       <guid>https://cadil.github.io/posts/2016-01-04-ror-with-database/</guid>
       <description>Ѳгѳгдлийн сан тайлбар, ѳгѳгдлийн сан суулгах</description>
+      <content:encoded><![CDATA[<h3 id="райлсапплкейшнг-ѳѳр-database--тэйхолбох">Райлс апплкейшнг ѳѳр database - тэй холбох</h3>
+<p>Райлс апплкейшнг ѳѳр database - тэй холбох гэж байгаа бол DB2, MySQL, Oracle, Postgres, Firefird болон SQL Server гэх мэтээр сонголтууд бий. SQLite 3 - ыг Райлс апплкейшнтэй холбож ашиглахын ѳмнѳ database driver суулгаж Library нь Райлсын database engine-тэй холбож ѳгѳх хэрэгтэй.</p>
+<blockquote>
+<p>Ѳѳрийн хувийн Rails API Documentation үүсгэх</p>
+</blockquote>
+<blockquote>
+<p>Local орчинд ѳѳрийн Rails API Documentation үүсгэх боломжтой юм. Маш энгийн, доорх командыг ѳѳрийн терминал дээр бичихэд л хангалттай.</p>
+</blockquote>
+<pre tabindex="0"><code>rails_apps&gt; rails new dummy_app
+rails_apps&gt; cd dumny_app
+dumny_app&gt; rake doc:rails
+</code></pre><blockquote>
+<p>Хамгийн сүүлд бичсэн мѳр бага зэрэг хугацаа авна. Уншиж дуусмагц, Rails API Documentation нь doc/api гэсэн directory tree үүснэ. Нэг зѳвѳлгѳѳ хэлэхэд уг directory-г ѳѳрийн desktop уруу хуулаад dumnуapp tree -г устгах нь зүйтэй. </p>
+</blockquote>
+<blockquote>
+<p>Rails API Documentation - хандах бол browser дээрээс doc/apo/index.html хаягаар орох боломжтой. </p>
+</blockquote>
+<p>Дэлгэрэнгүй мэдээллийг тухайн цахим хаягаар орон шалгана уу:</p>
+<ul>
+<li>DB 2: <a href="http://raa.ruby-lang.org/project/ruby-db2">http://raa.ruby-lang.org/project/ruby-db2</a> эсвэл <a href="http://rubyforge.org/projects/rubyibm">http://rubyforge.org/projects/rubyibm</a></li>
+<li>Firebird: <a href="http://rubyforge.org/projects/fireruby/">http://rubyforge.org/projects/fireruby/</a></li>
+<li>MySQL: <a href="http://www.tmtm.org/en/mysql/ruby/">http://www.tmtm.org/en/mysql/ruby/</a></li>
+<li>Oracle: <a href="http://rubyforge.org/projects/ruby-oci8">http://rubyforge.org/projects/ruby-oci8</a></li>
+<li>Postgres: <a href="https://bitbucket.org/ged/ruby-pg/wiki/Home">https://bitbucket.org/ged/ruby-pg/wiki/Home</a></li>
+<li>SQL Server: <a href="https://github.com/rails-sqlserver">https://github.com/rails-sqlserver</a></li>
+<li>SQLLite: <a href="https://github.com/luislavena/sqlite3-ruby">https://github.com/luislavena/sqlite3-ruby</a></li>
+</ul>
+<h3 id="mysql">MySQL</h3>
+<p>MySQL server болон client суулгая:</p>
+<pre><code>sudo apt-get install mysql-server mysql-client libmysqlclient-dev
+</code></pre>
+<p>Суулгах явцад root <code>user</code> - ын нууц үгийг шинээр үүсгэж ѳгнѳ.
+<code>libmysqlclient-dev</code> - ыг суулгаж ѳгснѳѳр mysql2 gem - ыг compile хийж Райлс аппд MySQL-ыг холбох тохиргоог хийж ѳгѳх юм.</p>
+<h3 id="postgresql">PostgreSQL</h3>
+<p>Шинэ repository-г нэмж ѳгѳѳд Postgre 9.3 суулгана:</p>
+<pre><code>sudo sh -c &quot;echo 'deb http://apt.postgresql.org/pub/repos/apt/ precise-pgdg main' &gt; /etc/apt/sources.list.d/pgdg.list&quot;
+wget --quiet -O - http://apt.postgresql.org/pub/repos/apt/ACCC4CF8.asc | sudo apt-key add -
+sudo apt-get update
+sudo apt-get install postgresql-common
+sudo apt-get install postgresql-9.3 libpq-dev
+</code></pre>
+<p>Postgre-г суулгах явцад <code>user</code> тохиргоог хийж ѳгѳхгүй. Тийм болохоор дээр зааврын дагуу хийж тохиргоогоо хийгээрэй. <code>chris</code> - оронд ѳѳрийн нэрийг бичин гэж бодох хэрэгтэй.</p>
+<pre><code>sudo -u postgres createuser chris -s
+# User-т нууц үгтэй хиймээр байна уу? Доорк коммандыг дагаад хийнэ үү.
+sudo -u postgres psql
+postgres=# \password chris
+</code></pre>
+]]></content:encoded>
     </item>
     <item>
       <title>Шинээр апплейкшн үүсгэх</title>
@@ -47,6 +339,55 @@
       <pubDate>Mon, 04 Jan 2016 00:00:00 +0000</pubDate>
       <guid>https://cadil.github.io/posts/2016-01-04-shineer-applieikshn-uusghekh.%D0%BC%D0%B4/</guid>
       <description>Шинээр апплейкшн үүсгэх</description>
+      <content:encoded><![CDATA[<h3 id="апп-үүсгэх">Апп үүсгэх</h3>
+<p>Шинээр райлс апплейкшн create хийхийн ѳмнѳ бид эхлэл хэсгээсээ эхлээд зохион байгуулал, эмх цэгцтэй байх хэрэгтэй. <strong>Work</strong> гэсэн нэртэй ** шинэ directory ** үүсгэнэ. Энэ ** work ** гэсэн directory дотор тѳслүүдээ шинээр үүсгээд явбал эмх цэгцтэй, амар юм. Work - дотор demo гэсэн райлс аппклейкшн үүсгэцгээе.</p>
+<pre><code>rubys&gt; mkdir work
+rubys&gt; cd work
+work&gt; rails new demo
+create
+create README.rdoc
+create Rakefile
+create config.ru
+    :   :	:	:
+create vendor/assets/stylesheets
+create vendor/assets/stylesheets/.keep
+   run bundle install
+Fetching gem metadata from https://rubygems.rog/.......
+	:   :	:	:
+Your bundle is complete!
+Use 'bundle show [gemname]' to see where a bundled gem is installed
+work&gt;
+</code></pre>
+<p>Дээр бичигдсэн ** rails new demo** коммандаар бид <strong>demo</strong> нэртэй ** directory** үүсгэлээ. Терминал доошоогоо subdirectory болон олон шинэ файлуудыг автомотаар default - аар үүсгэж ѳгѳв.</p>
+<pre><code>work&gt; cd demo
+demo&gt; ls -p
+app/  config/  db/  Gemfile.lock log/  Rakefile  test/   vendor/
+bin/  config.ru  Gemfile lib/    public/  README.rdoc  tmp/
+</code></pre>
+<p>Гэх мэтээр directory - ууд үүсгэх ба энэхүү chapter - т бид эдгээрийг ашиглах шаардлага одооогоор гарахгүй ба зѳвхѳн app/ directory-д ѳѳрсдийн кодоо бичих нэмж оруулах юм.</p>
+<p>Доорх коммандаар дэлгэрэнгүй мэдээлэл авах боломжтой:</p>
+<pre><code>demo&gt; rake about
+</code></pre>
+<p>Мѳн дээрх кодоор алдаа хайж болдог ба жишээ нь JavaScript runtime  - олдохгүй байгаа бол алдааны мэдээлэл гаргаж боломжит линкүүдээс татаж авах хүсэлт ирүүлнэ.</p>
+<p><strong>rake about</strong> - аар алдаа илэрээгүй бол цааш үргэлжүүлцгээе. Одоо юу хийх хэрэгтэй вэ гэхээр Stand-alone Web server - ыг асаахад л болно. Ингэж server асааж байж л бид шинээр үүсгэсэн райлс аппклейншаа ажиллуулах юм.</p>
+<pre><code>demo&gt; rails server
+=&gt; Booting WEBrick
+=&gt; Rails 4.0.0 application starting in development on http://0.0.0.0:30000
+=&gt; Run 'rails server -h' for more startup options
+=&gt; Ctrl+C to shutdown server
+[2013-04-18 20:22:16] INFO WEBrick 1.3.1
+[2013-04-18 20:22:16] INFO ruby 2.0.0 (2013-02-24) [x86_64-linux] 
+[2013-04-18 20:22:16] INFO WEBrick::HTTPServer#start: pid=25170 port=3000
+</code></pre>
+<p>Web Server нь ямар server суулгасан эсэхээс шалтгаалан ажиллах ба Ruby-гийн хувьд <strong>WEBrick server</strong> нь ruby-гийн цѳм нь болж ѳгсѳн нэг үгээр бол ruby-г илтгэж чадахаар нэгэн бүхэл хэсэг нь болсон сервер юм. Гэхдээ яах уу, ѳѳрийн дурын веб серверыг суулган Ruby on Rails тай хослуулан ажиллуулж болно. </p>
+<p>Доорк коммандыг ашиглан WEBrick-ыг хүчлэн (force) ажиллуулж болно.</p>
+<pre><code>demo&gt; rails server webtrick
+</code></pre>
+<p>Сервер асаасан код боксын хамгийн сүүлийн мѳрийг харвал server нь port:3000 дээр ассан байна. 0.0.0.0 гэсэн холболтыг авч үзвэл WEBrick нь тухайн address-д connection - д бүхэл талын зѳвшѳѳрлыг олгож байна гэж ойлгож болно. Ойлгогдохоор хэлбэл дурын browser дээр <strong>http://localhost:3000</strong> address - аар хандан сервер рүү холбогдох юм.</p>
+<p>Сервер ээ асаагаад localhost-oos харж болж байна. Терминал дээр сервер дээр болж байгаа үйл явцыг <code>tracking</code> - хийх боломжтой юм.</p>
+<p><code>Ctrl + C</code> - командыг ашиглан WEBrick-ыг унтраана. Гэхдээ одоохондоо битгий унтраагаарай бид цааш үргэлжлүүлэн явах болхлоор…</p>
+<p>Апплкейшнаа үүсгээд сервер ээ асаачихлаа, харин ерѳѳсѳѳ код бичсэнгүй ээ, тийм ээ? Дараагийн хэсгээс код уруу орцгооё!</p>
+]]></content:encoded>
     </item>
     <item>
       <title>Ruby on Rails суулгах</title>
@@ -54,6 +395,55 @@
       <pubDate>Sun, 03 Jan 2016 00:00:00 +0000</pubDate>
       <guid>https://cadil.github.io/posts/2016-01-03-ruby-on-rails-setup/</guid>
       <description>Ruby, Rails суулгах</description>
+      <content:encoded><![CDATA[<h3 id="руби-суулгах-223">Руби суулгах [2.2.3]</h3>
+<pre><code>sudo apt-get update
+sudo apt-get install git-core curl zlib1g-dev build-essential libssl-dev libreadline-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev libcurl4-openssl-dev python-software-properties libffi-dev
+</code></pre>
+<p>Эхллэд зарим шаардлагатай зүйлсийг суулгана.
+Ruby-г суулгах үндсэндээ 3 арга байдаг. Тус бүр ѳѳр ѳѳрийн гэсэн давуу талуудтай.</p>
+<ul>
+<li>rbenv</li>
+<li>rvm</li>
+<li>from source</li>
+</ul>
+<p>Хамгийн recommended арга нь rbenv, rvm хоёр юм. Энэ удаа <code>rbenv</code> аргаар ruby-г суулгана.
+Rbenv арга нь энгийн хоёр алхамтай. Эхлээд <code>rbenv</code>-гээ суулгаад дараа нь <code>ruby-build</code> - ээ суулгана:</p>
+<pre><code>cd
+git clone git://github.com/sstephenson/rbenv.git .rbenv
+echo 'export PATH=&quot;$HOME/.rbenv/bin:$PATH&quot;' &gt;&gt; ~/.bashrc
+echo 'eval &quot;$(rbenv init -)&quot;' &gt;&gt; ~/.bashrc
+exec $SHELL
+
+git clone git://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
+echo 'export PATH=&quot;$HOME/.rbenv/plugins/ruby-build/bin:$PATH&quot;' &gt;&gt; ~/.bashrc
+exec $SHELL
+
+git clone https://github.com/sstephenson/rbenv-gem-rehash.git ~/.rbenv/plugins/rbenv-gem-rehash
+
+rbenv install 2.2.3
+rbenv global 2.2.3
+ruby -v
+</code></pre>
+<p>Rubygems - ыг илүү дутуу documentation-гүйгээр суулгана:</p>
+<pre><code>echo &quot;gem: --no-ri --no-rdoc&quot; &gt; ~/.gemrc
+gem install bundler
+</code></pre>
+<h3 id="rails-суулгах-424">Rails суулгах [4.2.4]</h3>
+<p>Rails суулгахын ѳмнѳ <code>NodeJS</code> суулгана:</p>
+<pre><code>curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
+sudo apt-get install -y nodejs
+</code></pre>
+<p>Rails суулгая:</p>
+<pre><code>gem install rails -v 4.2.4
+</code></pre>
+<p>Rails суусан эсэхийг шалгах:</p>
+<pre><code>rbenv rehash
+</code></pre>
+<p>Rails -v коммандыг ашиглан яг бүрэн суусан эсэхийг шалгая:</p>
+<pre><code>rails -v
+# Rails 4.2.4
+</code></pre>
+]]></content:encoded>
     </item>
   </channel>
 </rss>
