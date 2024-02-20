@@ -11,12 +11,12 @@
     </image>
     <generator>Hugo -- gohugo.io</generator>
     <language>mn</language>
-    <lastBuildDate>Sat, 17 Feb 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 20 Feb 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://cadil.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Writeup</title>
       <link>https://cadil.github.io/tags/writeup/</link>
-      <pubDate>Sat, 17 Feb 2024 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 20 Feb 2024 00:00:00 +0000</pubDate>
       <guid>https://cadil.github.io/tags/writeup/</guid>
       <description></description>
     </item>
@@ -63,7 +63,7 @@
       <description></description>
     </item>
     <item>
-      <title>kubectl</title>
+      <title>Kubectl</title>
       <link>https://cadil.github.io/tags/kubectl/</link>
       <pubDate>Tue, 12 Jan 2021 00:00:00 +0000</pubDate>
       <guid>https://cadil.github.io/tags/kubectl/</guid>
@@ -98,56 +98,56 @@
       <description></description>
     </item>
     <item>
-      <title>rails</title>
+      <title>Rails</title>
       <link>https://cadil.github.io/tags/rails/</link>
       <pubDate>Wed, 13 Apr 2016 00:00:00 +0000</pubDate>
       <guid>https://cadil.github.io/tags/rails/</guid>
       <description></description>
     </item>
     <item>
-      <title>rspec</title>
+      <title>Rspec</title>
       <link>https://cadil.github.io/tags/rspec/</link>
       <pubDate>Wed, 13 Apr 2016 00:00:00 +0000</pubDate>
       <guid>https://cadil.github.io/tags/rspec/</guid>
       <description></description>
     </item>
     <item>
-      <title>ruby</title>
+      <title>Ruby</title>
       <link>https://cadil.github.io/tags/ruby/</link>
       <pubDate>Wed, 13 Apr 2016 00:00:00 +0000</pubDate>
       <guid>https://cadil.github.io/tags/ruby/</guid>
       <description></description>
     </item>
     <item>
-      <title>authentication</title>
+      <title>Authentication</title>
       <link>https://cadil.github.io/tags/authentication/</link>
       <pubDate>Tue, 12 Apr 2016 00:00:00 +0000</pubDate>
       <guid>https://cadil.github.io/tags/authentication/</guid>
       <description></description>
     </item>
     <item>
-      <title>gem</title>
+      <title>Gem</title>
       <link>https://cadil.github.io/tags/gem/</link>
       <pubDate>Tue, 12 Apr 2016 00:00:00 +0000</pubDate>
       <guid>https://cadil.github.io/tags/gem/</guid>
       <description></description>
     </item>
     <item>
-      <title>cli</title>
+      <title>Cli</title>
       <link>https://cadil.github.io/tags/cli/</link>
       <pubDate>Mon, 04 Jan 2016 00:00:00 +0000</pubDate>
       <guid>https://cadil.github.io/tags/cli/</guid>
       <description></description>
     </item>
     <item>
-      <title>database</title>
+      <title>Database</title>
       <link>https://cadil.github.io/tags/database/</link>
       <pubDate>Mon, 04 Jan 2016 00:00:00 +0000</pubDate>
       <guid>https://cadil.github.io/tags/database/</guid>
       <description></description>
     </item>
     <item>
-      <title>version control</title>
+      <title>Version Control</title>
       <link>https://cadil.github.io/tags/version-control/</link>
       <pubDate>Sun, 03 Jan 2016 00:00:00 +0000</pubDate>
       <guid>https://cadil.github.io/tags/version-control/</guid>

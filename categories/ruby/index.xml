@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>ruby on CaDiL&#39;s Blog</title>
+    <title>Ruby on CaDiL&#39;s Blog</title>
     <link>https://cadil.github.io/categories/ruby/</link>
-    <description>Recent content in ruby on CaDiL&#39;s Blog</description>
+    <description>Recent content in Ruby on CaDiL&#39;s Blog</description>
     <image>
       <title>CaDiL&#39;s Blog</title>
       <url>https://cadil.github.io/static</url>
