@@ -14,6 +14,13 @@
     <lastBuildDate>Tue, 27 Feb 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://cadil.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>HTB - Devzat</title>
+      <link>https://cadil.github.io/posts/2024-03-01-htb-devzat-writeup/</link>
+      <pubDate>Tue, 27 Feb 2024 00:00:00 +0000</pubDate>
+      <guid>https://cadil.github.io/posts/2024-03-01-htb-devzat-writeup/</guid>
+      <description>HTB - Devzat - Writeup /Mostly Notes/</description>
+    </item>
+    <item>
       <title>HTB - EarlyAccess</title>
       <link>https://cadil.github.io/posts/2024-02-27-htb-earlyaccess-writeup/</link>
       <pubDate>Tue, 27 Feb 2024 00:00:00 +0000</pubDate>

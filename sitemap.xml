@@ -2,6 +2,9 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://cadil.github.io/posts/2024-03-01-htb-devzat-writeup/</loc>
+    <lastmod>2024-02-27T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>https://cadil.github.io/posts/2024-02-27-htb-earlyaccess-writeup/</loc>
     <lastmod>2024-02-27T00:00:00+00:00</lastmod>
   </url><url>
