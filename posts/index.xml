@@ -11,8 +11,15 @@
     </image>
     <generator>Hugo -- gohugo.io</generator>
     <language>mn</language>
-    <lastBuildDate>Thu, 07 Mar 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 08 Mar 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://cadil.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>HTB - RouterSpace</title>
+      <link>https://cadil.github.io/posts/2024-03-08-htb-routerspace-writeup/</link>
+      <pubDate>Fri, 08 Mar 2024 00:00:00 +0000</pubDate>
+      <guid>https://cadil.github.io/posts/2024-03-08-htb-routerspace-writeup/</guid>
+      <description>HTB - RouterSpace - Writeup /Mostly Notes/</description>
+    </item>
     <item>
       <title>HTB - Overflow</title>
       <link>https://cadil.github.io/posts/2024-03-07-htb-overflow-writeup/</link>
