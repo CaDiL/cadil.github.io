@@ -11,8 +11,15 @@
     </image>
     <generator>Hugo -- gohugo.io</generator>
     <language>mn</language>
-    <lastBuildDate>Sat, 09 Mar 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 10 Mar 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://cadil.github.io/categories/writeup/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>HTB - Catch</title>
+      <link>https://cadil.github.io/posts/2024-03-10-htb-catch-writeup/</link>
+      <pubDate>Sun, 10 Mar 2024 00:00:00 +0000</pubDate>
+      <guid>https://cadil.github.io/posts/2024-03-10-htb-catch-writeup/</guid>
+      <description>HTB - Catch - Writeup /Mostly Notes/</description>
+    </item>
     <item>
       <title>HTB - Undetected</title>
       <link>https://cadil.github.io/posts/2024-03-09-htb-undetected-writeup/</link>
