@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>NextDNS on CaDiL&#39;s Blog</title>
+    <link>https://cadil.github.io/tags/nextdns/</link>
+    <description>Recent content in NextDNS on CaDiL&#39;s Blog</description>
+    <image>
+      <title>CaDiL&#39;s Blog</title>
+      <url>https://cadil.github.io/static</url>
+      <link>https://cadil.github.io/static</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>mn</language>
+    <lastBuildDate>Thu, 28 Mar 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://cadil.github.io/tags/nextdns/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Tailscale VPN(mesh) &#43; Cloudflare &#43; NextDNS &#43; Nignx Proxy Manager (Let&#39;s Encrypt) SSL certificate тохируулах</title>
+      <link>https://cadil.github.io/posts/2024-03-28-ssl-cert-using-npm-tailscale-cloudflare&#43;nextdns/</link>
+      <pubDate>Thu, 28 Mar 2024 00:00:00 +0000</pubDate>
+      <guid>https://cadil.github.io/posts/2024-03-28-ssl-cert-using-npm-tailscale-cloudflare&#43;nextdns/</guid>
+      <description>Tailscale VPN(mesh) &#43; Cloudflare &#43; NextDNS &#43; Nignx Proxy Manager (Let&amp;#39;s Encrypt) SSL certificate тохируулах</description>
+    </item>
+  </channel>
+</rss>

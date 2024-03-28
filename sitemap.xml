@@ -2,6 +2,9 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://cadil.github.io/posts/2024-03-28-ssl-cert-using-npm-tailscale-cloudflare&#43;nextdns/</loc>
+    <lastmod>2024-03-28T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>https://cadil.github.io/posts/2024-03-16-htb-redpanda-writeup/</loc>
     <lastmod>2024-03-16T00:00:00+00:00</lastmod>
   </url><url>
@@ -129,16 +132,28 @@
     <lastmod>2016-01-03T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://cadil.github.io/</loc>
-    <lastmod>2024-03-16T00:00:00+00:00</lastmod>
+    <lastmod>2024-03-28T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://cadil.github.io/categories/</loc>
-    <lastmod>2024-03-16T00:00:00+00:00</lastmod>
+    <lastmod>2024-03-28T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://cadil.github.io/tags/docker/</loc>
+    <lastmod>2024-03-28T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://cadil.github.io/tags/nextdns/</loc>
+    <lastmod>2024-03-28T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://cadil.github.io/posts/</loc>
-    <lastmod>2024-03-16T00:00:00+00:00</lastmod>
+    <lastmod>2024-03-28T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://cadil.github.io/categories/ssl-certificate/</loc>
+    <lastmod>2024-03-28T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://cadil.github.io/tags/</loc>
-    <lastmod>2024-03-16T00:00:00+00:00</lastmod>
+    <lastmod>2024-03-28T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://cadil.github.io/tags/tailscale/</loc>
+    <lastmod>2024-03-28T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://cadil.github.io/tags/writeup/</loc>
     <lastmod>2024-03-16T00:00:00+00:00</lastmod>
@@ -174,9 +189,6 @@
     <lastmod>2021-01-12T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://cadil.github.io/tags/container/</loc>
-    <lastmod>2020-12-25T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://cadil.github.io/tags/docker/</loc>
     <lastmod>2020-12-25T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://cadil.github.io/tags/nginx/</loc>

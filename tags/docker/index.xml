@@ -11,8 +11,15 @@
     </image>
     <generator>Hugo -- gohugo.io</generator>
     <language>mn</language>
-    <lastBuildDate>Fri, 25 Dec 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 28 Mar 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://cadil.github.io/tags/docker/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Tailscale VPN(mesh) &#43; Cloudflare &#43; NextDNS &#43; Nignx Proxy Manager (Let&#39;s Encrypt) SSL certificate тохируулах</title>
+      <link>https://cadil.github.io/posts/2024-03-28-ssl-cert-using-npm-tailscale-cloudflare&#43;nextdns/</link>
+      <pubDate>Thu, 28 Mar 2024 00:00:00 +0000</pubDate>
+      <guid>https://cadil.github.io/posts/2024-03-28-ssl-cert-using-npm-tailscale-cloudflare&#43;nextdns/</guid>
+      <description>Tailscale VPN(mesh) &#43; Cloudflare &#43; NextDNS &#43; Nignx Proxy Manager (Let&amp;#39;s Encrypt) SSL certificate тохируулах</description>
+    </item>
     <item>
       <title>Odoo -г Docker-с ажилууллах</title>
       <link>https://cadil.github.io/posts/2020-12-25-docker-compose/</link>
