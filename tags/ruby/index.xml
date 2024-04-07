@@ -49,13 +49,6 @@
       <description>Шинээр апплейкшн үүсгэх</description>
     </item>
     <item>
-      <title>Git</title>
-      <link>https://cadil.github.io/posts/2016-01-03-git/</link>
-      <pubDate>Sun, 03 Jan 2016 00:00:00 +0000</pubDate>
-      <guid>https://cadil.github.io/posts/2016-01-03-git/</guid>
-      <description>Version Control болон Git CLI</description>
-    </item>
-    <item>
       <title>Ruby on Rails суулгах</title>
       <link>https://cadil.github.io/posts/2016-01-03-ruby-on-rails-setup/</link>
       <pubDate>Sun, 03 Jan 2016 00:00:00 +0000</pubDate>
