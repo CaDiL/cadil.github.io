@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Linux on CaDiL&#39;s Blog</title>
+    <link>https://cadil.github.io/categories/linux/</link>
+    <description>Recent content in Linux on CaDiL&#39;s Blog</description>
+    <image>
+      <title>CaDiL&#39;s Blog</title>
+      <url>https://cadil.github.io/static</url>
+      <link>https://cadil.github.io/static</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>mn</language>
+    <lastBuildDate>Thu, 11 Jul 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://cadil.github.io/categories/linux/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Fedora 40 - Config</title>
+      <link>https://cadil.github.io/posts/2024-07-11-fedora-40/</link>
+      <pubDate>Thu, 11 Jul 2024 00:00:00 +0000</pubDate>
+      <guid>https://cadil.github.io/posts/2024-07-11-fedora-40/</guid>
+      <description>Fedora 40 - Configuration</description>
+    </item>
+  </channel>
+</rss>
