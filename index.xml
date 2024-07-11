@@ -321,5 +321,12 @@
       <guid>https://cadil.github.io/posts/2016-01-03-ruby-on-rails-setup/</guid>
       <description>Ruby, Rails суулгах</description>
     </item>
+    <item>
+      <title>Bookmark</title>
+      <link>https://cadil.github.io/bookmark/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://cadil.github.io/bookmark/</guid>
+      <description>Bookmarks</description>
+    </item>
   </channel>
 </rss>
