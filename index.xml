@@ -314,5 +314,12 @@
       <guid>https://cadil.github.io/posts/2016-01-03-ruby-on-rails-setup/</guid>
       <description>Ruby, Rails суулгах</description>
     </item>
+    <item>
+      <title></title>
+      <link>https://cadil.github.io/posts/2024-07-11-fedora-40/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://cadil.github.io/posts/2024-07-11-fedora-40/</guid>
+      <description>s&amp;mdash; author: &amp;ldquo;CaDiL&amp;rdquo; title: &amp;ldquo;Fedora 40 - Config&amp;rdquo; date: &amp;ldquo;2024-07-11&amp;rdquo; description: &amp;ldquo;Fedora 40 - Configuration&amp;rdquo; tags: [&amp;ldquo;Fedora&amp;rdquo;] categories: [&amp;ldquo;Linux&amp;rdquo;] ShowToc: true TocOpen: false weight: 2 Cleaning sudo dnf remove mediawriter gnome-contacts gnome-weather gnome-maps gnome-boxes gnome-tour gnome-software cheese totem -y sudo dnf autoremove -y systemctl disable NetworkManager-wait-online systemctl mask NetworkManager-wait-online Configuring # flatpak flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo # dnf5 sudo ln -sf dnf-3 /usr/bin/dnf sudo dnf install dnf5 sudo ln -sf dnf5 /usr/bin/dnf echo &amp;#34;max_parallel_downloads=10&amp;#34; | sudo tee -a /etc/dnf/dnf.</description>
+    </item>
   </channel>
 </rss>
