@@ -335,5 +335,12 @@
       <guid>https://cadil.github.io/bookmark/</guid>
       <description>Bookmarks</description>
     </item>
+    <item>
+      <title>What Using for daily</title>
+      <link>https://cadil.github.io/using/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://cadil.github.io/using/</guid>
+      <description>Here&amp;rsquo;s list of item that using for daily</description>
+    </item>
   </channel>
 </rss>
