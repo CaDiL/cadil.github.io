@@ -11,8 +11,15 @@
     </image>
     <generator>Hugo -- gohugo.io</generator>
     <language>mn</language>
-    <lastBuildDate>Mon, 26 Aug 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 01 Oct 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://cadil.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Fedora 40 KDE Plasma </title>
+      <link>https://cadil.github.io/posts/2024-10-01-fedora-40-plasma/</link>
+      <pubDate>Tue, 01 Oct 2024 00:00:00 +0000</pubDate>
+      <guid>https://cadil.github.io/posts/2024-10-01-fedora-40-plasma/</guid>
+      <description>Fedora 40 KDE Plasma - Setup</description>
+    </item>
     <item>
       <title>Android and Apps</title>
       <link>https://cadil.github.io/posts/2024-08-26-android_and_apps/</link>
