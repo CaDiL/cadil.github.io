@@ -11,8 +11,15 @@
     </image>
     <generator>Hugo -- gohugo.io</generator>
     <language>mn</language>
-    <lastBuildDate>Tue, 01 Oct 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 10 Oct 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://cadil.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Automating photos upload workflow using WeTransfer</title>
+      <link>https://cadil.github.io/posts/2024-10-10-photo-managment-workflow/</link>
+      <pubDate>Thu, 10 Oct 2024 00:00:00 +0000</pubDate>
+      <guid>https://cadil.github.io/posts/2024-10-10-photo-managment-workflow/</guid>
+      <description>Automating photos upload workflow using WeTransfer</description>
+    </item>
     <item>
       <title>Fedora 40 KDE Plasma </title>
       <link>https://cadil.github.io/posts/2024-10-01-fedora-40-plasma/</link>

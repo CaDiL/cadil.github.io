@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Automation on CaDiL&#39;s Blog</title>
+    <link>https://cadil.github.io/tags/automation/</link>
+    <description>Recent content in Automation on CaDiL&#39;s Blog</description>
+    <image>
+      <title>CaDiL&#39;s Blog</title>
+      <url>https://cadil.github.io/static</url>
+      <link>https://cadil.github.io/static</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>mn</language>
+    <lastBuildDate>Thu, 10 Oct 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://cadil.github.io/tags/automation/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Automating photos upload workflow using WeTransfer</title>
+      <link>https://cadil.github.io/posts/2024-10-10-photo-managment-workflow/</link>
+      <pubDate>Thu, 10 Oct 2024 00:00:00 +0000</pubDate>
+      <guid>https://cadil.github.io/posts/2024-10-10-photo-managment-workflow/</guid>
+      <description>Automating photos upload workflow using WeTransfer</description>
+    </item>
+  </channel>
+</rss>
